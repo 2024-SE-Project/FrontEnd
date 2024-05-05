@@ -1,0 +1,21 @@
+.home {
+    text-align: center;
+  }
+  
+  .home-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .home-logo {
+    height: 40px;
+  }
+  
+  .home-content {
+    padding: 20px;
+  }
+  
