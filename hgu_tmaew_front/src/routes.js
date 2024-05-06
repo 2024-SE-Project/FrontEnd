@@ -1,8 +1,8 @@
 // routes.js
 import { Navigate, useRoutes } from 'react-router-dom';
 // pages
-import Home from './view/HomePage';
-import LoginPage from './view/LoginPage';
+import Home from './page/Home';
+import LoginPage from './page/Login';
 
 export default function Router() {
   const routes = useRoutes([

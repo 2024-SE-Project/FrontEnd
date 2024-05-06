@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="home">
       <header className="home-header">
-        {/* <img src="logo-url-here.png" className="home-logo" alt="logo" /> */}
+        <img src="/img/logo.svg" className="home-logo" alt="logo" />
         <Link to="/login" className="loginButton">로그인</Link>
       </header>
       <main className="home-content">
