@@ -6,12 +6,13 @@ const Home = () => {
   return (
     <div className="home">
       <header className="home-header">
-        <img src="/img/logo.svg" className="home-logo" alt="logo" />
-        <Link to="/login" className="loginButton">로그인</Link>
+        <img src="/img/logo_white.svg" className="home-logo" alt="logo" />
+        {/* <Link to="/login" className="loginButton">로그인</Link> */}
       </header>
       <main className="home-content">
         {/* 홈페이지의 여러 글이나 기능들을 여기서부터 추가하면 됨!!! */}
-        <p>곧, 업데이트 될 예정입니다 ㅎ.</p>
+        <p>Handong Team Meeting Archiving<br />And Exchange Web Platform</p>
+        <Link to="/login" className="loginButton">Start</Link>
       </main>
     </div>
   );
