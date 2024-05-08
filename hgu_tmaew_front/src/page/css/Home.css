@@ -1,11 +1,11 @@
 /* 기존 스타일 */
 .home {
   text-align: center;
-  background-image: url('../../../public/img/home_BG.svg'); /* 상대 경로로 설정 */
-  background-size: cover; /* 이미지가 화면을 꽉 채우도록 설정 */
-  background-position: center; /* 이미지가 화면 중앙에 오도록 설정 */
+  background-image: url('../../assets/home_BG.svg'); /* 상대 경로로 설정 */
   background-repeat: no-repeat; /* 이미지 반복 없음 */
-  height: 100vh; /* 뷰포트 높이에 맞춤 */
+  background-position: top center; /* 이미지가 화면 중앙에 오도록 설정 */
+  background-size: cover; /* 이미지가 화면을 꽉 채우도록 설정 */
+  background-attachment: fixed; /* 화면을 꽉 채우고 화면의 크기에 알맞게 이미지 출력 */
 }
 
 .home-header {
@@ -22,13 +22,22 @@
     /* padding: 20px; */
 }
   
-.home-content p {
+.home-content-title {
   font-size: 50px; /* 글자 크기를 키움 */
   font-weight: 600;
   color: white; /* 글자 색상을 하얀색으로 변경 */
   line-height: 1.2; /* 줄 간격 조정 (선택적) */
   padding-top: 100px;
-  margin-bottom: 150px;
+  /* margin-bottom: 150px; */
+}
+
+.home-content-subTitle {
+  font-size: 15px; /* 글자 크기를 키움 */
+  font-weight: 600;
+  color: white; /* 글자 색상을 하얀색으로 변경 */
+  line-height: 1.2; /* 줄 간격 조정 (선택적) */
+  /* padding-top: 10px; */
+  margin-bottom: 100px;
 }
 
 /* 로그인 버튼 스타일 추가 */
@@ -47,4 +56,22 @@
     background-color: #6FA4FF; /* 호버 시 배경색 변경 */
     transform: translateY(-2px); /* 호버 시 약간 위로 이동 */
     cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+}
+
+.parallax-container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  /* justify-self: center; */
+  align-items: center;
+  color: white;
+  overflow: hidden;
+}
+
+.parallax-container .parallax-title {
+  color: white;
+  font-weight: bold;
+  width: 80%;
+  text-align: center;
+  font-size: 50px;
 }
