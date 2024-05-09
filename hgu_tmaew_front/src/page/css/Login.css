@@ -1,0 +1,63 @@
+signin-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .left-panel, .right-panel {
+    flex: 1;
+  }
+
+  .left-panel {
+    background-color: #6fa4ff;
+    padding: 5%;
+    
+  }
+
+  .right-panel {
+    padding: auto;
+    border-radius: 50%;
+  }
+
+  .Sign-in-title {
+    color: white;
+  }
+
+  .Sign-in-subTitle {
+    color: white;
+  }
+
+  .Sign-in-dc {
+    color: white;
+  }
+  
+  .signin-box {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .google-signin-btn {
+    background-color: #4285F4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    margin: 20px 0;
+  }
+  
+  .signup-link {
+    margin-top: 20px;
+  }
+  
+  .link-button {
+    background: none;
+    color: blue;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+  }

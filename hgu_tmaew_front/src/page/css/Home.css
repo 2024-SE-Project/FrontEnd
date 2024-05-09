@@ -1,7 +1,7 @@
 /* 기존 스타일 */
 .home {
   text-align: center;
-  background-image: url('../../assets/home_BG.svg'); /* 상대 경로로 설정 */
+  background-image: url('../../assets/home_BG_blur.svg'); /* 상대 경로로 설정 */
   background-repeat: no-repeat; /* 이미지 반복 없음 */
   background-position: top center; /* 이미지가 화면 중앙에 오도록 설정 */
   background-size: cover; /* 이미지가 화면을 꽉 채우도록 설정 */
@@ -59,16 +59,11 @@
 }
 
 .parallax-container {
-  position: relative;
   height: 100vh;
-  display: flex;
   /* justify-self: center; */
-  align-items: center;
-  color: white;
-  overflow: hidden;
 }
 
-.parallax-container .parallax-title {
+.parallax-title {
   color: white;
   font-weight: bold;
   width: 80%;
