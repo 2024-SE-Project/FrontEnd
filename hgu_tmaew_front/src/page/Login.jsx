@@ -58,8 +58,9 @@ function LoginPage() {
                 </div>
                 <div className="right-panel">
                     <div className="signin-box">
-                        <h1>Welcome to RAONz</h1>
-                        <h2>Sign in</h2>
+                        <h3>Welcome to RAONz</h3>
+                        <br />
+                        <h1>Sign in</h1>
                         <GoogleLogin
                             onSuccess={responseGoogle}
                             onError={responseGoogle}

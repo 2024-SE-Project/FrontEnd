@@ -1,63 +1,94 @@
 signin-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-  }
-  
-  .left-panel, .right-panel {
-    flex: 1;
-  }
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
 
-  .left-panel {
-    background-color: #6fa4ff;
-    padding: 5%;
-    
-  }
+.left-panel,
+.right-panel {
+  flex: 1;
+}
 
-  .right-panel {
-    padding: auto;
-    border-radius: 50%;
-  }
+.left-panel {
+  background-color: #6fa4ff;
+  padding: 5%;
 
-  .Sign-in-title {
-    color: white;
-  }
+}
 
-  .Sign-in-subTitle {
-    color: white;
-  }
+.right-panel {
+  padding: auto;
+  border-radius: 50%;
+}
 
-  .Sign-in-dc {
-    color: white;
-  }
-  
-  .signin-box {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  
-  .google-signin-btn {
-    background-color: #4285F4;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    margin: 20px 0;
-  }
-  
-  .signup-link {
-    margin-top: 20px;
-  }
-  
-  .link-button {
-    background: none;
-    color: blue;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: underline;
-  }
+.Sign-in-title {
+  color: white;
+}
+
+.Sign-in-subTitle {
+  color: white;
+}
+
+.Sign-in-dc {
+  color: white;
+}
+
+.signin-box {
+  background-color: white;
+  max-width: 600px;
+  margin: auto;
+  /* 수평 가운데 정렬 */
+  margin-top: 50px;
+  /* 상단 여백 추가 */
+  padding: 20px;
+  border-radius: 3%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  /* 텍스트를 왼쪽으로 정렬 */
+  position: relative;
+  /* 부모 위치 지정 */
+  top: 50%;
+  /* 부모 요소의 상단에서 절반 높이만큼 이동 */
+  transform: translateY(-50%);
+  /* 부모 요소의 높이의 절반만큼 위로 이동하여 정확한 중앙 정렬 */
+}
+
+.signin-box h3,
+.signin-box h1,
+.signin-box button.link-button {
+  display: inline-block;
+  /* 인라인 블록 요소로 변경하여 좌측 정렬 */
+  margin-left: 10px;
+  /* 좌측 마진 제거 */
+  margin-right: 20px;
+  /* 오른쪽 마진 추가 (요소 사이의 간격 조정을 위해) */
+}
+
+.signin-box button.link-button {
+  text-align: left;
+  /* "No Account?" 텍스트를 왼쪽으로 정렬 */
+  margin-top: 20px;
+  /* 위쪽 여백 추가 */
+}
+
+.google-signin-btn {
+  background-color: #4285F4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.signup-link {
+  margin-top: 20px;
+}
+
+.link-button {
+  background: none;
+  color: blue;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
