@@ -36,6 +36,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { Link } from 'react-router-dom';
 import './css/Login.css';
 
 function LoginPage() {
@@ -61,6 +62,13 @@ function LoginPage() {
                         <h3>Welcome to RAONz</h3>
                         <br />
                         <h1>Sign in</h1>
+                        
+                        {/* temp admin login button -> Directly link to Main Page */}
+                        <br />
+                        <Link to="/main" className="adminLoginButton">Admin login</Link>
+                        <br />
+                        <br />
+
                         <GoogleLogin
                             onSuccess={responseGoogle}
                             onError={responseGoogle}

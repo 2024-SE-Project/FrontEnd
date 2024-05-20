@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // pages
 import Home from './page/Home';
 import LoginPage from './page/Login';
+import Main from './page/Main';
 
 export default function Router() {
   const routes = useRoutes([
@@ -18,6 +19,10 @@ export default function Router() {
     {
       path: '/login',
       element: <LoginPage />,
+    },
+    {
+      path: '/main',
+      element: <Main />,
     },
     {
       path: '*',
