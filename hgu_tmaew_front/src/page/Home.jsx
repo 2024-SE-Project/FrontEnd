@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Parallax } from 'react-parallax';
+// import { Parallax } from 'react-parallax';
 import './css/Home.css'; // 홈 페이지 스타일을 위한 CSS 파일
 import Logo from '../assets/logo_white.svg'; // 이미지의 상대 경로
 import Kuyper from '../assets/dorm/kuyper.jpg';
@@ -12,13 +12,18 @@ import Grace from '../assets/dorm/grace.jpg';
 
 const Home = () => {
 
-  function ParallaxComponent({ url, title }) {
+  function ParallaxComponent({ url }) {
     return (
-      <Parallax bgImage={url} strength={600} blur={{min: -5, max: 15}} >
-        <div className="parallax-container">
-          <div className="parallax-title">{title}</div>
-        </div>
-      </Parallax>
+      // <Parallax
+      //   bgImage={url}
+      //   strength={600}
+      //   bgImageStyle={{ backgroundSize: 'contain', backgroundPosition: 'center' }}
+      // >
+      //   <div className="parallax-container"></div>
+      // </Parallax>
+      <div className="parallax-container">
+        <img src={url} alt="" className="parallax-image" />
+      </div>
     );
   }
 
@@ -53,12 +58,12 @@ const Home = () => {
       <br />
 
       <div className="home-dormInfo">
-        <ParallaxComponent url={Kuyper} title="Kuyper" />
-        <ParallaxComponent url={Torrey} title="Torrey" />
-        <ParallaxComponent url={Carmichael} title="Carmichael" />
-        <ParallaxComponent url={Bethel} title="Bethel" />
-        <ParallaxComponent url={Yeolsong} title="Yeolsong" />
-        <ParallaxComponent url={Grace} title="Grace" />
+        <ParallaxComponent url={Kuyper} />
+        <ParallaxComponent url={Torrey} />
+        <ParallaxComponent url={Carmichael} />
+        <ParallaxComponent url={Bethel} />
+        <ParallaxComponent url={Yeolsong} />
+        <ParallaxComponent url={Grace} />
       </div>
     </div>
   );
