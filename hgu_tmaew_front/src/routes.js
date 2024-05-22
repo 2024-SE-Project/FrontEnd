@@ -4,6 +4,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import Home from './page/Home';
 import LoginPage from './page/Login';
 import Main from './page/Main';
+import Dashboard from './page/dashboard/Dashboard';
 
 export default function Router() {
   const routes = useRoutes([
@@ -21,8 +22,13 @@ export default function Router() {
       element: <LoginPage />,
     },
     {
-      path: '/main',
-      element: <Main />,
+      path: '/dashboard',
+      element: <Dashboard />,
+      children: [
+        { path: 'main', element: <Main /> },
+        { path: 'profile', element: <div>Profile Page</div> },
+        { path: 'ranking', element: <div>Ranking Page</div> },
+      ],
     },
     {
       path: '*',

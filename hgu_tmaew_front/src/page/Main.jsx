@@ -1,48 +1,160 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './css/Main.css';
+import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
+import DialogTag from './dialog/DialogTag.js';
+import Logo from '../assets/logo.svg';
+import axios from 'axios';
+import {
+    Card,
+    Table,
+    Stack,
+    Paper,
+    Button,
+    TableRow,
+    TableBody,
+    TableCell,
+    Container,
+    Typography,
+    TableHead
+} from '@mui/material';
+import Iconify from '../assets/iconify';
+import Scrollbar from '../assets/scrollbar';
+import './css/Main.css'; // Main.css 파일 import
 
-const Main = () => {
+const TABLE_HEAD = [
+    { id: 'part', label: '분류', alignRight: false },
+    { id: 'title', label: '제목', alignRight: false },
+    { id: 'contents', label: '소개', alignRight: false },
+    { id: 'fun', label: '재미', alignRight: false },
+    { id: 'writer', label: '작성자', alignRight: false },
+];
+
+export default function Main() {
+    const [list, setContentsList] = useState([]);
+    const [openCreate, setOpenCreate] = useState(false);
+    const [editRow, setEditRow] = useState(null);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    // useEffect(() => {
+    //     axios.get('/dashboard/home').then((response) => {
+    //         setContentsList(response.data);
+    //     });
+    // }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            setIsScrolled(scrollTop > 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const navigate = useNavigate();
+
+    const goSyllabus = () => {
+        // navigate("/dashboard/profile");
+    };
+    const goAttendance = () => {
+        // navigate("/dashboard/attendance");
+    };
+    const goGrade = () => {
+        // navigate("/dashboard/grade");
+    };
+    const goRanking = () => {
+        // navigate("/dashboard/ranking");
+    };
+
+    const handleClickOpenCreate = () => {
+        setOpenCreate(true);
+    };
+
+    const handleCloseCreate = (row) => {
+        if (row) {
+            setContentsList((prevList) => [...prevList, row]);
+        }
+        setOpenCreate(false);
+    };
+
+    const handleOpenEditDialog = (row) => {
+        setEditRow(row);
+    };
+
+    const handleCloseEdit = (row) => {
+        if (row) {
+            setContentsList((prevList) =>
+                prevList.map((item) => (item.title === row.title ? row : item))
+            );
+        }
+        setEditRow(null);
+    };
+
     return (
-        <div className="container">
-            <aside className="sidebar">
-                <button className="button">Home</button>
-                <button className="button">My Team</button>
-                <button className="button">Mypage</button>
-                <button className="button">Ranking Page</button>
-                <button className="button">Team Meeting Match</button>
-                <button className="button">Photo studio</button>
-                <button className="button">Reference library</button>
-                <div className="community-section">
-                    <h4>My Communities</h4>
-                    <Link to="/community1">Community 1</Link>
-                    <Link to="/community2">Community 2</Link>
-                </div>
-            </aside>
-            <main className="content">
-                <div className="profile">
-                    <img src="/path/to/profile.png" alt="profile" />
-                    <span>22100503번</span>
-                </div>
-                <div className="post">
-                    <div className="post-top">
-                        <h3>오늘 남비 넘 기엽다 또또 오늘 힐링하느데 도와줬 개기억해</h3>
-                    </div>
-                    <div className="post-images">
-                        <img src="/path/to/cat1.jpg" alt="Cat image 1" />
-                        <img src="/path/to/cat2.jpg" alt="Cat image 2" />
-                    </div>
-                    <div className="post-likes">
-                        <span>❤ 32 Likes</span>
-                    </div>
-                    <div className="comments">
-                        <p><strong>Elon Musk:</strong> 도와줘!</p>
-                        <p><strong>Shaan Alam:</strong> soo cute</p>
-                    </div>
-                </div>
-            </main>
-        </div>
-    );
-};
+        <>
+            <header className="home-header">
+                <img src={Logo} className="home-logo" alt="logo" />
+            </header>
+            <Helmet>
+                <title> Home </title>
+            </Helmet>
 
-export default Main;
+            <Container className="container">
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography variant="h4" gutterBottom>
+                        안녕하세요, 석재 님{/* {user ? user.username : 'Guest'} 님 */}
+                    </Typography>
+                    <Button className={`addContentstButton ${isScrolled ? 'h_event2' : ''}`} onClick={handleClickOpenCreate}>
+                        컨텐츠 공유하기
+                    </Button>
+
+                    {openCreate && (
+                        <DialogTag
+                            open={openCreate}
+                            title={'추가하기'}
+                            onClose={handleCloseCreate}
+                        />
+                    )}
+                </Stack>
+
+                <Card className="tableContainer">
+                    <Scrollbar>
+                        <Table className="table">
+                            <TableHead>
+                                <TableRow>
+                                    {TABLE_HEAD.map((headCell) => (
+                                        <TableCell key={headCell.id} align='center'>
+                                            {headCell.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {list.map((row) => (
+                                    <TableRow key={row.title} onClick={() => handleOpenEditDialog(row)}>
+                                        <TableCell align='center'>{row.part}</TableCell>
+                                        <TableCell align='center'>{row.title}</TableCell>
+                                        <TableCell align='center'>{row.contents}</TableCell>
+                                        <TableCell align='center'>{row.fun}</TableCell>
+                                        <TableCell align='center'>{row.writer}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Scrollbar>
+                </Card>
+            </Container>
+            {editRow && (
+                <DialogTag
+                    open={!!editRow}
+                    title={'수정하기'}
+                    row={editRow}
+                    onClose={handleCloseEdit}
+                />
+            )}
+        </>
+    );
+}
