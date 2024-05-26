@@ -1,0 +1,100 @@
+.dorm-card {
+  position: relative;
+  height: 50vw; /* 뷰포트 너비에 따른 상대적 높이 */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.big-image {
+  align-items: center;
+  padding-left: 5vh;
+}
+
+.small-image {
+  align-items: center;
+  padding-left: 3vh;
+  padding-top: 35vh;
+}
+
+.dorm-card .character-image,
+.dorm-card .icon-image {
+  width: 100%;
+  height: auto;
+}
+
+.dorm-card .character-image {
+  max-width: 800px;
+  min-width: 50px;
+  max-height: 800px;
+  min-height: 50px;
+}
+
+.dorm-card .icon-image {
+  max-width: 300px;
+  min-width: 3px;
+  max-height: 300px;
+  min-height: 3px;
+}
+
+.dorm-card .dorm-name {
+  position: absolute;
+  top: 10vh;
+  right: 10vw;
+  font-size: 7vw;
+  color: black;
+  font-weight: bold;
+}
+
+.kuyper-card {
+  background: linear-gradient(15deg, white 50%, #E1F4FF 50%);
+}
+
+.jangkiryeo-card {
+  background: linear-gradient(0deg, white 50%, #F4E1E1 50%);
+}
+
+.rodem-card {
+  background: linear-gradient(-15deg, white 50%, #E1F4E1 50%);
+}
+
+.carmichael-card {
+  background: linear-gradient(0deg, white 50%, #DDC9AE 50%);
+}
+
+.torrey-card {
+  background: linear-gradient(-15deg, white 50%, #F5E3BB 50%);
+}
+
+.bethel-card {
+  background: linear-gradient(15deg, white 50%, #D8A2B2 50%);
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+  .dorm-card {
+    align-items: center;
+    justify-content: flex-start;
+    height: auto;
+  }
+
+  .big-image {
+    display: none; /* 큰 카드 숨김 */
+  }
+
+  .small-image {
+    align-items: flex-start; /* 왼쪽 정렬 */
+    padding: 3%;
+  }
+
+  .icon-image {
+    width: 20%;
+    max-width: none; /* 최대 크기 제한 해제 */
+  }
+
+  .dorm-name {
+    font-size: 5vw;
+    top: 5vh;
+    right: 5vw;
+  }
+}
