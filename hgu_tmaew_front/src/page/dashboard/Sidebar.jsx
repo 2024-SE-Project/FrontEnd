@@ -8,7 +8,7 @@ export default function Sidebar() {
         <div className="sidebar">
             <List component="nav">
                 <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/home">
+                    <ListItemButton component={Link} to="/dashboard/main">
                         <ListItemText primary="Home" />
                     </ListItemButton>
                 </ListItem>
@@ -20,6 +20,11 @@ export default function Sidebar() {
                 <ListItem component="div">
                     <ListItemButton component={Link} to="/dashboard/ranking">
                         <ListItemText primary="Ranking" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem component="div">
+                    <ListItemButton component={Link} to="/home">
+                        <ListItemText primary="Logout" />
                     </ListItemButton>
                 </ListItem>
             </List>
