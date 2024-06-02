@@ -20,6 +20,7 @@ function DialogTag(props) {
   const [giveDate, setGiveDate] = useState(
     props.row?.giveDate ? format(new Date(props.row.giveDate), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
   );
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     setPart(props.row?.part ?? '');
@@ -30,28 +31,41 @@ function DialogTag(props) {
     setGiveDate(
       props.row?.giveDate ? format(new Date(props.row.giveDate), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
     );
+    setFile(null);
   }, [props.row]);
 
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
   const handleSave = () => {
-    const row = {
-      part,
-      title,
-      contents,
-      fun,
-      writer,
-      giveDate,
-    };
-    axios.post('/your-api-endpoint', row).then((response) => {
-      // Handle response
-      props.onClose();
-    }).catch((error) => {
-      // Handle error
-      console.error(error);
-    });
+    const formData = new FormData();
+    formData.append('part', part);
+    formData.append('title', title);
+    formData.append('contents', contents);
+    formData.append('fun', fun);
+    formData.append('writer', writer);
+    formData.append('giveDate', giveDate);
+    if (file) {
+      formData.append('file', file);
+    }
+
+    // Must change to File server address
+    
+    // axios.post('/your-api-endpoint', formData, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //   },
+    // }).then((response) => {
+    //   // 서버로부터 응답을 받으면, 응답 데이터를 사용하여 부모 컴포넌트의 상태를 업데이트합니다.
+    //   props.onClose(response.data);
+    // }).catch((error) => {
+    //   console.error(error);
+    // });
   };
 
   return (
-    <Dialog open={props.open} onClose={props.onClose}>
+    <Dialog open={props.open} onClose={() => props.onClose()}>
       <DialogTitle>{props.title}</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -106,9 +120,14 @@ function DialogTag(props) {
           value={giveDate}
           onChange={(ev) => setGiveDate(ev.target.value)}
         />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          style={{ marginTop: '1em' }}
+        />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onClose}>취소</Button>
+        <Button onClick={() => props.onClose()}>취소</Button>
         <Button onClick={handleSave} color="primary">저장</Button>
       </DialogActions>
     </Dialog>

@@ -56,19 +56,6 @@ export default function Main() {
 
     const navigate = useNavigate();
 
-    const goSyllabus = () => {
-        // navigate("/dashboard/profile");
-    };
-    const goAttendance = () => {
-        // navigate("/dashboard/attendance");
-    };
-    const goGrade = () => {
-        // navigate("/dashboard/grade");
-    };
-    const goRanking = () => {
-        // navigate("/dashboard/ranking");
-    };
-
     const handleClickOpenCreate = () => {
         setOpenCreate(true);
     };
@@ -91,6 +78,10 @@ export default function Main() {
             );
         }
         setEditRow(null);
+    };
+
+    const handleRowClick = (row) => {
+        navigate('/dashboard/detail', { state: row });
     };
 
     return (
@@ -134,7 +125,7 @@ export default function Main() {
                             </TableHead>
                             <TableBody>
                                 {list.map((row) => (
-                                    <TableRow key={row.title} onClick={() => handleOpenEditDialog(row)}>
+                                    <TableRow key={row.title} onClick={() => handleRowClick(row)}>
                                         <TableCell align='center'>{row.part}</TableCell>
                                         <TableCell align='center'>{row.title}</TableCell>
                                         <TableCell align='center'>{row.contents}</TableCell>
