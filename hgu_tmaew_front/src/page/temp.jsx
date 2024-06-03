@@ -38,6 +38,7 @@ export default function Temp() {
                 });
                 setUserInfo(response.data);
                 localStorage.setItem('name', response.data.name);
+                localStorage.setItem('email', response.data.email);
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 navigate('/login', { replace: true });
