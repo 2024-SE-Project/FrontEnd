@@ -1,35 +1,41 @@
 body {
-    margin: 0;
+    
     font-family: Arial, sans-serif;
-    background-color: #C2DCFF; /* 배경색을 살짝 변경 */
-  }
-  
-  .app {
+    background-color: #C2DCFF; /* 원하는 배경색으로 변경 */
+}
+
+.app {
     display: flex;
     flex-direction: column;
     height: 100vh;
-  }
-  
-  main {
+}
+
+.app body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #C2DCFF; /* 배경색을 살짝 변경 */
+}
+
+.app main {
     display: flex;
     flex: 1;
     /* background-color: #e9effd;  */
-  }
-  
-  aside {
+}
+
+.app aside {
     width: 20%;
     padding: 20px;
-    /* background-color: white; 사이드바 배경색 변경 */
+    /* background-color: white;  */
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-  }
-  
-  section {
+}
+
+.app section {
     flex: 1;
     padding: 20px;
     /* background-color: #e9effd;  */
-  }
-  
-  .profile {
+}
+
+.app .personal {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,9 +44,12 @@ body {
     border-radius: 10px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: auto;
+    margin-top: 50px;
   }
   
-  .profile-picture {
+  .app .personal .profile-picture {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -48,33 +57,48 @@ body {
     margin-bottom: 10px;
   }
   
-  .post {
+  .app .personal button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6DA1FA;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .app .personal button:hover {
+    background-color: #5A8CD8;
+  }
+
+.app .post {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .post h3 {
+}
+
+.app .post h3 {
     margin: 0;
     color: #6DA1FA;
-  }
-  
-  .post h4 {
+}
+
+.app .post h4 {
     margin: 10px 0 5px;
     color: #333;
-  }
-  
-  .post-footer {
+}
+
+.app .post-footer {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
     color: gray;
-  }
-  
-  section h2 {
+}
+
+.app section h2 {
     color: #6DA1FA;
     border-bottom: 2px solid #6DA1FA;
     padding-bottom: 5px;
-  }
+}
