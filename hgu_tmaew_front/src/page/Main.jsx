@@ -147,6 +147,7 @@ export default function Main() {
         navigate('/dashboard/detail', { state: row });
     };
 
+    const name = localStorage.getItem('name');
     return (
         <>
             <header className="home-header">
@@ -158,7 +159,7 @@ export default function Main() {
             <Container className="container">
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
-                        안녕하세요, {userInfo ? userInfo.name : 'Guest'}님
+                        안녕하세요, {name ? name : 'Guest'}님
                     </Typography>
                     <Button className={`addContentstButton ${isScrolled ? 'h_event2' : ''}`} onClick={handleClickOpenCreate}>
                         컨텐츠 공유하기

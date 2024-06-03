@@ -26,9 +26,49 @@ const MainContent = () => {
           comments={5} 
           likes={1} 
         />
+        <Post 
+          category="최희열 교수님 팀" 
+          title="우리팀 진짜 좋다" 
+          description="우리팀원들 전부 잘 해줘" 
+          date="6월1일 | 익명" 
+          comments={5} 
+          likes={1} 
+        />
+        <Post 
+          category="최희열 교수님 팀" 
+          title="우리팀 진짜 좋다" 
+          description="우리팀원들 전부 잘 해줘" 
+          date="6월1일 | 익명" 
+          comments={5} 
+          likes={1} 
+        />
       </section>
       <section>
         <h2>내가 스크랩한 글</h2>
+        <Post 
+          category="최희열 교수님 팀" 
+          title="우리팀 진짜 좋다" 
+          description="우리팀원들 전부 잘 해줘" 
+          date="6월1일 | 익명" 
+          comments={5} 
+          likes={1} 
+        />
+        <Post 
+          category="최희열 교수님 팀" 
+          title="우리팀 진짜 좋다" 
+          description="우리팀원들 전부 잘 해줘" 
+          date="6월1일 | 익명" 
+          comments={5} 
+          likes={1} 
+        />
+        <Post 
+          category="최희열 교수님 팀" 
+          title="우리팀 진짜 좋다" 
+          description="우리팀원들 전부 잘 해줘" 
+          date="6월1일 | 익명" 
+          comments={5} 
+          likes={1} 
+        />
         <Post 
           category="최희열 교수님 팀" 
           title="우리팀 진짜 좋다" 
