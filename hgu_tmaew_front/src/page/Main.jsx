@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import DialogTag from './dialog/DialogTag.js';
 import Logo from '../assets/logo.svg';
 import axios from 'axios';
+import Appbar from './dashboard/AppBar.jsx';
+import Cookies from 'js-cookie';
 import {
     Card,
     Table,
@@ -20,6 +22,7 @@ import {
 import Iconify from '../assets/iconify';
 import Scrollbar from '../assets/scrollbar';
 import './css/Main.css'; // Main.css 파일 import
+import { useLocation } from 'react-router-dom';
 
 const TABLE_HEAD = [
     { id: 'part', label: '분류', alignRight: false },
@@ -37,23 +40,73 @@ const initialData = [
     { part: '분류5', title: '제목5', contents: '소개5', fun: '재미5', writer: '작성자5' },
 ];
 
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
+
 export default function Main() {
     const [list, setContentsList] = useState(initialData);
     const [openCreate, setOpenCreate] = useState(false);
     const [editRow, setEditRow] = useState(null);
     const [isScrolled, setIsScrolled] = useState(false);
-
-    // useEffect(() => {
-    //     axios.get('/dashboard/home').then((response) => {
-    //         setContentsList(response.data);
-    //     });
-    // }, []);
+    const query = useQuery();
+    const history = useNavigate();
+    const [userInfo, setUserInfo] = useState(null);
+    
+    // const toggleDrawer = () => {
+    //     setIsDrawerOpen(!isDrawerOpen);
+    // };
 
     useEffect(() => {
+
+        const token = query.get('token');
+        
+
+        if(token) {
+            localStorage.setItem("token", token);
+            navigate('/dashboard/main', { replace: true });
+            
+        }
+        const storedToken = localStorage.getItem('token');
+
+        if(storedToken == null) {
+            return () => {
+                console.log('Error fetching user data');
+                // 오류가 발생하면 메인 화면으로 리디렉션
+                navigate('/', { replace: true });
+            };
+        }
+        
+        
         const handleScroll = () => {
             const scrollTop = window.scrollY;
             setIsScrolled(scrollTop > 0);
         };
+
+        axios.get('https://likelion.info:443/mypage', {
+            headers: {
+                Authorization: `Bearer ${storedToken}`
+            },
+            withCredentials: true
+        })
+        .then(response => {
+            setUserInfo(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching user data:', error);
+            // 오류가 발생하면 메인 화면으로 리디렉션
+            navigate('/', { replace: true });
+        });
+
+        
+
+        // axios.get('/api/v1/oauth2/google')
+        //     .then(response => {
+        //         setUser(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching user data:', error);
+        //     });
 
         window.addEventListener('scroll', handleScroll);
 
@@ -99,11 +152,11 @@ export default function Main() {
             <Helmet>
                 <title> Home </title>
             </Helmet>
-
+            {/* <Appbar toggleDrawer={toggleDrawer} name={userInfo ? userInfo.name : 'Guest'} /> */}
             <Container className="container">
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
-                        안녕하세요, 석재 님{/* {user ? user.username : 'Guest'} 님 */}
+                        안녕하세요, {userInfo ? userInfo.name : 'Guest'}님
                     </Typography>
                     <Button className={`addContentstButton ${isScrolled ? 'h_event2' : ''}`} onClick={handleClickOpenCreate}>
                         컨텐츠 공유하기
