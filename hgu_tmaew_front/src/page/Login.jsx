@@ -1,29 +1,58 @@
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Axios 라이브러리 추가
+// // LoginPage.jsx
+// import React from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+
+// function LoginPage() {
+//     const navigate = useNavigate();
+
+//     const responseGoogle = (response) => {
+//         console.log(response);
+//         // 여기서 response 객체를 사용하여 사용자 정보를 얻을 수 있음
+//         // 예를 들어, response 객체의 구조에 따라 사용자의 구글 프로필 정보를 얻는 방식이 달라질 수 있음!!!
+
+//         // 로그인 성공 후 홈 페이지로 리다이렉트
+//         navigate('/');
+//     }
+
+//     // 구글 클라이언트 ID를 여기에 입력
+//     const clientId = "your-google-client-id-here";
+
+//     return (
+//         <GoogleOAuthProvider clientId={clientId}> {/* 추가된 GoogleOAuthProvider */}
+//             <div>
+//                 <h2>로그인 페이지</h2>
+//                 <GoogleLogin
+//                     onSuccess={responseGoogle}
+//                     onError={responseGoogle}
+//                 />
+//             </div>
+//         </GoogleOAuthProvider>
+//     );
+// }
+
+// export default LoginPage;
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { Link } from 'react-router-dom';
 import './css/Login.css';
 
 function LoginPage() {
-    const navigate = useNavigate(); // useNavigate 훅 사용
+    const navigate = useNavigate();
 
-    const handleGoogleLogin = async () => {
-        try {
-            // 백엔드로 구글 로그인 요청을 보냅니다.
-            const response = await axios.get('https://likelion.info:443/login/oauth2/google');
+    const responseGoogle = (response) => {
+        console.log(response);
+        navigate('/');  // 로그인 성공 후 홈 페이지로 리다이렉트
+    }
 
-            // 백엔드에서 응답한 JSON 데이터를 콘솔에 출력합니다. (테스트용)
-            console.log('Google login response:', response.data);
-
-            // 구글 로그인이 성공적으로 처리되면 프론트엔드로 리디렉션하여 메인 페이지로 이동합니다.
-            navigate('/home'); // 원하는 경로로 변경
-        } catch (error) {
-            console.error('Error during Google login:', error);
-            // 에러 처리
-        }
+    const handleGoogleLogin = () => {
+        console.log("!!!");
+        window.location.href = "https://likelion.info:443/login/oauth2/google"
     };
 
-    // useEffect 내부의 로직을 제거하고, 버튼 클릭 이벤트를 직접 핸들링합니다.
-    // 따라서 useEffect는 더 이상 필요하지 않습니다.
+    const clientId = "your-google-client-id-here";  // 실제 구글 클라이언트 ID로 대체
 
     return (
         <div className="signin-container">
@@ -37,24 +66,19 @@ function LoginPage() {
                     <h3>Welcome to RAONz</h3>
                     <br />
                     <h1>Sign in</h1>
-
+                    
                     {/* temp admin login button -> Directly link to Main Page */}
                     <br />
                     <Link to="/dashboard/main" className="adminLoginButton">Admin login</Link>
                     <br />
                     <br />
 
-                    {/* 구글 로그인 버튼 */}
-                    <button id="google-login-btn" className="google-signin-btn" onClick={handleGoogleLogin}>
+                    <button onClick={handleGoogleLogin} className="google-signin-btn">
                         Sign in with Google
                     </button>
-                    
-                    <br />
-
-                    {/* 기타 버튼들 */}
-                    <button className="link-button">Forgot Password</button>
+                    <button className="link-button" /* onClick={handleForgotPassword} */ >Forgot Password</button>
                     <div className="signup-link">
-                        No Account? <button className="link-button">Sign up</button>
+                        No Account? <button className="link-button" /* onClick={handleSignUp } */ >Sign up</button>
                     </div>
                 </div>
             </div>
