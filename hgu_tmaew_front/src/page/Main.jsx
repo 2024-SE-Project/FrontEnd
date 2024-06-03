@@ -29,8 +29,16 @@ const TABLE_HEAD = [
     { id: 'writer', label: '작성자', alignRight: false },
 ];
 
+const initialData = [
+    { part: '분류1', title: '제목1', contents: '소개1', fun: '재미1', writer: '작성자1' },
+    { part: '분류2', title: '제목2', contents: '소개2', fun: '재미2', writer: '작성자2' },
+    { part: '분류3', title: '제목3', contents: '소개3', fun: '재미3', writer: '작성자3' },
+    { part: '분류4', title: '제목4', contents: '소개4', fun: '재미4', writer: '작성자4' },
+    { part: '분류5', title: '제목5', contents: '소개5', fun: '재미5', writer: '작성자5' },
+];
+
 export default function Main() {
-    const [list, setContentsList] = useState([]);
+    const [list, setContentsList] = useState(initialData);
     const [openCreate, setOpenCreate] = useState(false);
     const [editRow, setEditRow] = useState(null);
     const [isScrolled, setIsScrolled] = useState(false);

@@ -1,0 +1,69 @@
+.detail-view {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.content-card, .comments-card {
+    margin-bottom: 20px;
+}
+
+.image-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.content-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.action-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.like-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto; /* Aligns to the right */
+}
+
+.like-count {
+    margin-left: 5px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.comment.reply {
+    margin-left: 40px;
+}
+
+.comment-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-stamp {
+    margin-left: auto;
+    font-size: 12px;
+    color: gray;
+}
