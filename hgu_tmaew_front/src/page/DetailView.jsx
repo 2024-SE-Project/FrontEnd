@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Typography, Card, CardContent, CardHeader, Avatar, IconButton, Box } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -6,14 +6,29 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import SendIcon from '@mui/icons-material/Send';
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import axios from 'axios'; // Axios 라이브러리 추가
 import './css/DetailView.css'; // Ensure to create and import this CSS file
 
 export default function DetailView() {
     const location = useLocation();
     const { state: row } = location;
 
+    const [contentData, setContentData] = useState(null); // 콘텐츠 데이터 상태 추가
     const [likeCount, setLikeCount] = useState(32); // Initial like count
     const [liked, setLiked] = useState(false); // Initial liked state
+
+    // useEffect(() => {
+    //     if (row && row.id) {
+    //         // row 정보가 있을 때만 API 호출
+    //         axios.get(`https://likelion.info:443/api/contents/${row.id}`)
+    //             .then(response => {
+    //                 setContentData(response.data); // 응답 데이터를 상태로 설정
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error fetching content data:', error);
+    //             });
+    //     }
+    // }, [row]);
 
     const handleLikeClick = () => {
         if (liked) {
@@ -33,14 +48,15 @@ export default function DetailView() {
                     subheader="최희열 교수님 팀"
                 />
                 <CardContent>
-                    {row ? (
+                    {contentData ? (
                         <>
                             <Typography variant="body1" gutterBottom>
-                                {row.contents}
+                                {contentData.contents}
                             </Typography>
                             <Box className="image-container">
-                                {/* <img src="/path/to/image1.jpg" alt="content" className="content-image" /> Replace with actual image paths */}
-                                {/* <img src="/path/to/image2.jpg" alt="content" className="content-image" /> */}
+                                {contentData.images && contentData.images.map((image, index) => (
+                                    <img key={index} src={image} alt={`content-${index}`} className="content-image" />
+                                ))}
                             </Box>
                             <Box className="action-icons">
                                 <IconButton aria-label="like">
