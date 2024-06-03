@@ -1,10 +1,21 @@
 import React from 'react';
+import MainContent from './profile/MainContent';
+import Personal from './profile/Personal';
+import './css/Profile.css';
 
 export default function Profile() {
   return (
-    <div>
-      <h1>Profile Page</h1>
-      <p>Welcome to the Profile Page.</p>
+    <div className='app'>
+      <main>
+        <aside>
+          <Personal />
+        </aside>
+        <section>
+          <MainContent />
+        </section>
+      </main>
     </div>
+    
   );
 }
+
