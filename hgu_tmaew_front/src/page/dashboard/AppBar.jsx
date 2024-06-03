@@ -3,7 +3,10 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
+
 export default function Appbar({ toggleDrawer }) {
+
+    const name = localStorage.getItem("name");
     return (
         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar>
@@ -23,7 +26,7 @@ export default function Appbar({ toggleDrawer }) {
                     <Avatar src="/path/to/avatar.jpg" alt="User Avatar" />
                 </IconButton>
                 <Typography variant="body1" noWrap>
-                    20200501
+                    {name}
                 </Typography>
             </Toolbar>
         </AppBar>
