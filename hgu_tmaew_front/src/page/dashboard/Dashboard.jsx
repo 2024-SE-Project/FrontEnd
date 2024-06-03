@@ -1,8 +1,10 @@
+// Dashboard.jsx
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
-import { Drawer, IconButton, Box } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Drawer, Box } from '@mui/material';
+import Sidebar from './Sidebar';
+import Appbar from './AppBar';
+import BackBar from './BackBar';
 import '../css/Dashboard.css'; // Import Dashboard.css file
 
 export default function Dashboard() {
@@ -14,14 +16,10 @@ export default function Dashboard() {
 
     return (
         <div className="dashboard">
-            <IconButton
-                color="inherit"
-                aria-label="toggle drawer"
-                onClick={toggleDrawer}
-                edge="start"
-            >
-                <MenuIcon />
-            </IconButton>
+            <div className="appbar-backbar-container">
+                <Appbar toggleDrawer={toggleDrawer} />
+                <BackBar />
+            </div>
             <Drawer
                 variant="persistent"
                 open={isDrawerOpen}
@@ -31,7 +29,7 @@ export default function Dashboard() {
             >
                 <Sidebar toggleDrawer={toggleDrawer} />
             </Drawer>
-            <div className="content" style={{ marginLeft: isDrawerOpen ? 240 : 0, transition: 'margin-left 0.3s' }}>
+            <div className="content" style={{ marginLeft: isDrawerOpen ? 240 : 0, transition: 'margin-left 0.3s', marginTop: '128px' }}>
                 <Outlet />
             </div>
         </div>

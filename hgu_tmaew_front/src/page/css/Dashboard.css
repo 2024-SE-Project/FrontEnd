@@ -1,9 +1,13 @@
 /* Dashboard.css */
 .dashboard {
     display: flex;
+    flex-direction: column;
+    height: 100%; /* 부모 컨테이너의 높이를 100%로 설정 */
 }
 
 .content {
-    flex: 1;
-    padding: 20px;
+    flex: 1; /* 남은 공간을 차지하도록 설정 */
+    padding: 20px; /* 내용 주위에 여백 추가 */
+    font-size: 18px;
+    line-height: 1.6;
 }

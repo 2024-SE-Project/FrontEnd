@@ -1,5 +1,5 @@
 .detail-view {
-    display: flex;
+    display: 100vh;
     flex-direction: column;
     gap: 20px;
 }
