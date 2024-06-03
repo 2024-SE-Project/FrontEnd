@@ -91,8 +91,8 @@
   }
   
   .team-card img {
-    width: 200px; /* 이미지 크기를 150px로 조정 */
-    height: 200px; /* 이미지 높이를 150px로 조정 */
+    width: 200px; /* 이미지 크기를 200px로 조정 */
+    height: 200px; /* 이미지 높이를 200px로 조정 */
     border-radius: 10px;
     margin-right: 1rem;
   }
@@ -166,5 +166,34 @@
   
   .matching-status li p {
     margin: 0.5rem 0;
+  }
+  
+  /* My Team Card 스타일 추가 */
+  .my-team-card {
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+    max-width: 300px; /* 최대 너비를 300px로 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+  }
+  
+  .my-team-card img {
+    width: 150px; /* 이미지 크기를 조정 */
+    height: 150px; /* 이미지 높이를 조정 */
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  .my-team-card .team-info {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .my-team-card .team-info-main {
+    text-align: center;
+  }
+  
+  .my-team-card .team-info-side {
+    margin-top: 1rem;
   }
   

@@ -3,7 +3,7 @@ import './css/TeamMatching.css';
 import FilterIcon from '../assets/filter_icon.svg'; // 필터 아이콘 SVG 경로 설정
 
 const TeamMatching = () => {
-  const teamData = [
+  const postData = [
     {
       image: "https://storage.googleapis.com/raonz_post_image/cat10.jpg",
       title: "피구하실래요?",
@@ -14,6 +14,13 @@ const TeamMatching = () => {
       isLiked: true,
     },
     // 추가 데이터
+  ];
+
+  const teamData = [
+    {
+        image: "https://storage.googleapis.com/raonz_post_image/cat10.jpg",
+        description: "24-1 학기 최회열 교수님 팀 입니다. 우리팀은 외부활동을 좋아하여 수많은 경험들이 있습니다.",
+    }
   ];
 
   return (
@@ -34,12 +41,19 @@ const TeamMatching = () => {
           <aside className="team-matching-sidebar">
             <div className="my-team">
               <h2>My Team</h2>
-              <div className="team-card">
-                <img src="https://storage.googleapis.com/raonz_post_image/cat10.jpg" alt="My Team" />
-                <h3>최회열 교수님 팀</h3>
-                <p>24-1 학기 최회열 교수님 팀 입니다. 우리팀은 외부활동을 좋아하여 수많은 경험들이 있습니다.</p>
-                <button className="details-button">자세히보기</button>
-              </div>
+              {teamData.map((team, index) => (
+                <div key={index} className="team-card my-team-card">
+                  <img src={team.image} alt="Team" />
+                  <div className="team-info">
+                    <div className="team-info-main">
+                      <p>{team.description}</p>
+                    </div>
+                    <div className="team-info-side">
+                      <button className="details-button">자세히보기</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="matching-status">
               <h2>Matching</h2>
@@ -54,7 +68,7 @@ const TeamMatching = () => {
             </div>
           </aside>
           <div className="team-matching-list">
-            {teamData.map((team, index) => (
+            {postData.map((team, index) => (
               <div key={index} className="team-card">
                 <img src={team.image} alt="Team" />
                 <div className="team-info">
