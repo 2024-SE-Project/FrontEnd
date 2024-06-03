@@ -5,7 +5,7 @@ import DialogTag from './dialog/DialogTag.js';
 import Logo from '../assets/logo.svg';
 import axios from 'axios';
 import Appbar from './dashboard/AppBar.jsx';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import {
     Card,
     Table,

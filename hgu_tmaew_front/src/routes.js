@@ -7,6 +7,7 @@ import Dashboard from './page/dashboard/Dashboard';
 import Profile from './page/Profile';
 import Ranking from './page/Ranking';
 import DetailView from './page/DetailView'; // 추가된 DetailView 컴포넌트
+import Reference from './page/Reference';
 import Temp from './page/temp';
 
 export default function Router() {
@@ -38,7 +39,7 @@ export default function Router() {
         { path: 'ranking', element: <Ranking /> },
         { path: 'teammatch', element: <div>Team Meeting Match Page</div> },
         { path: 'photo', element: <div>Photo Studio Page</div> },
-        { path: 'library', element: <div>Reference Library Page</div> },
+        { path: 'library', element: <Reference /> },
       ],
     },
     {
