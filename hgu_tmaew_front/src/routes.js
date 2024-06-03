@@ -7,6 +7,7 @@ import Dashboard from './page/dashboard/Dashboard';
 import Profile from './page/Profile';
 import Ranking from './page/Ranking';
 import DetailView from './page/DetailView'; // 추가된 DetailView 컴포넌트
+import Temp from './page/temp';
 
 export default function Router() {
   const routes = useRoutes([
@@ -22,6 +23,10 @@ export default function Router() {
     {
       path: '/login',
       element: <LoginPage />,
+    },
+    {
+      path: '/temp',
+      element: <Temp />,
     },
     {
       path: '/dashboard',
