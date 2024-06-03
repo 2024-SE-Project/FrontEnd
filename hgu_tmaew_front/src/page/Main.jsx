@@ -87,7 +87,6 @@ export default function Main() {
     return (
         <>
             <header className="home-header">
-                <img src={Logo} className="home-logo" alt="logo" />
             </header>
             <Helmet>
                 <title> Home </title>

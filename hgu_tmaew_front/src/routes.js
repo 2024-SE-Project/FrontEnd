@@ -1,10 +1,11 @@
-// routes.js
 import { Navigate, useRoutes } from 'react-router-dom';
 // pages
 import Home from './page/Home';
 import LoginPage from './page/Login';
 import Main from './page/Main';
 import Dashboard from './page/dashboard/Dashboard';
+import Profile from './page/Profile';
+import Ranking from './page/Ranking';
 
 export default function Router() {
   const routes = useRoutes([
@@ -26,8 +27,11 @@ export default function Router() {
       element: <Dashboard />,
       children: [
         { path: 'main', element: <Main /> },
-        { path: 'profile', element: <div>Profile Page</div> },
-        { path: 'ranking', element: <div>Ranking Page</div> },
+        { path: 'profile', element: <Profile /> },
+        { path: 'ranking', element: <Ranking /> },
+        { path: 'teammatch', element: <div>Team Meeting Match Page</div> },
+        { path: 'photo', element: <div>Photo Studio Page</div> },
+        { path: 'library', element: <div>Reference Library Page</div> },
       ],
     },
     {
