@@ -52,6 +52,7 @@ export default function Main() {
     const query = useQuery();
     const history = useNavigate();
     const [userInfo, setUserInfo] = useState(null);
+    const navigate = useNavigate();
     
     // const toggleDrawer = () => {
     //     setIsDrawerOpen(!isDrawerOpen);
@@ -83,30 +84,31 @@ export default function Main() {
             setIsScrolled(scrollTop > 0);
         };
 
-        axios.get('https://likelion.info:443/mypage', {
+
+        const name = localStorage.getItem('name');
+
+        if(name == null) {
+            axios.get('https://likelion.info:443/mypage', {
             headers: {
                 Authorization: `Bearer ${storedToken}`
             },
             withCredentials: true
-        })
-        .then(response => {
-            setUserInfo(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-            // 오류가 발생하면 메인 화면으로 리디렉션
-            navigate('/', { replace: true });
-        });
+            })
+            .then(response => {
+                setUserInfo(response.data);
+                
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                // 오류가 발생하면 메인 화면으로 리디렉션
+                navigate('/', { replace: true });
+            });
+        }
 
         
+        
 
-        // axios.get('/api/v1/oauth2/google')
-        //     .then(response => {
-        //         setUser(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching user data:', error);
-        //     });
+
 
         window.addEventListener('scroll', handleScroll);
 
@@ -115,7 +117,7 @@ export default function Main() {
         };
     }, []);
 
-    const navigate = useNavigate();
+    
 
     const handleClickOpenCreate = () => {
         setOpenCreate(true);
