@@ -6,6 +6,6 @@ import App from './App';
 test('renders the Router component', () => {
   render(<App />);
   // Assuming your Router component renders something identifiable
-  const linkElement = screen.getByText('RAONz');
+  const linkElement = screen.getByText('Team Meeting Match Page');
   expect(linkElement).toBeInTheDocument();
 });
