@@ -13,6 +13,33 @@ const TeamMatching = () => {
       status: "매칭중: 미정",
       isLiked: true,
     },
+    {
+        image: "https://storage.googleapis.com/raonz_post_image/cat1.jpg",
+        title: "피구하실래요?",
+        leader: "남재창 교수님 팀 (28명)",
+        date: "날짜: 14차주 수요일 (6회 모임)",
+        description: "24-1 학기 남재창 교수님 팀 입니다. 우리팀은 외부활동을 좋아하여 수많은 피구활동을 해왔습니다. 피구 할까? ㅎㅎ 역시 누군가의 팀원감이 최곱니다! 가입합시다 구호...",
+        status: "매칭중: 미정",
+        isLiked: true,
+      },
+      {
+        image: "https://storage.googleapis.com/raonz_post_image/cat2.jpg",
+        title: "피구하실래요?",
+        leader: "남재창 교수님 팀 (28명)",
+        date: "날짜: 14차주 수요일 (6회 모임)",
+        description: "24-1 학기 남재창 교수님 팀 입니다. 우리팀은 외부활동을 좋아하여 수많은 피구활동을 해왔습니다. 피구 할까? ㅎㅎ 역시 누군가의 팀원감이 최곱니다! 가입합시다 구호...",
+        status: "매칭중: 미정",
+        isLiked: true,
+      },
+      {
+        image: "https://storage.googleapis.com/raonz_post_image/cat.jpg",
+        title: "피구하실래요?",
+        leader: "남재창 교수님 팀 (28명)",
+        date: "날짜: 14차주 수요일 (6회 모임)",
+        description: "24-1 학기 남재창 교수님 팀 입니다. 우리팀은 외부활동을 좋아하여 수많은 피구활동을 해왔습니다. 피구 할까? ㅎㅎ 역시 누군가의 팀원감이 최곱니다! 가입합시다 구호...",
+        status: "매칭중: 미정",
+        isLiked: true,
+      },
     // 추가 데이터
   ];
 
