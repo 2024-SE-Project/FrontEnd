@@ -5,6 +5,7 @@ import DialogTag from './dialog/DialogTag.js';
 import Logo from '../assets/logo.svg';
 import axios from 'axios';
 import Appbar from './dashboard/AppBar.jsx';
+import MainContent from './main/MainContent.jsx';
 // import Cookies from 'js-cookie';
 import {
     Card,
@@ -24,28 +25,14 @@ import Scrollbar from '../assets/scrollbar';
 import './css/Main.css'; // Main.css 파일 import
 import { useLocation } from 'react-router-dom';
 
-const TABLE_HEAD = [
-    { id: 'part', label: '분류', alignRight: false },
-    { id: 'title', label: '제목', alignRight: false },
-    { id: 'contents', label: '소개', alignRight: false },
-    { id: 'fun', label: '재미', alignRight: false },
-    { id: 'writer', label: '작성자', alignRight: false },
-];
 
-const initialData = [
-    { part: '분류1', title: '제목1', contents: '소개1', fun: '재미1', writer: '작성자1' },
-    { part: '분류2', title: '제목2', contents: '소개2', fun: '재미2', writer: '작성자2' },
-    { part: '분류3', title: '제목3', contents: '소개3', fun: '재미3', writer: '작성자3' },
-    { part: '분류4', title: '제목4', contents: '소개4', fun: '재미4', writer: '작성자4' },
-    { part: '분류5', title: '제목5', contents: '소개5', fun: '재미5', writer: '작성자5' },
-];
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
 export default function Main() {
-    const [list, setContentsList] = useState(initialData);
+    
     const [openCreate, setOpenCreate] = useState(false);
     const [editRow, setEditRow] = useState(null);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -124,9 +111,7 @@ export default function Main() {
     };
 
     const handleCloseCreate = (row) => {
-        if (row) {
-            setContentsList((prevList) => [...prevList, row]);
-        }
+        
         setOpenCreate(false);
     };
 
@@ -135,11 +120,7 @@ export default function Main() {
     };
 
     const handleCloseEdit = (row) => {
-        if (row) {
-            setContentsList((prevList) =>
-                prevList.map((item) => (item.title === row.title ? row : item))
-            );
-        }
+        
         setEditRow(null);
     };
 
@@ -174,33 +155,13 @@ export default function Main() {
                     )}
                 </Stack>
 
-                <Card className="tableContainer">
-                    <Scrollbar>
-                        <Table className="table">
-                            <TableHead>
-                                <TableRow>
-                                    {TABLE_HEAD.map((headCell) => (
-                                        <TableCell key={headCell.id} align='center'>
-                                            {headCell.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {list.map((row) => (
-                                    <TableRow key={row.title} onClick={() => handleRowClick(row)}>
-                                        <TableCell align='center'>{row.part}</TableCell>
-                                        <TableCell align='center'>{row.title}</TableCell>
-                                        <TableCell align='center'>{row.contents}</TableCell>
-                                        <TableCell align='center'>{row.fun}</TableCell>
-                                        <TableCell align='center'>{row.writer}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Scrollbar>
-                </Card>
+                
             </Container>
+
+            <div className="profile-page">
+                <MainContent />
+            </div>
+
             {editRow && (
                 <DialogTag
                     open={!!editRow}
