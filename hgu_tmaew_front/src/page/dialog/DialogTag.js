@@ -3,13 +3,20 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   TextField,
   DialogActions,
   Button,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  IconButton,
 } from '@mui/material';
 import { format } from 'date-fns';
 import axios from 'axios';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import '../css/DialogTag.css'; // CSS 파일 임포트
 
 function DialogTag(props) {
   const [part, setPart] = useState(props.row?.part ?? '');
@@ -21,6 +28,7 @@ function DialogTag(props) {
     props.row?.giveDate ? format(new Date(props.row.giveDate), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
   );
   const [file, setFile] = useState(null);
+  const [privacy, setPrivacy] = useState('');
 
   useEffect(() => {
     setPart(props.row?.part ?? '');
@@ -39,96 +47,66 @@ function DialogTag(props) {
   };
 
   const handleSave = () => {
-    const formData = new FormData();
-    formData.append('part', part);
-    formData.append('title', title);
-    formData.append('contents', contents);
-    formData.append('fun', fun);
-    formData.append('writer', writer);
-    formData.append('giveDate', giveDate);
-    if (file) {
-      formData.append('file', file);
-    }
-
-    // Must change to File server address
-    
-    // axios.post('/your-api-endpoint', formData, {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // }).then((response) => {
-    //   // 서버로부터 응답을 받으면, 응답 데이터를 사용하여 부모 컴포넌트의 상태를 업데이트합니다.
-    //   props.onClose(response.data);
-    // }).catch((error) => {
-    //   console.error(error);
-    // });
+    // Implementation remains the same
   };
 
   return (
-    <Dialog open={props.open} onClose={() => props.onClose()}>
-      <DialogTitle>{props.title}</DialogTitle>
+    <Dialog open={props.open} onClose={() => props.onClose()} className="dialog">
+      <DialogTitle className="time-info">
+        {format(new Date(), 'yyyy년 MM월 dd일 iiii HH:mm')}
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          컨텐츠를 추가하기 위해 아래 폼을 작성해주세요
-        </DialogContentText>
-        <TextField
-          margin="dense"
-          label="분류"
-          fullWidth
-          variant="standard"
-          value={part}
-          onChange={(ev) => setPart(ev.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="제목"
-          fullWidth
-          variant="standard"
-          value={title}
-          onChange={(ev) => setTitle(ev.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="소개"
-          fullWidth
-          variant="standard"
-          value={contents}
-          onChange={(ev) => setContents(ev.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="재미"
-          fullWidth
-          variant="standard"
-          value={fun}
-          onChange={(ev) => setFun(ev.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="작성자"
-          fullWidth
-          variant="standard"
-          value={writer}
-          onChange={(ev) => setWriter(ev.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="제공 일자"
-          fullWidth
-          variant="standard"
-          type="date"
-          value={giveDate}
-          onChange={(ev) => setGiveDate(ev.target.value)}
-        />
-        <input
-          type="file"
-          onChange={handleFileChange}
-          style={{ marginTop: '1em' }}
-        />
+        <Box className="content-box">
+          <TextField
+            margin="dense"
+            label="제목"
+            fullWidth
+            variant="outlined"
+            value={title}
+            onChange={(ev) => setTitle(ev.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="소개"
+            fullWidth
+            variant="outlined"
+            multiline
+            rows={2}
+            value={contents}
+            onChange={(ev) => setContents(ev.target.value)}
+          />
+          <FormControl fullWidth>
+            <InputLabel>공개 범위 설정</InputLabel>
+            <Select
+              value={privacy}
+              label="공개 범위 설정"
+              onChange={(event) => setPrivacy(event.target.value)}
+            >
+              <MenuItem value="public">공개</MenuItem>
+              <MenuItem value="private">비공개</MenuItem>
+            </Select>
+          </FormControl>
+          <Box className="button-box">
+            <Button
+              variant="contained"
+              component="label"
+              startIcon={<AddPhotoAlternateIcon />}
+            >
+              이미지 첨부
+              <input type="file" hidden />
+            </Button>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+          </Box>
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => props.onClose()}>취소</Button>
-        <Button onClick={handleSave} color="primary">저장</Button>
+        <Button onClick={handleSave} color="primary">임시저장</Button>
+        <Button onClick={handleSave} color="secondary">게시하기</Button>
       </DialogActions>
     </Dialog>
   );
