@@ -45,10 +45,12 @@ body {
     border-radius: 10px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 250px;
     margin: auto;
     margin-top: 50px;
+    border: 1px solid #E0E0E0; /* 경계선 추가 */
   }
+  
   
   .app .personal .profile-picture {
     width: 100px;
@@ -58,19 +60,67 @@ body {
     margin-bottom: 10px;
   }
   
+  .app .personal h2 {
+    margin: 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .app .personal p {
+    margin: 0;
+    font-size: 18px;
+    color: #666;
+  }
+  
   .app .personal button {
     margin-top: 10px;
     padding: 10px 20px;
-    border: none;
+    border: px solid #C2DCFF; /* 경계선 추가 */
     border-radius: 5px;
-    background-color: #6DA1FA;
-    color: white;
+    background-color: white;
+    color: black;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    width: 200px; /* 버튼 너비 조정 */
   }
   
   .app .personal button:hover {
-    background-color: #5A8CD8;
+    background-color: #f0f0f0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .app .personal .icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .app .personal .icon-button svg {
+    margin-right: 8px;
+  }
+  
+  .app .personal .team-info {
+    font-size: 14px;
+    color: #3F51B5; /* 색상 변경 */
+    margin-top: 5px;
+  }
+  
+  .app .personal .logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-color: white;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    width: 200px; /* 버튼 너비 조정 */
+  }
+  
+  .app .personal .logout-button:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
 .app .post {
