@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import '../page/css/AddPost.css';
 
 export default function AddPost() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [isPublic, setIsPublic] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
+  const [otherFile, setOtherFile] = useState(null);
   const navigate = useNavigate();
 
   const handleTitleChange = (e) => {
@@ -16,10 +20,23 @@ export default function AddPost() {
     setContent(e.target.value);
   };
 
+  const handleImageFileChange = (event) => {
+    setImageFile(event.target.files[0]);
+  };
+
+  const handleOtherFileChange = (event) => {
+    setOtherFile(event.target.files[0]);
+  };
+
   const handleSaveDraft = () => {
     // Save draft logic here
   };
 
+  const togglePrivacy = () => {
+    setIsPublic(!isPublic);
+  };
+  
+  // 백엔드에 데이터를 보내기 위해 처리하는 부분
   const handlePost = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -27,17 +44,25 @@ export default function AddPost() {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('isPublic', isPublic);
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+    if (otherFile) {
+      formData.append('file', otherFile);
+    }
+
     try {
       const response = await axios.post(
         'https://likelion.info:443/material/post', // Replace with your API endpoint
-        {
-          title,
-          content,
-          // Add other necessary fields here
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
@@ -78,9 +103,17 @@ export default function AddPost() {
           onChange={handleContentChange}
         ></textarea>
         <div className="attachments">
-          <button className="attachment-button">전체공개</button>
-          <button className="attachment-button">이미지 첨부</button>
-          <button className="attachment-button">파일 첨부</button>
+          <button className="attachment-button" onClick={togglePrivacy}>
+            <i className="fas fa-globe"></i> {isPublic ? '전체 공개' : '비공개'}
+          </button>
+          <button className="attachment-button" onClick={() => document.getElementById('image-file').click()}>
+            <AddPhotoAlternateIcon /> 이미지 첨부
+          </button>
+          <input id="image-file" type="file" hidden onChange={handleImageFileChange} />
+          <button className="attachment-button" onClick={() => document.getElementById('other-file').click()}>
+            <i className="fas fa-folder-open"></i> 파일 첨부
+          </button>
+          <input id="other-file" type="file" hidden onChange={handleOtherFileChange} />
         </div>
       </div>
       <div className="footer">
