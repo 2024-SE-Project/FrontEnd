@@ -1,22 +1,19 @@
 import React from 'react';
-import '../css/Comment.css';
+import styles from '../css/Comment.module.css';
 
-export default function Comment() {
-  return (
-    <div className="comments">
-      <div className="comment">
-        <img src="https://storage.googleapis.com/raonz_post_image/cat.jpg" alt="User Avatar" className="avatar" />
-        <div className="comment-body">
-          <span className="comment-user">Elon Musk</span>
-          <p>도와줘 😢</p>
-          <div className="comment-footer">
-            <span>32 Likes</span>
-            <span>Like</span>
-            <span>Reply</span>
-          </div>
+export default function Comment({ comment }) {
+    return (
+        <div className={styles["comment"]}>
+            <div className={styles["comment-header"]}>
+                <img src={comment.userAvatar || "default-avatar.jpg"} alt="User Avatar" className={styles["comment-avatar"]} />
+                <div className={styles["comment-info"]}>
+                    <span>{comment.username}</span>
+                    <span>{comment.date}</span>
+                </div>
+            </div>
+            <div className={styles["comment-body"]}>
+                <p>{comment.text}</p>
+            </div>
         </div>
-      </div>
-    </div>
-    
-  );
+    );
 }
