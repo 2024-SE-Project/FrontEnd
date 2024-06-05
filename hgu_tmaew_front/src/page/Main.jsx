@@ -89,7 +89,7 @@ export default function Main() {
         id: 1,
         author: '이민서',
         team: '최희열 교수님 팀',
-        content: '오늘 나비 행 미쳤다 ㅜㅜ\n오늘 팀모임하는데 오더라\n개귀여움',
+        content: '오늘 나비 폼 미쳤다 ㅜㅜ\n오늘 팀모임하는데 오더라\n개귀여움',
         images: [
           'https://storage.googleapis.com/raonz_post_image/cat.jpg',
           'https://storage.googleapis.com/raonz_post_image/cat.jpg'
