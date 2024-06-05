@@ -10,6 +10,8 @@ export default function AddPost() {
   const [isPublic, setIsPublic] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [otherFile, setOtherFile] = useState(null);
+  const [fileList, setFileList] = useState([]);
+
   const navigate = useNavigate();
 
   const handleTitleChange = (e) => {
@@ -28,6 +30,10 @@ export default function AddPost() {
     setOtherFile(event.target.files[0]);
   };
 
+  const handleFileChange = (event) => {
+    setFileList(Array.from(event.target.files));
+  };
+
   const handleSaveDraft = () => {
     // Save draft logic here
   };
@@ -35,8 +41,7 @@ export default function AddPost() {
   const togglePrivacy = () => {
     setIsPublic(!isPublic);
   };
-  
-  // 백엔드에 데이터를 보내기 위해 처리하는 부분
+
   const handlePost = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -48,6 +53,7 @@ export default function AddPost() {
     formData.append('title', title);
     formData.append('content', content);
     formData.append('isPublic', isPublic);
+
     if (imageFile) {
       formData.append('image', imageFile);
     }
@@ -55,9 +61,13 @@ export default function AddPost() {
       formData.append('file', otherFile);
     }
 
+    fileList.forEach((file, index) => {
+      formData.append(`fileList[${index}]`, file);
+    });
+
     try {
       const response = await axios.post(
-        'https://likelion.info:443/material/post', // Replace with your API endpoint
+        'https://likelion.info:443/material/add', // Replace with your API endpoint
         formData,
         {
           headers: {
@@ -69,12 +79,13 @@ export default function AddPost() {
 
       if (response.status === 200) {
         console.log('Post uploaded successfully');
-        navigate('/dashboard/main'); // Navigate back to the main page after successful post
+        navigate('/dashboard/library'); // Navigate back to the library page after successful post
       } else {
         console.error('Error uploading post');
       }
     } catch (error) {
       console.error('Error uploading post:', error);
+      navigate('/', { replace: true });
     }
   };
 
@@ -102,6 +113,12 @@ export default function AddPost() {
           value={content}
           onChange={handleContentChange}
         ></textarea>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          multiple
+          style={{ marginTop: '1em' }}
+        />
         <div className="attachments">
           <button className="attachment-button" onClick={togglePrivacy}>
             <i className="fas fa-globe"></i> {isPublic ? '전체 공개' : '비공개'}

@@ -10,7 +10,6 @@
 .reference-main {
   flex-grow: 1;
   padding: 1rem;
-  /* background-color: #e8f4fd; */
 }
 
 .search-bar {
@@ -31,7 +30,7 @@
   padding: 0.5rem 1rem;
   border: none;
   background-color: white;
-  border-radius: 25px 0 0 25px; /* 왼쪽만 둥글게 */
+  border-radius: 25px 0 0 25px;
   cursor: pointer;
 }
 
@@ -39,20 +38,20 @@
   padding: 0.5rem 1rem;
   border: none;
   background-color: white;
-  border-radius: 0 25px 25px 0; /* 오른쪽만 둥글게 */
+  border-radius: 0 25px 25px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
 .search-bar .filter-button img {
-  width: 16px; /* 아이콘 크기 조정 */
+  width: 16px;
   height: 16px;
 }
 
 .reference-nav {
   display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start;
   margin-bottom: 1rem;
 }
 
@@ -69,7 +68,7 @@
 .reference-content {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 반응형 그리드 설정 */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
 .card {
@@ -82,7 +81,7 @@
 
 .card-image-container {
   width: 100%;
-  height: 200px; /* 원하는 높이로 설정 */
+  height: 200px;
   overflow: hidden;
   border-radius: 10px;
 }
@@ -105,7 +104,7 @@
 }
 
 .card-header p {
-  margin: 0; /* 여백 제거 */
+  margin: 0;
 }
 
 .card-icons {
@@ -113,16 +112,15 @@
   gap: 0.5rem;
 }
 
-
 .hashtags {
-  margin: 0; /* 여백 제거 */
+  margin: 0;
 }
 
 .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem; /* 상단 여백 추가 */
+  margin-top: 1rem;
 }
 
 .details-button {
@@ -137,7 +135,6 @@
 .card-icons {
   display: flex;
   align-items: center;
-  visibility: hidden;
 }
 
 .card-icons span {
@@ -147,9 +144,8 @@
 
 .card-icons .fa-heart, .card-icons .fa-bookmark {
   color: white;
-  stroke: black; /* 테두리 색상 설정 */
-  stroke-width: 20px; /* 테두리 두께 설정 */
-  visibility: visible;
+  stroke: black;
+  stroke-width: 20px;
 }
 
 .card-icons .fa-heart {
@@ -168,7 +164,6 @@
   color: white;
 }
 
-
 .floating-button {
   position: fixed;
   bottom: 2rem;
@@ -181,4 +176,29 @@
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   font-size: 1rem;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.like-count, .scrape-count {
+  margin-left: 5px;
+  color: black; /* 숫자가 보이도록 색상 변경 */
+}
+
+.card-icons .icon-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none; /* 테두리 제거 */
+  background: none; /* 배경 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+
+.like-count, .scrape-count {
+  margin-left: 5px;
+  color: black; /* 숫자가 보이도록 색상 변경 */
 }
