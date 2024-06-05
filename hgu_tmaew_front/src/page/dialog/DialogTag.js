@@ -48,7 +48,7 @@ function DialogTag(props) {
     setFile(event.target.files[0]);
   };
 
-  // 벡엔드에 실질적으로 데이터를 전송하는 파트!
+  // 백엔드에 실질적으로 데이터를 전송하는 파트!
   const handleSave = async () => {
     // 폼 데이터 객체 생성
     const formData = new FormData();
@@ -64,7 +64,7 @@ function DialogTag(props) {
     }
 
     try {
-      // POST 요청을 통해 백엔드로 데이터 전송s
+      // POST 요청을 통해 백엔드로 데이터 전송
       const response = await axios.post('/api/posts', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -73,7 +73,7 @@ function DialogTag(props) {
 
       // 성공적으로 데이터가 전송된 경우
       console.log('Data saved successfully:', response.data);
-      props.onClose();
+      props.onClose(response.data); // 저장된 데이터를 부모 컴포넌트에 전달
     } catch (error) {
       // 데이터 전송 중 에러 발생 시
       console.error('Error saving data:', error);
