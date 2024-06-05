@@ -6,6 +6,7 @@ import '../page/css/AddPost.css';
 export default function AddPost() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [fileList, setFileList] = useState([]);
   const navigate = useNavigate();
 
   const handleTitleChange = (e) => {
@@ -14,6 +15,10 @@ export default function AddPost() {
 
   const handleContentChange = (e) => {
     setContent(e.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    setFileList(Array.from(event.target.files));
   };
 
   const handleSaveDraft = () => {
@@ -27,29 +32,34 @@ export default function AddPost() {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    fileList.forEach((file, index) => {
+      formData.append(`fileList[${index}]`, file);
+    });
+
     try {
       const response = await axios.post(
-        'https://likelion.info:443/material/post', // Replace with your API endpoint
-        {
-          title,
-          content,
-          // Add other necessary fields here
-        },
+        'https://likelion.info:443/material/add', // Replace with your API endpoint
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
 
       if (response.status === 200) {
         console.log('Post uploaded successfully');
-        navigate('/dashboard/main'); // Navigate back to the main page after successful post
+        navigate('/dashboard/library'); // Navigate back to the library page after successful post
       } else {
         console.error('Error uploading post');
       }
     } catch (error) {
       console.error('Error uploading post:', error);
+      navigate('/', { replace: true });
     }
   };
 
@@ -77,6 +87,12 @@ export default function AddPost() {
           value={content}
           onChange={handleContentChange}
         ></textarea>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          multiple
+          style={{ marginTop: '1em' }}
+        />
         <div className="attachments">
           <button className="attachment-button">전체공개</button>
           <button className="attachment-button">이미지 첨부</button>
