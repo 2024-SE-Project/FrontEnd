@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUsers, faUser, faCamera, faFolder, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons';
 import { IoHeartCircle } from 'react-icons/io5';
 import { FaRankingStar } from 'react-icons/fa6';
+import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 export default function Sidebar({ toggleDrawer }) {
     return (
@@ -54,11 +55,20 @@ export default function Sidebar({ toggleDrawer }) {
                     </div>
                 </NavLink>
                 <NavLink to="/dashboard/library" className="menu-link" activeClassName="active">
-                    <div className="menu-item">
-                        <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
-                        Reference library
-                    </div>
-                </NavLink>
+                        <div className="menu-item">
+                            <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
+                            Reference library
+                        </div>
+                    </NavLink>
+                <div className="menu-group">
+                    <MdOutlineSubdirectoryArrowRight />
+                    <NavLink to="/dashboard/addpost" className="menu-link" activeClassName="active">
+                        <div className="menu-item">
+                            <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
+                            Upload Poat
+                        </div>
+                    </NavLink>
+                </div>
             </div>
             <div className="sidebar-communities">
                 <h2>My Communities <span className="community-count">19</span></h2>

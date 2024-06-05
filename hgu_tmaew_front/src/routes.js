@@ -13,6 +13,7 @@ import Temp from './page/temp';
 import TeamMatching from './page/TeamMatching';
 import PhotoStudio from './page/PhotoStudio';
 import MyTeam from './page/MyTeam';
+import AddPost from './page/AddPost';
 
 export default function Router() {
   const routes = useRoutes([
@@ -46,6 +47,7 @@ export default function Router() {
         { path: 'photo', element: <PhotoStudio /> },
         { path: 'library', element: <Reference /> },
         { path: 'library/create', element: <RefDialog /> },
+        { path: 'addpost', element: <AddPost /> },
       ],
     },
     {

@@ -7,6 +7,7 @@ import FilterIcon from '../assets/filter_icon.svg'; // 필터 아이콘 SVG 경�
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart, faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart, faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
+import { NavLink } from 'react-router-dom';
 
 import DialogTag from './dialog/RefDialogTag.js';
 import {
@@ -129,9 +130,11 @@ const toggleScrape = (index) => {
           ))}
         </section>
       </main>
-      <button className={`floating-button ${isScrolled ? 'h_event2' : ''}`} onClick={handleClickOpenCreate}>
-        게시물 작성하기
-      </button>
+      <NavLink to="/dashboard/addpost" className={`floating-button ${isScrolled ? 'h_event2' : ''}`} activeClassName="active">
+          <div className="">
+              <span className="menu-icon">게시물작성하기</span>
+          </div>
+      </NavLink>
       
       {openCreate && (
           <DialogTag
