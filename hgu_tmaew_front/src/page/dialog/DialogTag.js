@@ -64,7 +64,7 @@ function DialogTag(props) {
     }
 
     try {
-      // POST 요청을 통해 백엔드로 데이터 전송
+      // POST 요청을 통해 백엔드로 데이터 전송s
       const response = await axios.post('/api/posts', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

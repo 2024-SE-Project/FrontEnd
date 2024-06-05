@@ -9,20 +9,21 @@
 
 /* 추가 버튼 디자인 */
 .addContentstButton {
-    background-color: white; /* Home.css의 로그인 버튼 색상과 통일 */
-    color: black; /* 글자색 */
-    border: none;
-    padding: 10px 20px;
+    background: ghostwhite;
+    color: #000000; /* 글자색 */
+    border: 2px solid white;
+    padding: 12px 24px; /* 패딩을 약간 늘림 */
     cursor: pointer;
-    border-radius: 20px; /* Home.css의 로그인 버튼과 통일 */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    font-size: 20px; /* 글자 크기 */
+    border-radius: 25px; /* 둥근 모서리 */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 18px; /* 글자 크기 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 }
 
-.addContentstButton:hover, .addContentstButton:focus {
-    background-color: #6FA4FF; /* 호버 시 배경색 변경 */
-    transform: translateY(-2px); /* 호버 시 약간 위로 이동 */
-    cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+/* 추가적인 스타일 */
+.addContentstButton:active {
+    transform: translateY(-1px); /* 클릭 시 약간 덜 올라가도록 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 원래대로 */
 }
 
 /* 테이블 스타일 */
