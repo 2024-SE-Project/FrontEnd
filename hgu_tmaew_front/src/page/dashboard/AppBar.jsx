@@ -1,29 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import DialogTag from '../dialog/DialogTag';
 import '../css/Appbar.css';
 
 export default function Appbar({ toggleDrawer }) {
     const name = localStorage.getItem("name");
-    const [openCreate, setOpenCreate] = useState(false);
-    const [posts, setPosts] = useState([]);
-
-    const handleClickOpenCreate = () => {
-        setOpenCreate(true);
-    };
-
-    const handleCloseCreate = (newPost) => {
-        if (newPost) {
-            setPosts([newPost, ...posts]);
-        }
-        setOpenCreate(false);
-    };
-
+    
     return (
         <AppBar position="fixed" className="appbar">
             <Toolbar>
@@ -40,16 +26,9 @@ export default function Appbar({ toggleDrawer }) {
                     RAONz
                 </Typography>
                 <Box className="icon-group">
-                    <IconButton color="inherit" className="icon-button" onClick={handleClickOpenCreate}>
+                    <IconButton color="inherit" className="icon-button">
                         <AddIcon />
                     </IconButton>
-                    {openCreate && (
-                        <DialogTag
-                            open={openCreate}
-                            title={'추가하기'}
-                            onClose={handleCloseCreate}
-                        />
-                    )}
                     <IconButton color="inherit" className="icon-button">
                         <MessageIcon />
                     </IconButton>

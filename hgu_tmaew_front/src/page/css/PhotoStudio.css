@@ -1,0 +1,112 @@
+.photo-studio {
+    padding: 20px;
+  }
+  
+  .photo-header {
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .photo-header h2 {
+    margin: 0;
+    color: #1e88e5;
+  }
+  .photo-team{
+    margin: 0;
+    padding: 0;
+    color: #000000;
+  }
+  
+  .photo-content {
+    background-color: #ffffff;
+    padding: 2%;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+  
+  .photo-gallery-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 500px; /* Fixed height for the white box */
+  }
+  
+  .photo-item {
+    flex: 0 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .photo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+  }
+  
+  .nav-button {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    color: #1e88e5;
+    font-size: 4em;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+  
+  .nav-button.left {
+    left: 10px;
+  }
+  
+  .nav-button.right {
+    right: 10px;
+  }
+  
+  .photo-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .progress-bar {
+    flex: 1;
+    height: 5px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-right: 10px;
+    position: relative;
+  }
+  
+  .progress {
+    height: 100%;
+    background-color: #1e88e5;
+    border-radius: 5px;
+  }
+  
+  .photo-navigation span {
+    font-size: 16px;
+    color: #757575;
+  }
+  
+  .download-button {
+    font-size: 20px;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+
+  
