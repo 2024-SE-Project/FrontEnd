@@ -24,7 +24,8 @@ export default function Dashboard() {
                 variant="persistent"
                 open={isDrawerOpen}
                 sx={{
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
+                    zIndex: (theme) => theme.zIndex.drawer + 2,
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 },
                 }}
             >
                 <Sidebar toggleDrawer={toggleDrawer} />
