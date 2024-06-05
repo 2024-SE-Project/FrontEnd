@@ -1,30 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './css/Reference.css';
 import FilterIcon from '../assets/filter_icon.svg'; // 필터 아이콘 SVG 경로 설정
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart, faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart, faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
-import { NavLink } from 'react-router-dom';
 
 import DialogTag from './dialog/RefDialogTag.js';
-import {
-  Table,
-  Stack,
-  Paper,
-  Button,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableHead
-} from '@mui/material';
-import Iconify from '../assets/iconify';
-import Scrollbar from '../assets/scrollbar';
-import { useLocation } from 'react-router-dom';
 
 const Reference = () => {
   const [postData, setPostData] = useState([]);
@@ -45,7 +29,7 @@ const Reference = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setPostData(response.data); // 응답 데이터에 맞게 설정하세요
+      setPostData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
       navigate('/', { replace: true });
@@ -54,15 +38,29 @@ const Reference = () => {
 
   useEffect(() => {
     fetchData();
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [navigate]);
 
   const handleClickOpenCreate = () => {
     setOpenCreate(true);
   };
 
-  const handleCloseCreate = async (row) => {
+  const handleCloseCreate = async () => {
     setOpenCreate(false);
-    await fetchData(); // 게시물 추가 후 데이터 다시 가져오기
+    await fetchData();
   };
 
   const handleRowClick = (row) => {
@@ -93,7 +91,10 @@ const Reference = () => {
       }
 
       if (response.data !== null) {
-        await fetchData(); // 좋아요 토글 후 데이터 다시 가져오기
+        const updatedData = [...postData];
+        updatedData[index].like = !updatedData[index].like;
+        updatedData[index].likeCount += updatedData[index].like ? 1 : -1;
+        setPostData(updatedData);
       }
     } catch (error) {
       console.error('Error toggling like:', error);
@@ -124,10 +125,10 @@ const Reference = () => {
       }
 
       if (response.data !== null) {
-        console.log('Response:', response.data);
-        await fetchData();
-      } else {
-        console.error('Unexpected response format:', response);
+        const updatedData = [...postData];
+        updatedData[index].scraped = !updatedData[index].scraped;
+        updatedData[index].scrapeCount += updatedData[index].scraped ? 1 : -1;
+        setPostData(updatedData);
       }
     } catch (error) {
       console.error('Error toggling scrape:', error);
@@ -152,9 +153,15 @@ const Reference = () => {
         <section className="reference-content">
           {postData.map((data, index) => (
             <Card
-              key={index}
+              key={data.postId}  // key에 유일한 값인 postId 사용
               index={index}
-              {...data}
+              postId={data.postId}
+              title={data.title}
+              content={data.content}
+              like={data.like}
+              scraped={data.scraped}
+              likeCount={data.likeCount}
+              scrapeCount={data.scrapeCount}
               toggleLike={toggleLike}
               toggleScrape={toggleScrape}
             />
@@ -162,15 +169,15 @@ const Reference = () => {
         </section>
       </main>
       <NavLink to="/dashboard/addpost" className={`floating-button ${isScrolled ? 'h_event2' : ''}`} activeClassName="active">
-          <div className="">
-              <span className="menu-icon">게시물작성하기</span>
-          </div>
+        <div>
+          <span className="menu-icon">게시물작성하기</span>
+        </div>
       </NavLink>
       
       {openCreate && (
         <DialogTag
           open={openCreate}
-          title={'추가하기'}
+          title="추가하기"
           onClose={handleCloseCreate}
         />
       )}
@@ -178,7 +185,7 @@ const Reference = () => {
   );
 };
 
-const Card = ({ postId, title, content, like, scraped, index, toggleLike, toggleScrape }) => {
+const Card = ({ postId, title, content, like, scraped, likeCount, scrapeCount, index, toggleLike, toggleScrape }) => {
   return (
     <div className="card">
       <div className="card-image-container">
@@ -189,9 +196,11 @@ const Card = ({ postId, title, content, like, scraped, index, toggleLike, toggle
           <div className="card-icons">
             <button onClick={() => toggleLike(index, postId)} className="icon-button">
               <FontAwesomeIcon icon={like ? solidHeart : regularHeart} className="fa-heart" />
+              <span className="like-count">{likeCount}</span> {/* 좋아요 수 표시 */}
             </button>
             <button onClick={() => toggleScrape(index, postId)} className="icon-button">
               <FontAwesomeIcon icon={scraped ? solidBookmark : regularBookmark} className="fa-bookmark" />
+              <span className="scrape-count">{scrapeCount}</span> {/* 스크랩 수 표시 */}
             </button>
           </div>
         </div>
