@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './css/Reference.css';
-import FilterIcon from '../assets/filter_icon.svg'; // 필터 아이콘 SVG 경로 설정
+import FilterIcon from '../assets/filter_icon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart, faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart, faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
 
 import DialogTag from './dialog/RefDialogTag.js';
+
+const DEFAULT_IMAGE_URL = "https://storage.googleapis.com/raonz_post_image/cat8.jpg" ; // 기본 이미지 경로 설정
 
 const Reference = () => {
   const [postData, setPostData] = useState([]);
@@ -151,21 +152,27 @@ const Reference = () => {
           <button>내 팀 자료</button>
         </nav>
         <section className="reference-content">
-          {postData.map((data, index) => (
-            <Card
-              key={data.postId}  // key에 유일한 값인 postId 사용
-              index={index}
-              postId={data.postId}
-              title={data.title}
-              content={data.content}
-              like={data.like}
-              scraped={data.scraped}
-              likeCount={data.likeCount}
-              scrapeCount={data.scrapeCount}
-              toggleLike={toggleLike}
-              toggleScrape={toggleScrape}
-            />
-          ))}
+          {postData.map((data, index) => {
+            const imageUrl = data.postFileDtoList && data.postFileDtoList.length > 0 && data.postFileDtoList[0].imageUrl
+            ? data.postFileDtoList[0].imageUrl
+            : DEFAULT_IMAGE_URL;
+            return (
+              <Card
+                key={data.postId}  // key에 유일한 값인 postId 사용
+                index={index}
+                postId={data.postId}
+                title={data.title}
+                content={data.content}
+                imageUrl={imageUrl}
+                like={data.like}
+                scraped={data.scraped}
+                likeCount={data.likeCount}
+                scrapeCount={data.scrapeCount}
+                toggleLike={toggleLike}
+                toggleScrape={toggleScrape}
+              />
+            );
+          })}
         </section>
       </main>
       <NavLink to="/dashboard/addpost" className={`floating-button ${isScrolled ? 'h_event2' : ''}`} activeClassName="active">
@@ -185,11 +192,11 @@ const Reference = () => {
   );
 };
 
-const Card = ({ postId, title, content, like, scraped, likeCount, scrapeCount, index, toggleLike, toggleScrape }) => {
+const Card = ({ postId, title, content, imageUrl, like, scraped, likeCount, scrapeCount, index, toggleLike, toggleScrape }) => {
   return (
     <div className="card">
       <div className="card-image-container">
-        <img src="https://storage.googleapis.com/raonz_post_image/cat8.jpg" alt="Road" />
+        <img src={imageUrl} alt="Post" />
       </div>
       <div className="card-content">
         <div className="card-header">

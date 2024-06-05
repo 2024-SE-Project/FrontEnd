@@ -61,9 +61,13 @@ export default function AddPost() {
       formData.append('file', otherFile);
     }
 
-    fileList.forEach((file, index) => {
-      formData.append(`fileList[${index}]`, file);
-    });
+    if (fileList.length > 0) {
+      fileList.forEach((file, index) => {
+        formData.append(`fileList[${index}]`, file);
+      });
+    } else {
+      formData.append('fileList', new Blob([])); // 빈 파일 리스트 추가
+    }
 
     try {
       const response = await axios.post(
