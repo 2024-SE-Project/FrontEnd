@@ -15,13 +15,13 @@ import { useNavigate } from 'react-router-dom';
 
 function RefDialogTag(props) {
   const [title, setTitle] = useState(props.row?.title ?? '');
-  const [contents, setContents] = useState(props.row?.contents ?? '');
+  const [content, setContent] = useState(props.row?.content ?? '');
   const [fileList, setFileList] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     setTitle(props.row?.title ?? '');
-    setContents(props.row?.contents ?? '');
+    setContent(props.row?.content ?? '');
     setFileList([]);
   }, [props.row]);
 
@@ -32,7 +32,7 @@ function RefDialogTag(props) {
   const handleSave = () => {
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('contents', contents);
+    formData.append('content', content);
     fileList.forEach((file, index) => {
       formData.append(`fileList[${index}]`, file);
     });
@@ -78,8 +78,8 @@ function RefDialogTag(props) {
           label="본문"
           fullWidth
           variant="standard"
-          value={contents}
-          onChange={(ev) => setContents(ev.target.value)}
+          value={content}
+          onChange={(ev) => setContent(ev.target.value)}
         />
         <input
           type="file"
