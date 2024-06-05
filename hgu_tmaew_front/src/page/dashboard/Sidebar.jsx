@@ -20,7 +20,7 @@ export default function Sidebar({ toggleDrawer }) {
                         Home
                     </div>
                 </NavLink>
-                <NavLink to="/dashboard/main" className="menu-link" activeClassName="active">
+                <NavLink to="/dashboard/myteam" className="menu-link" activeClassName="active">
                     <div className="menu-item">
                         <span className="menu-icon"><FontAwesomeIcon icon={faUsers} /></span>
                         <div className="menu-item-content">

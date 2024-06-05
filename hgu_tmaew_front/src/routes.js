@@ -12,6 +12,7 @@ import RefDialog from './page/dialog/RefDialogTag';
 import Temp from './page/temp';
 import TeamMatching from './page/TeamMatching';
 import PhotoStudio from './page/PhotoStudio';
+import MyTeam from './page/MyTeam';
 
 export default function Router() {
   const routes = useRoutes([
@@ -37,6 +38,7 @@ export default function Router() {
       element: <Dashboard />,
       children: [
         { path: 'main', element: <Main /> },
+        { path: 'myteam', element: <MyTeam /> },
         { path: 'detail', element: <DetailView /> },
         { path: 'profile', element: <Profile /> },
         { path: 'ranking', element: <Ranking /> },
