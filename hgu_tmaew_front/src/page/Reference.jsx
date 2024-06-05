@@ -99,10 +99,38 @@ const Reference = () => {
     }
   };
 
-  const toggleScrape = (index) => {
-    const newPostData = [...postData];
-    newPostData[index].isScraped = !newPostData[index].isScraped;
-    setPostData(newPostData);
+  const toggleScrape = async (index, postId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+
+    try {
+      let response;
+      if (postData[index].scraped) {
+        response = await axios.delete(`https://likelion.info:443/scrape/delete/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        response = await axios.post(`https://likelion.info:443/scrape/add/${postId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      if (response.data !== null) {
+        console.log('Response:', response.data);
+        await fetchData();
+      } else {
+        console.error('Unexpected response format:', response);
+      }
+    } catch (error) {
+      console.error('Error toggling scrape:', error);
+    }
   };
 
   return (
@@ -159,7 +187,7 @@ const Card = ({ postId, title, content, like, scraped, index, toggleLike, toggle
             <button onClick={() => toggleLike(index, postId)} className="icon-button">
               <FontAwesomeIcon icon={like ? solidHeart : regularHeart} className="fa-heart" />
             </button>
-            <button onClick={() => toggleScrape(index)} className="icon-button">
+            <button onClick={() => toggleScrape(index, postId)} className="icon-button">
               <FontAwesomeIcon icon={scraped ? solidBookmark : regularBookmark} className="fa-bookmark" />
             </button>
           </div>
