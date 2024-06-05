@@ -8,6 +8,7 @@ import Profile from './page/Profile';
 import Ranking from './page/Ranking';
 import DetailView from './page/DetailView'; // 추가된 DetailView 컴포넌트
 import Reference from './page/Reference';
+import RefDialog from './page/dialog/RefDialogTag';
 import Temp from './page/temp';
 import TeamMatching from './page/TeamMatching';
 import PhotoStudio from './page/PhotoStudio';
@@ -42,6 +43,7 @@ export default function Router() {
         { path: 'teammatch', element: <TeamMatching /> },
         { path: 'photo', element: <PhotoStudio /> },
         { path: 'library', element: <Reference /> },
+        { path: 'library/create', element: <RefDialog /> },
       ],
     },
     {
