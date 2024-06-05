@@ -1,0 +1,46 @@
+.appbar {
+    background-color: #6FA4FF;
+}
+
+.menu-button {
+    margin-right: 16px;
+}
+
+.title {
+    flex-grow: 1;
+    font-weight: bold;
+}
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.icon-button {
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin-right: 15px;
+    padding: 8px;
+    color: #6FA4FF;
+}
+
+.icon-button:last-child {
+    margin-right: 0;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.user-name {
+    margin-left: 10px;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.arrow-button {
+    padding: 0;
+    margin-left: 8px;
+}
