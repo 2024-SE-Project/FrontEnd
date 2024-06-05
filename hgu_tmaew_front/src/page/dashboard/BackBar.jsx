@@ -1,10 +1,9 @@
-// BackBar.jsx
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 
 export default function BackBar() {
     return (
-        <AppBar position="fixed" color="default" sx={{ bottom: 0, top: 'auto', boxShadow: 'none' }}>
+        <AppBar position="static" color="default" sx={{ boxShadow: 'none' }} className="backbar">
             <Toolbar>
                 <Typography variant="h6" noWrap component="div">
                     RAONz
