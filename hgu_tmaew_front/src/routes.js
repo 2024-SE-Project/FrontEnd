@@ -14,6 +14,7 @@ import TeamMatching from './page/TeamMatching';
 import PhotoStudio from './page/PhotoStudio';
 import MyTeam from './page/MyTeam';
 import AddPost from './page/AddPost';
+import ReferDetail from './page/ReferDetail'; // 새로 추가된 컴포넌트
 
 export default function Router() {
   const routes = useRoutes([
@@ -48,6 +49,7 @@ export default function Router() {
         { path: 'library', element: <Reference /> },
         { path: 'library/create', element: <RefDialog /> },
         { path: 'addpost', element: <AddPost /> },
+        { path: 'post/:postId', element: <ReferDetail /> }, // 이 경로를 확인해주세요
       ],
     },
     {

@@ -9,10 +9,12 @@ import { faHeart as regularHeart, faBookmark as regularBookmark } from '@fortawe
 
 import DialogTag from './dialog/RefDialogTag.js';
 
-const DEFAULT_IMAGE_URL = "https://storage.googleapis.com/raonz_post_image/cat8.jpg" ; // 기본 이미지 경로 설정
+const DEFAULT_IMAGE_URL = "https://storage.googleapis.com/raonz_post_image/cat8.jpg"; // 기본 이미지 경로 설정
 
 const Reference = () => {
   const [postData, setPostData] = useState([]);
+  const [filteredPostData, setFilteredPostData] = useState([]); // 필터링된 데이터를 위한 상태 변수 추가
+  const [searchQuery, setSearchQuery] = useState(''); // 검색어를 위한 상태 변수 추가
   const [openCreate, setOpenCreate] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ const Reference = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       console.error('Token not found');
+      navigate('/login', { replace: true });
       return;
     }
 
@@ -31,6 +34,7 @@ const Reference = () => {
         },
       });
       setPostData(response.data);
+      setFilteredPostData(response.data); // 필터링된 데이터도 초기화
     } catch (error) {
       console.error('Error fetching data:', error);
       navigate('/', { replace: true });
@@ -65,7 +69,7 @@ const Reference = () => {
   };
 
   const handleRowClick = (row) => {
-    navigate('/dashboard/library/create', { state: row });
+    navigate(`/post/${row.postId}`, { state: row });
   };
 
   const toggleLike = async (index, postId) => {
@@ -96,6 +100,7 @@ const Reference = () => {
         updatedData[index].like = !updatedData[index].like;
         updatedData[index].likeCount += updatedData[index].like ? 1 : -1;
         setPostData(updatedData);
+        setFilteredPostData(updatedData); // 필터링된 데이터도 업데이트
       }
     } catch (error) {
       console.error('Error toggling like:', error);
@@ -130,18 +135,31 @@ const Reference = () => {
         updatedData[index].scraped = !updatedData[index].scraped;
         updatedData[index].scrapeCount += updatedData[index].scraped ? 1 : -1;
         setPostData(updatedData);
+        setFilteredPostData(updatedData); // 필터링된 데이터도 업데이트
       }
     } catch (error) {
       console.error('Error toggling scrape:', error);
     }
   };
 
+  const handleSearch = () => {
+    const filteredData = postData.filter(post =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredPostData(filteredData);
+  };
+
   return (
     <div className="reference-container">
       <main className="reference-main">
         <div className="search-bar">
-          <button className="search-button">🔍</button>
-          <input type="text" placeholder="찾고 싶은 자료를 입력해주세요." />
+          <button className="search-button" onClick={handleSearch}>🔍</button>
+          <input
+            type="text"
+            placeholder="찾고 싶은 자료를 입력해주세요."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <button className="filter-button">
             <img src={FilterIcon} alt="Filter" />
           </button>
@@ -152,7 +170,7 @@ const Reference = () => {
           <button>내 팀 자료</button>
         </nav>
         <section className="reference-content">
-          {postData.map((data, index) => {
+          {filteredPostData.map((data, index) => {
             const imageUrl = data.postFileDtoList && data.postFileDtoList.length > 0 && data.postFileDtoList[0].imageUrl
             ? data.postFileDtoList[0].imageUrl
             : DEFAULT_IMAGE_URL;
@@ -170,6 +188,7 @@ const Reference = () => {
                 scrapeCount={data.scrapeCount}
                 toggleLike={toggleLike}
                 toggleScrape={toggleScrape}
+                onViewDetails={() => navigate(`/post/${data.postId}`, { state: data })}
               />
             );
           })}
@@ -177,7 +196,7 @@ const Reference = () => {
       </main>
       <NavLink to="/dashboard/addpost" className={`floating-button ${isScrolled ? 'h_event2' : ''}`} activeClassName="active">
         <div>
-          <span className="menu-icon">게시물작성하기</span>
+          <span className="menu-icon">게시물 작성하기</span>
         </div>
       </NavLink>
       
@@ -192,7 +211,7 @@ const Reference = () => {
   );
 };
 
-const Card = ({ postId, title, content, imageUrl, like, scraped, likeCount, scrapeCount, index, toggleLike, toggleScrape }) => {
+const Card = ({ postId, title, content, imageUrl, like, scraped, likeCount, scrapeCount, index, toggleLike, toggleScrape, onViewDetails }) => {
   return (
     <div className="card">
       <div className="card-image-container">
@@ -214,7 +233,7 @@ const Card = ({ postId, title, content, imageUrl, like, scraped, likeCount, scra
         <h3>{title}</h3>
         <p>{content}</p>
         <div className="card-footer">
-          <button className="details-button">자세히보기</button>
+          <button className="details-button" onClick={onViewDetails}>자세히 보기</button>
         </div>
       </div>
     </div>

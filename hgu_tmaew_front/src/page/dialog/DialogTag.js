@@ -13,6 +13,7 @@ import { format } from 'date-fns';
 import axios from 'axios';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CloseIcon from '@mui/icons-material/Close';
+import PublishIcon from '@mui/icons-material/Publish';
 import '../css/DialogTag.css'; // CSS 파일 임포트
 
 function DialogTag(props) {
@@ -123,8 +124,8 @@ function DialogTag(props) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => props.onClose()}>임시저장하기</Button>
-        <Button onClick={handleSave} color="primary">게시하기</Button>
+        <Button onClick={() => props.onClose()} className="temp-save-button">임시저장하기</Button>
+        <Button onClick={handleSave} color="primary" startIcon={<PublishIcon />} className="post-button">게시하기</Button>
       </DialogActions>
     </Dialog>
   );
