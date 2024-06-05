@@ -1,107 +1,139 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './css/Reference.css';
 import FilterIcon from '../assets/filter_icon.svg'; // 필터 아이콘 SVG 경로 설정
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart, faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart, faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
-import { NavLink } from 'react-router-dom';
 
 import DialogTag from './dialog/RefDialogTag.js';
-import {
-  Table,
-  Stack,
-  Paper,
-  Button,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableHead
-} from '@mui/material';
-import Iconify from '../assets/iconify';
-import Scrollbar from '../assets/scrollbar';
-import { useLocation } from 'react-router-dom';
-
-const initialData = [
-  {}
-];
 
 const Reference = () => {
   const [postData, setPostData] = useState([]);
-    const [openCreate, setOpenCreate] = useState(false);
-    const [editRow, setEditRow] = useState(null);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const history = useNavigate();
-    const [userInfo, setUserInfo] = useState(null);
-    const navigate = useNavigate();
+  const [openCreate, setOpenCreate] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+
+  const fetchData = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+
+    try {
+      const response = await axios.get('https://likelion.info:443/material/get/all/1', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPostData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      navigate('/', { replace: true });
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('Token not found');
-        return;
-      }
+    fetchData();
 
-      try {
-        const response = await axios.get('https://likelion.info:443/material/get/all/1', {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [navigate]);
+
+  const handleClickOpenCreate = () => {
+    setOpenCreate(true);
+  };
+
+  const handleCloseCreate = async () => {
+    setOpenCreate(false);
+    await fetchData();
+  };
+
+  const handleRowClick = (row) => {
+    navigate('/dashboard/library/create', { state: row });
+  };
+
+  const toggleLike = async (index, postId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+
+    try {
+      let response;
+      if (postData[index].like) {
+        response = await axios.delete(`https://likelion.info:443/like/delete/${postId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setPostData(response.data); // 응답 데이터에 맞게 설정하세요
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        navigate('/', { replace: true });
+      } else {
+        response = await axios.post(`https://likelion.info:443/like/add/${postId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
-    };
 
-    fetchData();
-  }, []);
-  
-  const handleClickOpenCreate = () => {
-    setOpenCreate(true);
-};
+      if (response.data !== null) {
+        const updatedData = [...postData];
+        updatedData[index].like = !updatedData[index].like;
+        updatedData[index].likeCount += updatedData[index].like ? 1 : -1;
+        setPostData(updatedData);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  };
 
-const handleCloseCreate = (row) => {
-    // if (row) {
-    //     setContentsList((prevList) => [...prevList, row]);
-    // }
-    setOpenCreate(false);
-};
+  const toggleScrape = async (index, postId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
 
-// const handleOpenEditDialog = (row) => {
-//     setEditRow(row);
-// };
+    try {
+      let response;
+      if (postData[index].scraped) {
+        response = await axios.delete(`https://likelion.info:443/scrape/delete/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        response = await axios.post(`https://likelion.info:443/scrape/add/${postId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
 
-// const handleCloseEdit = (row) => {
-//     if (row) {
-//         setContentsList((prevList) =>
-//             prevList.map((item) => (item.title === row.title ? row : item))
-//         );
-//     }
-//     setEditRow(null);
-// };
-
-const handleRowClick = (row) => {
-    navigate('/dashboard/library/create', { state: row });
-};
-
-const toggleLike = (index) => {
-  const newPostData = [...postData];
-  newPostData[index].isLike = !newPostData[index].isLike;
-  setPostData(newPostData);
-};
-
-const toggleScrape = (index) => {
-  const newPostData = [...postData];
-  newPostData[index].isScraped = !newPostData[index].isScraped;
-  setPostData(newPostData);
-};
+      if (response.data !== null) {
+        const updatedData = [...postData];
+        updatedData[index].scraped = !updatedData[index].scraped;
+        updatedData[index].scrapeCount += updatedData[index].scraped ? 1 : -1;
+        setPostData(updatedData);
+      }
+    } catch (error) {
+      console.error('Error toggling scrape:', error);
+    }
+  };
 
   return (
     <div className="reference-container">
@@ -120,34 +152,40 @@ const toggleScrape = (index) => {
         </nav>
         <section className="reference-content">
           {postData.map((data, index) => (
-             <Card
-             key={index}
-             index={index}
-             {...data}
-             toggleLike={toggleLike}
-             toggleScrape={toggleScrape}
-           />
+            <Card
+              key={data.postId}  // key에 유일한 값인 postId 사용
+              index={index}
+              postId={data.postId}
+              title={data.title}
+              content={data.content}
+              like={data.like}
+              scraped={data.scraped}
+              likeCount={data.likeCount}
+              scrapeCount={data.scrapeCount}
+              toggleLike={toggleLike}
+              toggleScrape={toggleScrape}
+            />
           ))}
         </section>
       </main>
       <NavLink to="/dashboard/addpost" className={`floating-button ${isScrolled ? 'h_event2' : ''}`} activeClassName="active">
-          <div className="">
-              <span className="menu-icon">게시물작성하기</span>
-          </div>
+        <div>
+          <span className="menu-icon">게시물작성하기</span>
+        </div>
       </NavLink>
       
       {openCreate && (
-          <DialogTag
-              open={openCreate}
-              title={'추가하기'}
-              onClose={handleCloseCreate}
-          />
+        <DialogTag
+          open={openCreate}
+          title="추가하기"
+          onClose={handleCloseCreate}
+        />
       )}
     </div>
   );
 };
 
-const Card = ({  postFileDtoList, title, content, isLike, isScraped, index, toggleLike, toggleScrape }) => {
+const Card = ({ postId, title, content, like, scraped, likeCount, scrapeCount, index, toggleLike, toggleScrape }) => {
   return (
     <div className="card">
       <div className="card-image-container">
@@ -156,12 +194,13 @@ const Card = ({  postFileDtoList, title, content, isLike, isScraped, index, togg
       <div className="card-content">
         <div className="card-header">
           <div className="card-icons">
-            {/* {date} */}
-            <button onClick={() => toggleLike(index)} className="icon-button">
-              <FontAwesomeIcon icon={isLike ? solidHeart : regularHeart} className="fa-heart" />
+            <button onClick={() => toggleLike(index, postId)} className="icon-button">
+              <FontAwesomeIcon icon={like ? solidHeart : regularHeart} className="fa-heart" />
+              <span className="like-count">{likeCount}</span> {/* 좋아요 수 표시 */}
             </button>
-            <button onClick={() => toggleScrape(index)} className="icon-button">
-              <FontAwesomeIcon icon={isScraped ? solidBookmark : regularBookmark} className="fa-bookmark" />
+            <button onClick={() => toggleScrape(index, postId)} className="icon-button">
+              <FontAwesomeIcon icon={scraped ? solidBookmark : regularBookmark} className="fa-bookmark" />
+              <span className="scrape-count">{scrapeCount}</span> {/* 스크랩 수 표시 */}
             </button>
           </div>
         </div>
