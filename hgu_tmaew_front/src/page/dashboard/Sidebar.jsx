@@ -1,96 +1,79 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { List, ListItem, ListItemText, ListItemButton, ListItemIcon, IconButton } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import GroupIcon from '@mui/icons-material/Group';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import StarIcon from '@mui/icons-material/Star';
-import PeopleIcon from '@mui/icons-material/People';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import '../css/Sidebar.css'; // Sidebar.css 파일 import
+import { NavLink } from 'react-router-dom';
+import '../css/Sidebar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faUsers, faUser, faCamera, faFolder, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons';
+import { IoHeartCircle } from 'react-icons/io5';
+import { FaRankingStar } from 'react-icons/fa6';
 
 export default function Sidebar({ toggleDrawer }) {
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <div className="logo">RAONz</div>
-                <IconButton
-                    color="inherit"
-                    aria-label="close drawer"
-                    onClick={toggleDrawer}
-                >
-                    <ChevronLeftIcon />
-                </IconButton>
+                <h1>RAONz</h1>
+                <button className="back-button" onClick={toggleDrawer}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>
             </div>
-            <List component="nav">
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/main">
-                        <ListItemIcon>
-                            <HomeIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Home" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/main">
-                        <ListItemIcon>
-                            <GroupIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="My Team" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/profile">
-                        <ListItemIcon>
-                            <AccountCircleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Mypage" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/ranking">
-                        <ListItemIcon>
-                            <StarIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Ranking Page" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/teammatch">
-                        <ListItemIcon>
-                            <PeopleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Team Meeting Match" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/photo">
-                        <ListItemIcon>
-                            <PhotoCameraIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Photo studio" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/dashboard/library">
-                        <ListItemIcon>
-                            <LibraryBooksIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Reference library" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem component="div">
-                    <ListItemButton component={Link} to="/home">
-                        <ListItemIcon>
-                            <ExitToAppIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Logout" />
-                    </ListItemButton>
-                </ListItem>
-            </List>
+            <div className="sidebar-menu">
+                <NavLink to="/dashboard/main" className="menu-link" activeClassName="active">
+                    <div className="menu-item">
+                        <span className="menu-icon"><FontAwesomeIcon icon={faHome} /></span>
+                        Home
+                    </div>
+                </NavLink>
+                <NavLink to="/dashboard/myteam" className="menu-link" activeClassName="active">
+                    <div className="menu-item">
+                        <span className="menu-icon"><FontAwesomeIcon icon={faUsers} /></span>
+                        <div className="menu-item-content">
+                            My Team
+                            <span className="menu-subtext">최희열 교수님팀</span>
+                        </div>
+                    </div>
+                </NavLink>
+                <NavLink to="/dashboard/profile" className="menu-link" activeClassName="active">
+                    <div className="menu-item">
+                        <span className="menu-icon"><FontAwesomeIcon icon={faUser} /></span>
+                        Mypage
+                    </div>
+                </NavLink>
+                <NavLink to="/dashboard/ranking" className="menu-link" activeClassName="active">
+                    <div className="menu-item">
+                        <span className="menu-icon"><FaRankingStar /></span>
+                        Ranking Page
+                    </div>
+                </NavLink>
+                <NavLink to="/dashboard/teammatch" className="menu-link" activeClassName="active">
+                    <div className="menu-item">
+                        <span className="menu-icon"><IoHeartCircle /></span>
+                        Teem Meeting Match
+                    </div>
+                </NavLink>
+                <NavLink to="/dashboard/photo" className="menu-link" activeClassName="active">
+                    <div className="menu-item">
+                        <span className="menu-icon"><FontAwesomeIcon icon={faCamera} /></span>
+                        Photo studio
+                    </div>
+                </NavLink>
+                <NavLink to="/dashboard/library" className="menu-link" activeClassName="active">
+                    <div className="menu-item">
+                        <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
+                        Reference library
+                    </div>
+                </NavLink>
+            </div>
+            <div className="sidebar-communities">
+                <h2>My Communities <span className="community-count">19</span></h2>
+                <div className="community-message">
+                    <span className="community-icon"><FontAwesomeIcon icon={faUser} /></span>
+                    익명 1 <span className="message-time">16:08</span>
+                    <span className="message-badge">5</span>
+                </div>
+                <div className="community-message">
+                    <span className="community-icon"><FontAwesomeIcon icon={faUser} /></span>
+                    익명 2 <span className="message-time">16:08</span>
+                    <span className="message-badge">15</span>
+                </div>
+                <button className="see-all">See All</button>
+            </div>
         </div>
     );
 }

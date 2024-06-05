@@ -11,6 +11,8 @@ import Reference from './page/Reference';
 import RefDialog from './page/dialog/RefDialogTag';
 import Temp from './page/temp';
 import TeamMatching from './page/TeamMatching';
+import PhotoStudio from './page/PhotoStudio';
+import MyTeam from './page/MyTeam';
 
 export default function Router() {
   const routes = useRoutes([
@@ -36,11 +38,12 @@ export default function Router() {
       element: <Dashboard />,
       children: [
         { path: 'main', element: <Main /> },
+        { path: 'myteam', element: <MyTeam /> },
         { path: 'detail', element: <DetailView /> },
         { path: 'profile', element: <Profile /> },
         { path: 'ranking', element: <Ranking /> },
         { path: 'teammatch', element: <TeamMatching /> },
-        { path: 'photo', element: <div>Photo Studio Page</div> },
+        { path: 'photo', element: <PhotoStudio /> },
         { path: 'library', element: <Reference /> },
         { path: 'library/create', element: <RefDialog /> },
       ],
