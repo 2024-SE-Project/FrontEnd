@@ -25,7 +25,6 @@ function DialogTag(props) {
     props.row?.giveDate ? format(new Date(props.row.giveDate), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
   );
   const [file, setFile] = useState(null);
-  const [privacy, setPrivacy] = useState('');
   const [isPublic, setIsPublic] = useState(true);
 
   const togglePrivacy = () => {
