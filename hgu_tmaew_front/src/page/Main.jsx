@@ -139,8 +139,8 @@ export default function Main() {
                                 <Typography variant="body1" component="p">{post.content}</Typography>
                                 
                                 <Box className="post-images">
-                                    {Array.isArray(post.postFileDtoList) && post.postFileDtoList.map((image) => (
-                                        <CardMedia component="img" image={image.imageUrl} className="post-image" />
+                                    {Array.isArray(post.postFileDtoList) && post.postFileDtoList.map((image, index) => (
+                                        <CardMedia key={index} component="img" image={image.imageUrl} className="post-image" />
                                     ))}
                                 </Box>
                                 
