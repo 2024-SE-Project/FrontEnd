@@ -1,97 +1,114 @@
 .my-team {
-    padding: 20px;
-  }
-  
-  .team-header {
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .team-header h2 {
-    margin: 0;
-    color: #1e88e5;
-  }
-  
-  .team-content {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .team-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-  }
-  
-  .team-photo {
-    flex: 1;
-  }
-  
-  .team-photo h4 {
-    margin-bottom: 10px;
-    color: #1e88e5;
-  }
-  
-  .team-photo img {
-    width: 100%;
-    border-radius: 10px;
-  }
-  
-  .team-message {
-    margin-top: 20px;
-  }
-  
-  .team-message h4 {
-    margin-bottom: 10px;
-    color: #1e88e5;
-  }
-  
-  .team-message p {
-    margin: 0;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-  }
-  
-  .no-edits {
-    display: block;
-    margin-top: 10px;
-    color: #757575;
-  }
-  
-  .team-details {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 5%;
-    position: relative;
-  }
-  
-  .team-details h3 {
-    margin: 0 0 10px 0;
-    font-size: 24px;
-  }
-  
-  .team-details p {
-    margin: 15px 0;
-    font-size: 20px;
-  }
-  
-  .team-out {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-  }
-  
-  .leave-team {
-    color: red;
-    cursor: pointer;
-  }
-  
+  padding: 20px;
+}
+
+.team-header {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.team-header h2 {
+  margin: 0;
+  color: #1e88e5;
+}
+
+.team-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  display: flex;
+  gap: 20px;
+}
+
+.team-content.no-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.create-team-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.team-photo {
+  flex: 1;
+}
+
+.team-photo h4 {
+  margin-bottom: 10px;
+  color: #1e88e5;
+}
+
+.team-photo img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.team-message {
+  margin-top: 20px;
+}
+
+.team-message h4 {
+  margin-bottom: 10px;
+  color: #1e88e5;
+}
+
+.team-message p {
+  margin: 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.no-edits {
+  display: block;
+  margin-top: 10px;
+  color: #757575;
+}
+
+.team-details {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 5%;
+  position: relative;
+}
+
+.team-details h3 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+}
+
+.team-details p {
+  margin: 15px 0;
+  font-size: 20px;
+}
+
+.team-out {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.leave-team {
+  color: red;
+  cursor: pointer;
+}

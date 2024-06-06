@@ -1,46 +1,57 @@
 .appbar {
-    background-color: #6FA4FF;
+    background-color: #6FA4FF !important;
 }
 
 .menu-button {
-    margin-right: 16px;
+    margin-right: 16px !important;
 }
 
 .title {
-    flex-grow: 1;
-    font-weight: bold;
+    flex-grow: 1 !important;
+    font-weight: bold !important;
 }
 
 .icon-group {
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
+    display: flex !important;
+    align-items: center !important;
+    margin-right: 30px !important;
 }
 
 .icon-button {
-    background-color: #ffffff;
-    border-radius: 50%;
-    margin-right: 15px;
-    padding: 8px;
-    color: #6FA4FF;
+    background-color: #ffffff !important;
+    border-radius: 50% !important;
+    margin-right: 15px !important;
+    padding: 8px !important;
+    color: #6FA4FF !important;
 }
 
 .icon-button:last-child {
-    margin-right: 0;
+    margin-right: 0 !important;
 }
 
 .user-profile {
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: center !important;
 }
 
 .user-name {
-    margin-left: 10px;
-    margin-right: 8px;
-    font-weight: bold;
+    margin-left: 10px !important;
+    margin-right: 8px !important;
+    font-weight: bold !important;
 }
 
 .arrow-button {
-    padding: 0;
-    margin-left: 8px;
+    padding: 0 !important;
+    margin-left: 8px !important;
+}
+
+.mypage-link {
+    color: #ffffff !important;
+    text-decoration: none !important; /* 밑줄 제거 */
+}
+
+.mypage-link:hover .user-profile {
+    background-color: rgba(255, 255, 255, 0.2) !important; /* 호버 시 배경색 변경 */
+    border-radius: 10px !important;
+    transition: background-color 0.3s !important;
 }
