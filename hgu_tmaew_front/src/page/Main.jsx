@@ -20,11 +20,9 @@ import {
   Button,
   Menu,
   MenuItem,
-  Popover,
   TextField,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import CommentIcon from '@mui/icons-material/Comment';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -42,31 +40,12 @@ const sampleHotPosts = [
   { id: 3, title: '오늘 폼 미친 팀모임 ㅊㅋㅊㅋ', likes: 120 }
 ];
 
-const samplePosts = [
-  {
-    id: 1,
-    author: '이민서',
-    team: '최희열 교수님 팀',
-    content: '오늘 나비 폼 미쳤다 ㅜㅜ\n오늘 팀모임하는데 오더라\n개귀여움',
-    images: [
-      'https://storage.googleapis.com/raonz_post_image/cat.jpg',
-      'https://storage.googleapis.com/raonz_post_image/cat.jpg'
-    ],
-    likes: 32,
-    comments: [
-      { id: 1, author: 'Elon Musk', text: '도랏네 ;' },
-      { id: 2, author: 'Shaan Alam', text: 'ㅋㅋㅋ' }
-    ]
-  },
-  // 다른 게시물 데이터 추가
-];
-
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 export default function Main() {
-  const [posts, setPosts] = useState(samplePosts);
+  const [posts, setPosts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [comment, setComment] = useState('');
@@ -74,7 +53,6 @@ export default function Main() {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
-  const [data, setData] = useState();
 
   const handleClick = (event, post) => {
     setAnchorEl(event.currentTarget);
@@ -87,9 +65,79 @@ export default function Main() {
   };
 
   const handleAddComment = (postId) => {
-    // 댓글 추가 로직
-    console.log(`댓글 추가: ${comment} for postId: ${postId}`);
-    setComment('');
+    if (comment.trim()) {
+      console.log(`Adding comment: ${comment} for postId: ${postId}`);
+      setComment('');
+      // Add logic to send comment to server
+    }
+  };
+
+  const toggleLike = async (index, postId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+
+    try {
+      let response;
+      if (posts[index].like) {
+        response = await axios.delete(`https://likelion.info:443/like/delete/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        response = await axios.post(`https://likelion.info:443/like/add/${postId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      if (response.data !== null) {
+        const updatedPosts = [...posts];
+        updatedPosts[index].like = !updatedPosts[index].like;
+        updatedPosts[index].likeCount += updatedPosts[index].like ? 1 : -1;
+        setPosts(updatedPosts);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  };
+
+  const toggleScrape = async (index, postId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+
+    try {
+      let response;
+      if (posts[index].scraped) {
+        response = await axios.delete(`https://likelion.info:443/scrape/delete/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        response = await axios.post(`https://likelion.info:443/scrape/add/${postId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      if (response.data !== null) {
+        const updatedPosts = [...posts];
+        updatedPosts[index].scraped = !updatedPosts[index].scraped;
+        updatedPosts[index].scrapeCount += updatedPosts[index].scraped ? 1 : -1;
+        setPosts(updatedPosts);
+      }
+    } catch (error) {
+      console.error('Error toggling scrape:', error);
+    }
   };
 
   useEffect(() => {
@@ -101,7 +149,7 @@ export default function Main() {
     }
     const storedToken = localStorage.getItem('token');
 
-    if (storedToken == null) {
+    if (!storedToken) {
       navigate('/', { replace: true });
       return;
     }
@@ -111,47 +159,43 @@ export default function Main() {
       setIsScrolled(scrollTop > 0);
     };
 
-    const name = localStorage.getItem('name');
-
-    if (name == null) {
-      axios
-        .get('https://likelion.info:443/mypage', {
-          headers: {
-            Authorization: `Bearer ${storedToken}`
-          },
-          withCredentials: true
-        })
-        .then((response) => {
-          setUserInfo(response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching user data:', error);
-          navigate('/', { replace: true });
-        });
-    }
-
-    const data = axios.get('https://likelion.info:443/post/get/all/1', {
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      },
-      withCredentials: true
-    })
+    const fetchUserData = () => {
+      axios.get('https://likelion.info:443/mypage', {
+        headers: { Authorization: `Bearer ${storedToken}` },
+        withCredentials: true
+      })
       .then(response => {
-        setData(response.data);
-
+        setUserInfo(response.data);
       })
       .catch(error => {
         console.error('Error fetching user data:', error);
-        // 오류가 발생하면 메인 화면으로 리디렉션
         navigate('/', { replace: true });
       });
+    };
+
+    const fetchPosts = () => {
+      axios.get('https://likelion.info:443/post/get/all/1', {
+        headers: { Authorization: `Bearer ${storedToken}` },
+        withCredentials: true
+      })
+      .then(response => {
+        setPosts(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+        navigate('/', { replace: true });
+      });
+    };
+
+    fetchUserData();
+    fetchPosts();
 
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [navigate, query]);
+  }, []);
 
   return (
     <Container className="main-container">
@@ -161,7 +205,7 @@ export default function Main() {
 
       <Box className="content-container">
         <Box className="posts-container">
-          {Array.isArray(data) && data.map((post) => (
+          {Array.isArray(posts) && posts.map((post, index) => (
             <Card key={post.postId} className="post-card">
               <CardContent>
                 <Box display="flex" alignItems="center" mb={2}>
@@ -186,13 +230,14 @@ export default function Main() {
                 </Box>
 
                 <Box display="flex" alignItems="center" mt={2}>
-                  <IconButton>
-                    <FavoriteIcon color="error" />
+                  <IconButton onClick={() => toggleLike(index, post.postId)}>
+                    <FavoriteIcon color={post.like ? "error" : "default"} />
                   </IconButton>
                   <Typography variant="body2">{post.likeCount}</Typography>
-                  <IconButton>
-                    <BookmarkIcon color="primary" />
+                  <IconButton onClick={() => toggleScrape(index, post.postId)}>
+                    <BookmarkIcon color={post.scraped ? "primary" : "default"} />
                   </IconButton>
+                  <Typography variant="body2">{post.scrapeCount}</Typography>
                   <IconButton>
                     <ShareIcon color="primary" />
                   </IconButton>

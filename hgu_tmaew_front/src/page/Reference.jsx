@@ -285,12 +285,12 @@ const Reference = () => {
             <p>작성자: {selectedPost.userDto.name}</p>
           </DialogContent>
           <DialogActions>
-            <div className="dialog-icons">
-              <FavoriteIcon color="error" />
-              <span>좋아요 수: {selectedPost.likeCount}</span>
-              <BookmarkIcon color="primary" />
-              <span>스크랩 수: {selectedPost.scrapeCount}</span>
-            </div>
+              <div className="dialog-icons">
+                <FavoriteIcon color="error" />
+                <span>좋아요 수: {selectedPost.likeCount}</span>
+                <BookmarkIcon color="primary" />
+                <span>스크랩 수: {selectedPost.scrapeCount}</span>
+              </div>
             <Button onClick={handleCloseDetails}>닫기</Button>
           </DialogActions>
         </Dialog>
