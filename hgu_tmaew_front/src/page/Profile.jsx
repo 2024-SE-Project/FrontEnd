@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import samplePosts from '../page/profile/samplePosts';
 import '../page/css/Profile.css';
+import axios from 'axios';
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState({
@@ -10,13 +11,34 @@ const Profile = () => {
     phone: '010-XXXX-XXXX',
     rc: '열송학사',
   });
+  const [temp, setTemp] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
   const [teamPosts, setTeamPosts] = useState([]);
   const [scrapedPosts, setScrapedPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 샘플 데이터를 임시로 설정
+    const storedToken = localStorage.getItem("token");
+
+    const data = axios.get('https://likelion.info:443/mypage', {
+      headers: {
+          Authorization: `Bearer ${storedToken}`
+      },
+      withCredentials: true
+      })
+      .then(response => {
+          setTemp(response.data);
+          
+      })
+      .catch(error => {
+          console.error('Error fetching user data:', error);
+          // 오류가 발생하면 메인 화면으로 리디렉션
+          navigate('/', { replace: true });
+      });
+
+
+      
+
     const filteredMyPosts = samplePosts.filter(post => post.author === userInfo.name);
     setMyPosts(filteredMyPosts);
     setTeamPosts(samplePosts); // 모든 포스트를 팀 포스트로 임시 설정
@@ -24,8 +46,6 @@ const Profile = () => {
   }, [userInfo]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    alert("로그아웃 되었습니다.");
     // 로그아웃 로직
     navigate('/');
   };
@@ -44,16 +64,16 @@ const Profile = () => {
             <img src="https://via.placeholder.com/150" alt="Profile" />
           </div>
           <div className="profile-info">
-            <h2>{userInfo.name}</h2>
+            <h2>{temp.name}</h2>
             <p>닉네임: 익명</p>
           </div>
         </div>
         <div className="profile-details">
           <div className="details-item">
             <h3>기본정보</h3>
-            <p><strong>{userInfo.name}</strong></p>
-            <p>{userInfo.email}</p>
-            <p>휴대전화: {userInfo.phone}</p>
+            <p><strong>{temp.name}</strong></p>
+            <p>{temp.email}</p>
+            <p>전화번호: {temp.studentId}</p>
             <p>RC: {userInfo.rc}</p>
           </div>
         </div>
@@ -62,10 +82,10 @@ const Profile = () => {
       <div className="posts-section">
         <h3>내가 작성한 글</h3>
         <div className="posts-list">
-          {myPosts.map(post => (
-            <div key={post.id} className="post-card">
+          {Array.isArray(temp.postReponseList) && temp.postReponseList.map(post => (
+            <div key={post.postId} className="post-card">
               <h4>{post.content}</h4>
-              <p>{post.author}</p>
+              <p>{post.userDto.name}</p>
             </div>
           ))}
         </div>
@@ -74,10 +94,10 @@ const Profile = () => {
       <div className="posts-section">
         <h3>우리팀이 쓴 글</h3>
         <div className="posts-list">
-          {teamPosts.map(post => (
+          {Array.isArray(temp.postReponseList) && temp.postReponseList.map(post => (
             <div key={post.id} className="post-card">
               <h4>{post.content}</h4>
-              <p>{post.author}</p>
+              <p>{post.userDto.name}</p>
             </div>
           ))}
         </div>
@@ -86,10 +106,10 @@ const Profile = () => {
       <div className="posts-section">
         <h3>내가 스크랩한 글</h3>
         <div className="posts-list">
-          {scrapedPosts.map(post => (
+          {Array.isArray(temp.scrapDtoList) && temp.scrapDtoList.map(post => (
             <div key={post.id} className="post-card">
               <h4>{post.content}</h4>
-              <p>{post.author}</p>
+              <p>{post.userDto.name}</p>
             </div>
           ))}
         </div>
