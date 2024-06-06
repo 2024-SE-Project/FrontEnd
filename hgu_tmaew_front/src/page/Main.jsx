@@ -128,8 +128,12 @@ export default function Main() {
                                 
                                 <Box display="flex" alignItems="center" mb={2}>
                                     <Avatar src="/path/to/avatar.jpg" />
-                                    <Typography variant="h6" component="div" ml={2}>{post.userDdto.name}</Typography>
+                                    {post.userDto && (
+                                    <>
+                                    <Typography variant="h6" component="div" ml={2}>{post.userDto.name}</Typography>
                                     <Typography variant="body2" color="textSecondary" ml={2}>{post.team}</Typography>
+                                    </>
+                                )}
                                 </Box>
                                 
                                 <Typography variant="body1" component="p">{post.content}</Typography>

@@ -52,22 +52,21 @@ function DialogTag(props) {
   const handleSave = async () => {
     // 폼 데이터 객체 생성
     const formData = new FormData();
-    formData.append('part', part);
+    const storedToken = localStorage.getItem("token");
+    
     formData.append('title', title);
-    formData.append('contents', contents);
-    formData.append('fun', fun);
-    formData.append('writer', writer);
-    formData.append('giveDate', giveDate);
-    formData.append('isPublic', isPublic);
+    formData.append('content', contents);
+    
     if (file) {
-      formData.append('file', file);
+      formData.append('fileList', file);
     }
 
     try {
       // POST 요청을 통해 백엔드로 데이터 전송
-      const response = await axios.post('/api/posts', formData, {
+      const response = await axios.post('https://likelion.info:443/post/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${storedToken}`
         },
       });
 
