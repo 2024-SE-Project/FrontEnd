@@ -90,9 +90,6 @@ export default function MyTeam() {
         </div>
         <div className="team-details">
           <h3>{teamInfo.name}</h3>
-          <p>😊 RC: {teamInfo.rc || "정보 없음"}</p>
-          <p>📅 학기: {teamInfo.semester || "정보 없음"}</p>
-          {/* <p>👥 멤버 수: {teamInfo.memberEmails.length}명</p> */}
           <div className="team-out">
             <span className="leave-team">탈퇴하기</span>
           </div>
