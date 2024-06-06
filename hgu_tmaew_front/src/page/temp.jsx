@@ -40,8 +40,26 @@ export default function Temp() {
                 localStorage.setItem('name', response.data.name);
                 localStorage.setItem('email', response.data.email);
             } catch (error) {
-                console.error('Error fetching user data:', error);
-                navigate('/login', { replace: true });
+                if (error.response && error.response.status === 401) { // 401은 Unauthorized를 의미합니다.
+                    try {
+                        // 리프레시 토큰을 사용하여 새 액세스 토큰을 요청합니다.
+                        const refreshResponse = await axios.post('https://likelion.info:443/api/token/refresh', {
+                            refreshToken: localStorage.getItem('refreshToken') // 리프레시 토큰을 서버로 보냅니다.
+                        });
+
+                        // 새 액세스 토큰을 로컬 스토리지에 저장합니다.
+                        localStorage.setItem('token', refreshResponse.data.accessToken);
+
+                        // 새 토큰으로 다시 사용자 정보를 요청합니다.
+                        return fetchUserInfo(); // 재귀 호출을 통해 사용자 정보를 다시 요청합니다.
+                    } catch (refreshError) {
+                        console.error('Error refreshing token:', refreshError);
+                        navigate('/login', { replace: true });
+                    }
+                } else {
+                    console.error('Error fetching user data:', error);
+                    navigate('/login', { replace: true });
+                }
             }
         };
 

@@ -5,9 +5,16 @@
     padding-top: 80px; /* Adjust this value based on the height of your AppBar */
 }
 
+.content-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
 .posts-container {
     width: 100%;
-    max-width: 800px;
 }
 
 .post-card {
@@ -23,7 +30,17 @@
 }
 
 .post-image {
-    width: calc(50% - 10px); /* Adjust this value based on the number of images per row */
+    flex: 1 1 calc(50% - 10px); /* Each image takes up 50% of the container width minus the gap */
     height: auto;
     border-radius: 8px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-section {
+    padding: 20px;
 }

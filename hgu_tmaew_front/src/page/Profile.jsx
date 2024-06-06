@@ -24,6 +24,8 @@ const Profile = () => {
   }, [userInfo]);
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    alert("로그아웃 되었습니다.");
     // 로그아웃 로직
     navigate('/');
   };
