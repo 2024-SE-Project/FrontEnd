@@ -91,8 +91,8 @@ const Profile = () => {
         <div className="posts-list">
           {Array.isArray(temp.postResponseList) && temp.postResponseList.map(post => (
             <div key={post.postId} className="post-card">
-              <h4>{post.content}</h4>
-              <p>{post.userDto.name}</p>
+              <h4>{post.title}</h4>
+              <p>{post.content}</p>
             </div>
           ))}
         </div>
@@ -103,8 +103,8 @@ const Profile = () => {
         <div className="posts-list">
           {Array.isArray(temp.postReponseList) && temp.postReponseList.map(post => (
             <div key={post.id} className="post-card">
-              <h4>{post.content}</h4>
-              <p>{post.userDto.name}</p>
+              <h4>{post.title}</h4>
+              <p>{post.content}</p>
             </div>
           ))}
         </div>
@@ -115,8 +115,8 @@ const Profile = () => {
         <div className="posts-list">
           {Array.isArray(temp.scrapDtoList) && temp.scrapDtoList.map(post => (
             <div key={post.id} className="post-card">
-              <h4>{post.content}</h4>
-              <p>{post.userDto.name}</p>
+              <h4>{post.title}</h4>
+              <p>{post.content}</p>
             </div>
           ))}
         </div>
