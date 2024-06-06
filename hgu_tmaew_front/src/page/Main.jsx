@@ -265,6 +265,7 @@ export default function Main() {
                     <MoreVertIcon />
                   </IconButton>
                 </Box>
+                <Typography variant="h6" component="p" style={{ fontWeight: 'bold' }}>{post.title}</Typography>
 
                 <Typography variant="body1" component="p">{post.content}</Typography>
 
