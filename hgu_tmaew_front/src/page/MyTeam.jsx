@@ -1,4 +1,3 @@
-// src/page/MyTeam.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,8 +6,10 @@ import CreateTeamModal from './component/CreateTeamModal';
 
 export default function MyTeam() {
   const [teamInfo, setTeamInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null); // 사용자 정보를 저장할 상태 추가
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function MyTeam() {
       }
 
       try {
-        const response = await axios.get('/mypage', {
+        const response = await axios.get('https://likelion.info:443/my/team/get', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -99,6 +100,7 @@ export default function MyTeam() {
           </div>
         </div>
       </div>
+
       {showModal && <CreateTeamModal onClose={handleModalClose} />}
     </div>
   );
