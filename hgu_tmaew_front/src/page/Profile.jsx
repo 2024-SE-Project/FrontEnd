@@ -28,7 +28,7 @@ const Profile = () => {
     })
       .then(response => {
         // console.log(response.data.postResponseList);
-        console.log(response.data);
+        // console.log(response.data);
         setTemp(response.data);
 
       })
@@ -40,7 +40,7 @@ const Profile = () => {
         navigate('/', { replace: true });
       });
 
-      console.log(temp.postResponseList);
+      
 
 
 
@@ -50,13 +50,13 @@ const Profile = () => {
     setTeamPosts(samplePosts); // 모든 포스트를 팀 포스트로 임시 설정
     setScrapedPosts(filteredMyPosts); // 사용자가 작성한 글을 스크랩한 글로 임시 설정
   }, [userInfo]);
-
+  // console.log(temp.postResponseList);
   const handleLogout = () => {
     // 로그아웃 로직
     localStorage.getItem("token");
     navigate('/');
   };
-
+  console.log(temp);
   return (
     <div className="profile-container">
       <header className="profile-header">
@@ -85,11 +85,11 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
+      
       <div className="posts-section">
         <h3>내가 작성한 글</h3>
         <div className="posts-list">
-          {Array.isArray(temp.postReponseList) && temp.postReponseList.map(post => (
+          {Array.isArray(temp.postResponseList) && temp.postResponseList.map(post => (
             <div key={post.postId} className="post-card">
               <h4>{post.content}</h4>
               <p>{post.userDto.name}</p>
