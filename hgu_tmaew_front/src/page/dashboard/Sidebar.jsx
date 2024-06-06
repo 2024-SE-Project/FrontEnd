@@ -15,13 +15,19 @@ export default function Sidebar({ toggleDrawer }) {
                 <button className="back-button" onClick={toggleDrawer}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>
             </div>
             <div className="sidebar-menu">
-                <NavLink to="/dashboard/main" className="menu-link" activeClassName="active">
+                <NavLink 
+                    to="/dashboard/main" 
+                    className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                >
                     <div className="menu-item">
                         <span className="menu-icon"><FontAwesomeIcon icon={faHome} /></span>
                         Home
                     </div>
                 </NavLink>
-                <NavLink to="/dashboard/myteam" className="menu-link" activeClassName="active">
+                <NavLink 
+                    to="/dashboard/myteam" 
+                    className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                >
                     <div className="menu-item">
                         <span className="menu-icon"><FontAwesomeIcon icon={faUsers} /></span>
                         <div className="menu-item-content">
@@ -30,39 +36,57 @@ export default function Sidebar({ toggleDrawer }) {
                         </div>
                     </div>
                 </NavLink>
-                <NavLink to="/dashboard/profile" className="menu-link" activeClassName="active">
+                <NavLink 
+                    to="/dashboard/profile" 
+                    className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                >
                     <div className="menu-item">
                         <span className="menu-icon"><FontAwesomeIcon icon={faUser} /></span>
                         Mypage
                     </div>
                 </NavLink>
-                <NavLink to="/dashboard/ranking" className="menu-link" activeClassName="active">
+                <NavLink 
+                    to="/dashboard/ranking" 
+                    className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                >
                     <div className="menu-item">
                         <span className="menu-icon"><FaRankingStar /></span>
                         Ranking Page
                     </div>
                 </NavLink>
-                <NavLink to="/dashboard/teammatch" className="menu-link" activeClassName="active">
+                <NavLink 
+                    to="/dashboard/teammatch" 
+                    className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                >
                     <div className="menu-item">
                         <span className="menu-icon"><IoHeartCircle /></span>
                         Teem Meeting Match
                     </div>
                 </NavLink>
-                <NavLink to="/dashboard/photo" className="menu-link" activeClassName="active">
+                <NavLink 
+                    to="/dashboard/photo" 
+                    className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                >
                     <div className="menu-item">
                         <span className="menu-icon"><FontAwesomeIcon icon={faCamera} /></span>
                         Photo studio
                     </div>
                 </NavLink>
-                <NavLink to="/dashboard/library" className="menu-link" activeClassName="active">
-                        <div className="menu-item">
-                            <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
-                            Reference library
-                        </div>
-                    </NavLink>
+                <NavLink 
+                    to="/dashboard/library" 
+                    className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                >
+                    <div className="menu-item">
+                        <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
+                        Reference library
+                    </div>
+                </NavLink>
                 <div className="menu-group">
                     <MdOutlineSubdirectoryArrowRight />
-                    <NavLink to="/dashboard/addpost" className="menu-link" activeClassName="active">
+                    <NavLink 
+                        to="/dashboard/addpost" 
+                        className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                    >
                         <div className="menu-item">
                             <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
                             Upload Poat

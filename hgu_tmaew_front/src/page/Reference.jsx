@@ -194,7 +194,10 @@ const Reference = () => {
           })}
         </section>
       </main>
-      <NavLink to="/dashboard/addpost" className={`floating-button ${isScrolled ? 'h_event2' : ''}`} activeClassName="active">
+      <NavLink
+        to="/dashboard/addpost"
+        className={({ isActive }) => `floating-button ${isScrolled ? 'h_event2' : ''} ${isActive ? 'active' : ''}`}
+      >
         <div>
           <span className="menu-icon">게시물 작성하기</span>
         </div>

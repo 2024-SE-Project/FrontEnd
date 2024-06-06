@@ -4,7 +4,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DialogTag from '../dialog/DialogTag';
 import { NavLink } from 'react-router-dom';
 import "../css/AppBar.css"
@@ -58,7 +57,10 @@ export default function Appbar({ toggleDrawer }) {
                         <NotificationsIcon />
                     </IconButton>
                 </Box>
-                <NavLink to="/dashboard/profile" className="mypage-link" activeClassName="active">
+                <NavLink 
+                    to="/dashboard/profile" 
+                    className={({ isActive }) => isActive ? 'mypage-link active' : 'mypage-link'}
+                >
                     <Box className="user-profile">
                         <Avatar src="/path/to/avatar.jpg" alt="User Avatar" />
                         <Typography variant="body1" noWrap className="user-name">
