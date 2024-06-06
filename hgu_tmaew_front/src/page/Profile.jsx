@@ -41,8 +41,8 @@ const Profile = () => {
         setEditedInfo({
           name: response.data.name,
           email: response.data.email,
-          phone: response.data.studentId,
-          rc: userInfo.rc,
+          phone: response.data.phoneNumber,
+          rc: response.data.rc,
         });
       })
       .catch(error => {
@@ -58,6 +58,7 @@ const Profile = () => {
     setScrapedPosts(filteredMyPosts);
   }, [userInfo, navigate]);
 
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate('/');
@@ -65,12 +66,99 @@ const Profile = () => {
 
   const handleEditClick = (field) => {
     setIsEditing(prevState => ({ ...prevState, [field]: true }));
+    
   };
 
   const handleSaveClick = (field) => {
     setIsEditing(prevState => ({ ...prevState, [field]: false }));
     setUserInfo(prevState => ({ ...prevState, [field]: editedInfo[field] }));
     // 저장 로직 추가 (API 호출 등)
+    const storedToken = localStorage.getItem("token");
+    const formData = new FormData();
+
+    if(field == "rc") {
+      const url = "https://likelion.info:443/mypage/rc/update";
+      
+      const dataToSend = {
+        value: editedInfo.rc  // 수정된 데이터 참조
+      };
+
+      const response = axios.patch(url, dataToSend, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+          'Content-Type': 'application/json' // Content-Type을 JSON으로 설정
+        },
+        withCredentials: true
+      })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+          // localStorage.removeItem("token");
+          alert("로그아웃 되었습니다.");
+          // navigate('/', { replace: true });
+        });
+
+    } else if(field == "name") {
+      const url = "https://likelion.info:443/mypage/name/update";
+      const dataToSend = {
+        value: editedInfo.name  // 수정된 데이터 참조
+      };
+
+      const response = axios.patch(url, dataToSend, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+          'Content-Type': 'application/json' // Content-Type을 JSON으로 설정
+        },
+        withCredentials: true
+      })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+          // localStorage.removeItem("token");
+          alert("로그아웃 되었습니다.");
+          // navigate('/', { replace: true });
+        });
+
+    } else if(field == "email") {
+      const url = "https://likelion.info:443/mypage/email/update";
+      formData.append('email', isEditing.email);
+
+      const dataToSend = {
+        value: editedInfo.email  // 수정된 데이터 참조
+      };
+
+      const response = axios.patch(url, dataToSend, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+          'Content-Type': 'application/json' // Content-Type을 JSON으로 설정
+        },
+        withCredentials: true
+      })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+          // localStorage.removeItem("token");
+          alert("로그아웃 되었습니다.");
+          // navigate('/', { replace: true });
+        });
+
+    } else {
+      const url = "https://likelion.info:443/mypage/phone/update";
+      const dataToSend = {
+        value: editedInfo.phone  // 수정된 데이터 참조
+      };
+
+      const response = axios.patch(url, dataToSend, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+          'Content-Type': 'application/json' // Content-Type을 JSON으로 설정
+        },
+        withCredentials: true
+      })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+          // localStorage.removeItem("token");
+          alert("로그아웃 되었습니다.");
+          // navigate('/', { replace: true });
+        });
+      }
   };
 
   const handleChange = (e) => {
@@ -188,7 +276,11 @@ const Profile = () => {
               ) : (
                 <p>{editedInfo.rc}</p>
               )}
-              <Button onClick={() => isEditing.rc ? handleSaveClick('rc') : handleEditClick('rc')} color="primary" variant="outlined">
+              <Button
+                onClick={() => isEditing.rc ? handleSaveClick('rc') : handleEditClick('rc')}
+                color="primary"
+                variant="outlined"
+              >
                 {isEditing.rc ? '저장' : '수정'}
               </Button>
             </div>
