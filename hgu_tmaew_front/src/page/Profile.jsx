@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import samplePosts from '../page/profile/samplePosts';
 import '../page/css/Profile.css';
 import axios from 'axios';
+import { IconButton, Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState({
@@ -10,11 +12,19 @@ const Profile = () => {
     email: '22100503@handong.ac.kr',
     phone: '010-XXXX-XXXX',
     rc: '열송학사',
+    profileImage: 'https://via.placeholder.com/150' // 기본 프로필 이미지 URL 설정
   });
   const [temp, setTemp] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
   const [teamPosts, setTeamPosts] = useState([]);
   const [scrapedPosts, setScrapedPosts] = useState([]);
+  const [isEditing, setIsEditing] = useState({
+    name: false,
+    email: false,
+    phone: false,
+    rc: false,
+  });
+  const [editedInfo, setEditedInfo] = useState({ ...userInfo });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,36 +37,61 @@ const Profile = () => {
       withCredentials: true
     })
       .then(response => {
-        // console.log(response.data.postResponseList);
-        // console.log(response.data);
         setTemp(response.data);
-
+        setEditedInfo({
+          name: response.data.name,
+          email: response.data.email,
+          phone: response.data.studentId,
+          rc: userInfo.rc,
+        });
       })
       .catch(error => {
         console.error('Error fetching user data:', error);
-        // 오류가 발생하면 메인 화면으로 리디렉션
-        localStorage.removeItem("token"); // 로컬 스토리지에서 토큰 제거
-        alert("로그아웃 되었습니다."); // 사용자에게 로그아웃 알림
+        localStorage.removeItem("token");
+        alert("로그아웃 되었습니다.");
         navigate('/', { replace: true });
       });
 
-      
-
-
-
-
     const filteredMyPosts = samplePosts.filter(post => post.author === userInfo.name);
     setMyPosts(filteredMyPosts);
-    setTeamPosts(samplePosts); // 모든 포스트를 팀 포스트로 임시 설정
-    setScrapedPosts(filteredMyPosts); // 사용자가 작성한 글을 스크랩한 글로 임시 설정
-  }, [userInfo]);
-  // console.log(temp.postResponseList);
+    setTeamPosts(samplePosts);
+    setScrapedPosts(filteredMyPosts);
+  }, [userInfo, navigate]);
+
   const handleLogout = () => {
-    // 로그아웃 로직
-    localStorage.getItem("token");
+    localStorage.removeItem("token");
     navigate('/');
   };
-  console.log(temp);
+
+  const handleEditClick = (field) => {
+    setIsEditing(prevState => ({ ...prevState, [field]: true }));
+  };
+
+  const handleSaveClick = (field) => {
+    setIsEditing(prevState => ({ ...prevState, [field]: false }));
+    setUserInfo(prevState => ({ ...prevState, [field]: editedInfo[field] }));
+    // 저장 로직 추가 (API 호출 등)
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedInfo(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserInfo((prevState) => ({
+          ...prevState,
+          profileImage: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="profile-container">
       <header className="profile-header">
@@ -68,7 +103,19 @@ const Profile = () => {
       <div className="profile-content">
         <div className="profile-card">
           <div className="profile-photo">
-            <img src="https://via.placeholder.com/150" alt="Profile" />
+            <img src={userInfo.profileImage} alt="Profile" />
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="profile-image-upload"
+              type="file"
+              onChange={handleImageChange}
+            />
+            <label htmlFor="profile-image-upload">
+              <IconButton color="primary" component="span">
+                <EditIcon />
+              </IconButton>
+            </label>
           </div>
           <div className="profile-info">
             <h2>{temp.name}</h2>
@@ -77,15 +124,78 @@ const Profile = () => {
         </div>
         <div className="profile-details">
           <div className="details-item">
-            <h3>기본정보</h3>
-            <p><strong>{temp.name}</strong></p>
-            <p>{temp.email}</p>
-            <p>전화번호: {temp.studentId}</p>
-            <p>RC: {userInfo.rc}</p>
+            <h3 className="details-header">기본정보</h3>
+            <div className="editable-field">
+              <p><strong>이름:</strong></p>
+              {isEditing.name ? (
+                <input
+                  type="text"
+                  name="name"
+                  value={editedInfo.name}
+                  onChange={handleChange}
+                />
+              ) : (
+                <p>{editedInfo.name}</p>
+              )}
+              <Button onClick={() => isEditing.name ? handleSaveClick('name') : handleEditClick('name')} color="primary" variant="outlined">
+                {isEditing.name ? '저장' : '수정'}
+              </Button>
+            </div>
+            <hr className="divider" />
+            <div className="editable-field">
+              <p><strong>이메일:</strong></p>
+              {isEditing.email ? (
+                <input
+                  type="text"
+                  name="email"
+                  value={editedInfo.email}
+                  onChange={handleChange}
+                />
+              ) : (
+                <p>{editedInfo.email}</p>
+              )}
+              <Button onClick={() => isEditing.email ? handleSaveClick('email') : handleEditClick('email')} color="primary" variant="outlined">
+                {isEditing.email ? '저장' : '수정'}
+              </Button>
+            </div>
+            <hr className="divider" />
+            <div className="editable-field">
+              <p><strong>전화번호:</strong></p>
+              {isEditing.phone ? (
+                <input
+                  type="text"
+                  name="phone"
+                  value={editedInfo.phone}
+                  onChange={handleChange}
+                />
+              ) : (
+                <p>{editedInfo.phone}</p>
+              )}
+              <Button onClick={() => isEditing.phone ? handleSaveClick('phone') : handleEditClick('phone')} color="primary" variant="outlined">
+                {isEditing.phone ? '저장' : '수정'}
+              </Button>
+            </div>
+            <hr className="divider" />
+            <div className="editable-field">
+              <p><strong>RC:</strong></p>
+              {isEditing.rc ? (
+                <input
+                  type="text"
+                  name="rc"
+                  value={editedInfo.rc}
+                  onChange={handleChange}
+                />
+              ) : (
+                <p>{editedInfo.rc}</p>
+              )}
+              <Button onClick={() => isEditing.rc ? handleSaveClick('rc') : handleEditClick('rc')} color="primary" variant="outlined">
+                {isEditing.rc ? '저장' : '수정'}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-      
+
       <div className="posts-section">
         <h3>내가 작성한 글</h3>
         <div className="posts-list">

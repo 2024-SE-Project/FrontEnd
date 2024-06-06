@@ -151,7 +151,7 @@ export default function Main() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [navigate, query]);
+  }, []);
 
   return (
     <Container className="main-container">
