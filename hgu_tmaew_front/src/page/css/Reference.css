@@ -202,3 +202,16 @@
   margin-left: 5px;
   color: black; /* 숫자가 보이도록 색상 변경 */
 }
+
+.dialog-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.dialog-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
