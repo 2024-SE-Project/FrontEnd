@@ -22,6 +22,11 @@ import {
   MenuItem,
   Popover,
   TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -70,6 +75,7 @@ export default function Main() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [comment, setComment] = useState('');
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const query = useQuery();
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
@@ -84,6 +90,22 @@ export default function Main() {
   const handleClose = () => {
     setAnchorEl(null);
     setSelectedPost(null);
+  };
+
+  const handleDelete = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`https://likelion.info:443/post/delete/${selectedPost.postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setPosts(posts.filter(post => post.postId !== selectedPost.postId));
+      setOpenDeleteDialog(false);
+      handleClose();
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
   };
 
   const handleAddComment = (postId) => {
@@ -265,9 +287,23 @@ export default function Main() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => console.log('수정하기', selectedPost)}>수정하기</MenuItem>
-          <MenuItem onClick={() => console.log('삭제하기', selectedPost)}>삭제하기</MenuItem>
+            <MenuItem onClick={() => navigate(`/dashboard/edit-post/${selectedPost?.postId}`)}>수정하기</MenuItem>
+            <MenuItem onClick={() => setOpenDeleteDialog(true)}>삭제하기</MenuItem>
         </Menu>
+
+        <Dialog
+          open={openDeleteDialog}
+          onClose={() => setOpenDeleteDialog(false)}
+        >
+          <DialogTitle>게시물 삭제</DialogTitle>
+          <DialogContent>
+            <DialogContentText>정말로 이 게시물을 삭제하시겠습니까?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDeleteDialog(false)} color="primary">취소</Button>
+            <Button onClick={handleDelete} color="secondary">삭제</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Container>
   );
