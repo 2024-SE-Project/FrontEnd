@@ -49,6 +49,8 @@ export default function Main() {
     const [isScrolled, setIsScrolled] = useState(false);
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState(null);
+    const [data, setData] = useState();
+    
 
     useEffect(() => {
         const token = query.get('token');
@@ -88,6 +90,22 @@ export default function Main() {
                 });
         }
 
+        const data = axios.get('https://likelion.info:443/post/get/all/1', {
+            headers: {
+                Authorization: `Bearer ${storedToken}`
+            },
+            withCredentials: true
+            })
+            .then(response => {
+                setData(response.data);
+                
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                // 오류가 발생하면 메인 화면으로 리디렉션
+                navigate('/', { replace: true });
+            });
+
         window.addEventListener('scroll', handleScroll);
 
         return () => {
@@ -103,22 +121,22 @@ export default function Main() {
           
         <Box className="content-container">
                 <Box className="posts-container">
-                    {posts.map((post) => (
-                        <Card key={post.id} className="post-card">
+                    {Array.isArray(data) && data.map((post) => (
+                        <Card key={post.postId} className="post-card">
                             
                             <CardContent>
                                 
                                 <Box display="flex" alignItems="center" mb={2}>
                                     <Avatar src="/path/to/avatar.jpg" />
-                                    <Typography variant="h6" component="div" ml={2}>{post.author}</Typography>
+                                    <Typography variant="h6" component="div" ml={2}>{post.userDdto.name}</Typography>
                                     <Typography variant="body2" color="textSecondary" ml={2}>{post.team}</Typography>
                                 </Box>
                                 
                                 <Typography variant="body1" component="p">{post.content}</Typography>
                                 
                                 <Box className="post-images">
-                                    {post.images.map((image, index) => (
-                                        <CardMedia key={index} component="img" image={image} className="post-image" />
+                                    {Array.isArray(post.postFileDtoList) && post.postFileDtoList.map((image) => (
+                                        <CardMedia component="img" image={image.imageUrl} className="post-image" />
                                     ))}
                                 </Box>
                                 
@@ -126,19 +144,19 @@ export default function Main() {
                                     <IconButton>
                                         <FavoriteIcon color="error" />
                                     </IconButton>
-                                    <Typography variant="body2">{post.likes}</Typography>
+                                    <Typography variant="body2">{post.likeCount}</Typography>
                                     <IconButton>
                                         <CommentIcon color="primary" />
                                     </IconButton>
                                 </Box>
                                 
                                 <List>
-                                    {post.comments.map((comment) => (
+                                    {Array.isArray(post.commentList) && post.commentList.map((comment) => (
                                         <ListItem key={comment.id}>
                                             <ListItemAvatar>
                                                 <Avatar />
                                             </ListItemAvatar>
-                                            <ListItemText primary={comment.author} secondary={comment.text} />
+                                            <ListItemText primary={comment.name} secondary={comment.contents} />
                                         </ListItem>
                                     ))}
                                 </List>
