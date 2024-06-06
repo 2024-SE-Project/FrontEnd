@@ -4,13 +4,15 @@ import axios from 'axios';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import PublishIcon from '@mui/icons-material/Publish';
 import '../page/css/AddPost.css';
+import { IconButton } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 export default function AddPost() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isPublic, setIsPublic] = useState(true);
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [otherFile, setOtherFile] = useState(null);
   const [fileList, setFileList] = useState([]);
 
@@ -25,15 +27,27 @@ export default function AddPost() {
   };
 
   const handleImageFileChange = (event) => {
-    const file = event.target.files[0];
-    setImageFile(file);
-    if (file) {
+    const files = Array.from(event.target.files);
+    setImageFiles((prevFiles) => [...prevFiles, ...files]);
+
+    const newPreviews = files.map((file) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
       reader.readAsDataURL(file);
-    }
+      return new Promise((resolve) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
+    });
+
+    Promise.all(newPreviews).then((results) => {
+      setImagePreviews((prevPreviews) => [...prevPreviews, ...results]);
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
   };
 
   const handleOtherFileChange = (event) => {
@@ -62,9 +76,10 @@ export default function AddPost() {
     formData.append('content', content);
     formData.append('isPublic', isPublic);
 
-    if (imageFile) {
-      formData.append('image', imageFile);
-    }
+    imageFiles.forEach((file, index) => {
+      formData.append(`images[${index}]`, file);
+    });
+
     if (otherFile) {
       formData.append('file', otherFile);
     }
@@ -132,18 +147,21 @@ export default function AddPost() {
           <button className="attachment-button" onClick={() => document.getElementById('image-file').click()}>
             <AddPhotoAlternateIcon /> 이미지 첨부
           </button>
-          <input id="image-file" type="file" hidden onChange={handleImageFileChange} />
+          <input id="image-file" type="file" hidden multiple onChange={handleImageFileChange} />
           <button className="attachment-button" onClick={() => document.getElementById('other-file').click()}>
             <i className="fas fa-folder-open"></i> 파일 첨부
           </button>
           <input id="other-file" type="file" hidden onChange={handleOtherFileChange} />
         </div>
         <div className="previews">
-          {imagePreview && (
-            <div className="image-preview-container">
-              <img src={imagePreview} alt="미리보기" className="image-preview" />
+          {imagePreviews.map((preview, index) => (
+            <div className="image-preview-container" key={index}>
+              <img src={preview} alt="미리보기" className="image-preview" />
+              <IconButton className="remove-image-button" onClick={() => handleRemoveImage(index)}>
+                <Close />
+              </IconButton>
             </div>
-          )}
+          ))}
           {fileList.length > 0 && (
             <div className="file-list-container">
               <h4>첨부된 파일</h4>
