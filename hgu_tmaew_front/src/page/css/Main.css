@@ -1,14 +1,14 @@
 .main-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    padding-top: 80px; /* Adjust this value based on the height of your AppBar */
+    padding-top: 50px; /* Adjust this value based on the height of your AppBar */
 }
 
 .content-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 20px;
+    gap: 50px;
     width: 100%;
     max-width: 1200px;
 }
@@ -20,6 +20,9 @@
 .post-card {
     width: 100%;
     margin-bottom: 20px;
+    border-radius: 12px; /* 둥근 모서리 추가 */
+    border: 1px solid #e0e0e0; /* 리스트 아이템 하늘색 테두리 */
+    box-shadow: none; /* 그림자 제거 */
 }
 
 .post-images {
@@ -35,7 +38,7 @@
     border-radius: 8px;
 }
 
-.sidebar {
+.main-sidebar {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -43,4 +46,33 @@
 
 .sidebar-section {
     padding: 20px;
+    border-radius: 12px; /* 둥근 모서리 추가 */
+    border: 1px solid #e0e0e0; /* 리스트 아이템 하늘색 테두리 */
+}
+
+.sidebar-section .MuiList-root {
+    margin-bottom: 10px;
+}
+
+.sidebar-section .MuiButton-text {
+    color: #1e88e5;
+    box-shadow: none;
+}
+
+.sidebar-section .MuiListItem-root {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #C2DCFF; /* 리스트 아이템 하늘색 테두리 */
+    border-radius: 8px; /* 둥근 모서리 추가 */
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar-section .MuiListItem-root:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-section .MuiTypography-h6 {
+    color: #1e88e5; /* Best Team 글자를 하늘색으로 */
 }

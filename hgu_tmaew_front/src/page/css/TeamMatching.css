@@ -1,200 +1,129 @@
 .team-matching-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding: 1rem;
-    background-color: #e8f4fd;
-  }
-  
-  .team-matching-main {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-  
-  .search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-  
-  .search-bar input {
-    flex-grow: 1;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 0;
-  }
-  
-  .search-bar .search-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: white;
-    border-radius: 25px 0 0 25px; /* 왼쪽만 둥글게 */
-    cursor: pointer;
-  }
-  
-  .search-bar .filter-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: white;
-    border-radius: 0 25px 25px 0; /* 오른쪽만 둥글게 */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-  
-  .search-bar .filter-button img {
-    width: 16px; /* 아이콘 크기 조정 */
-    height: 16px;
-  }
-  
-  .reference-nav {
-    display: flex;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    margin-bottom: 1rem;
-  }
-  
-  .reference-nav button {
-    margin: 0 0.5rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #4a90e2;
-    color: white;
-    border-radius: 25px;
-    cursor: pointer;
-  }
-  
-  .team-matching-content {
-    display: flex;
-    width: 100%;
-  }
-  
-  .team-matching-sidebar {
-    flex: 1;
-    padding-right: 1rem;
-  }
-  
-  .team-matching-list {
-    flex: 2;
-  }
-  
-  .team-card {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-  }
-  
-  .team-card img {
-    width: 200px; /* 이미지 크기를 200px로 조정 */
-    height: 200px; /* 이미지 높이를 200px로 조정 */
-    border-radius: 10px;
-    margin-right: 1rem;
-  }
-  
-  .team-info {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  .team-info-main {
-    flex: 2;
-  }
-  
-  .team-info-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .team-info-side p {
-    margin: 0.5rem 0;
-  }
-  
-  .team-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  
-  .team-actions .join-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .team-actions .details-button {
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .my-team .details-button {
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .matching-status ul {
-    list-style: none;
-    max-width: 300px; /* 최대 너비를 300px로 설정 */
-    padding: 0;
-  }
-  
-  .matching-status li {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .matching-status li p {
-    margin: 0.5rem 0;
-  }
-  
-  /* My Team Card 스타일 추가 */
-  .my-team-card {
-    flex-direction: column; /* 세로 정렬 */
-    align-items: center;
-    max-width: 300px; /* 최대 너비를 300px로 설정 */
-    /* margin: 0 auto; 가운데 정렬 */
-  }
-  
-  .my-team-card img {
-    width: 150px; /* 이미지 크기를 조정 */
-    height: 150px; /* 이미지 높이를 조정 */
-    border-radius: 10px;
-    margin-bottom: 1rem;
-  }
-  
-  .my-team-card .team-info {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .my-team-card .team-info-main {
-    text-align: center;
-  }
-  
-  .my-team-card .team-info-side {
-    margin-top: 1rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-icon {
+  margin-right: 10px;
+}
+
+.search-input {
+  flex-grow: 1;
+}
+
+.tm-filters {
+  display: flex!important;
+  gap: 10px!important;
+  margin-bottom: 20px!important;
+}
+
+.tm-filter-button {
+  flex-grow: 1 !important;
+  background-color: #f0f0f0 !important;
+  color: #000 !important;
+  border-radius: 20px !important;
+  text-transform: none !important;
+  padding: 5px 10px !important;
+}
+
+.tm-filter-button.selected {
+  background-color: #6FA4FF !important;
+  color: #fff !important;
+}
+
+.TM-team-content {
+  display: flex;
+  gap: 20px;
+  background: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.left {
+  flex: 1;
+}
+
+.right {
+  flex: 2;
+}
+
+.my-team-section {
+  margin-bottom: 20px;
+}
+
+.my-team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-shadow: none; /* 그림자 제거 */
+}
+
+.my-team-photo {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.detail-button {
+  margin-top: 10px;
+}
+
+.matching-section {
+  margin-bottom: 20px;
+}
+
+.match-card {
+  margin-bottom: 10px;
+  box-shadow: none; /* 그림자 제거 */
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: none; /* 그림자 제거 */
+}
+
+.team-photo {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.team-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tm-floating-button {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background-color: #6FA4FF !important;
+  color: white !important;
+  padding: 10px 20px !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
