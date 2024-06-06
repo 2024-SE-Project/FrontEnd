@@ -209,12 +209,12 @@ const Profile = () => {
       </div>
 
       <div className="posts-section">
-        <h3>우리팀이 쓴 글</h3>
+        <h3>좋아요 누른 글</h3>
         <div className="posts-list">
-          {Array.isArray(temp.postReponseList) && temp.postReponseList.map(post => (
+          {Array.isArray(temp.postLikeDtoList) && temp.postLikeDtoList.map(post => (
             <div key={post.id} className="post-card">
-              <h4>{post.title}</h4>
-              <p>{post.content}</p>
+              <h4>{post.post.title}</h4>
+              <p>{post.post.content}</p>
             </div>
           ))}
         </div>
