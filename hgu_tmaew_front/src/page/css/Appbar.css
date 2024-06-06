@@ -44,3 +44,14 @@
     padding: 0;
     margin-left: 8px;
 }
+
+.mypage-link {
+    color: #ffffff !important;
+    text-decoration: none !important; /* 밑줄 제거 */
+}
+
+.mypage-link:hover .user-profile {
+    background-color: rgba(255, 255, 255, 0.2) !important; /* 호버 시 배경색 변경 */
+    border-radius: 10px !important;
+    transition: background-color 0.3s !important;
+}
