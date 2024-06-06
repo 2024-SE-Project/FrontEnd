@@ -23,7 +23,6 @@ function LoginPage() {
                     <br />
                     <h1>Sign in</h1>
                     
-                    {/* temp admin login button -> Directly link to Main Page */}
                     <br />
                     <Link to="/dashboard/main" className="adminLoginButton">Admin login</Link>
                     <br />
