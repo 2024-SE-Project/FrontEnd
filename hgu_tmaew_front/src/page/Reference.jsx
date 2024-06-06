@@ -175,6 +175,8 @@ const Reference = () => {
     setSelectedPost(null);
   };
 
+  console.log("check 중!! -> " + JSON.stringify(selectedPost));
+
   return (
     <div className="reference-container">
       <main className="reference-main">
@@ -266,10 +268,21 @@ const Reference = () => {
           </DialogTitle>
           <DialogContent dividers>
             <h3>{selectedPost.title}</h3>
-            <img src={selectedPost.imageUrl} alt="Post" className="dialog-image" />
+            {selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0 ? (
+              selectedPost.postFileDtoList.map((file, index) => (
+                <img
+                  key={index}
+                  src={file.imageUrl}
+                  alt={`Post file ${index}`}
+                  className="dialog-image"
+                />
+              ))
+            ) : (
+              <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" />
+            )}
             <p>{selectedPost.content}</p>
             <p>작성날짜: {selectedPost.date}</p>
-            <p>작성자: {selectedPost.author}</p>
+            <p>작성자: {selectedPost.userDto.name}</p>
           </DialogContent>
           <DialogActions>
             <div className="dialog-icons">
