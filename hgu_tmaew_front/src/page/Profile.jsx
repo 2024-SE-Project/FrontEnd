@@ -27,6 +27,8 @@ const Profile = () => {
       withCredentials: true
     })
       .then(response => {
+        // console.log(response.data.postResponseList);
+        console.log(response.data);
         setTemp(response.data);
 
       })
@@ -37,6 +39,8 @@ const Profile = () => {
         alert("로그아웃 되었습니다."); // 사용자에게 로그아웃 알림
         navigate('/', { replace: true });
       });
+
+      console.log(temp.postResponseList);
 
 
 
