@@ -26,7 +26,7 @@ export default function MyTeam() {
           },
         });
         const data = response.data;
-        if (data && data.length > 0) {
+        if (data) {
           setTeamInfo(data[0]); // Assuming the user is part of at least one team and we're taking the first one
         } else {
           setTeamInfo(null);
@@ -69,7 +69,7 @@ export default function MyTeam() {
     );
   }
 
-  const imageUrl = teamInfo.photoUrl || "https://storage.googleapis.com/raonz_post_image/cat9.jpg";
+  const imageUrl = teamInfo.imgURL || "https://storage.googleapis.com/raonz_post_image/cat9.jpg";
 
   return (
     <div className="my-team">
@@ -84,7 +84,7 @@ export default function MyTeam() {
           </div>
           <div className="team-message">
             <h4>대표 인사말</h4>
-            <p>{teamInfo.message || "팀 소개말이 없습니다."}</p>
+            <p>{teamInfo.content || "팀 소개말이 없습니다."}</p>
             <span className="no-edits">수정권한 없음</span>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function MyTeam() {
           <h3>{teamInfo.name}</h3>
           <p>😊 RC: {teamInfo.rc || "정보 없음"}</p>
           <p>📅 학기: {teamInfo.semester || "정보 없음"}</p>
-          <p>👥 멤버 수: {teamInfo.memberEmails.length}명</p>
+          {/* <p>👥 멤버 수: {teamInfo.memberEmails.length}명</p> */}
           <div className="team-out">
             <span className="leave-team">탈퇴하기</span>
           </div>

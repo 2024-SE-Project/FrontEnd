@@ -3,14 +3,14 @@ import axios from 'axios';
 import '../css/CreateTeamModal.css';
 
 export default function CreateTeamModal({ onClose }) {
-  const [teamName, setTeamName] = useState('');
-  const [message, setMessage] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [name, setname] = useState('');
+  const [content, setcontent] = useState('');
+  const [img, setimg] = useState(null);
   const [emailList, setEmailList] = useState('');
 
-  const handleTeamNameChange = (e) => setTeamName(e.target.value);
-  const handleMessageChange = (e) => setMessage(e.target.value);
-  const handlePhotoChange = (e) => setPhoto(e.target.files[0]);
+  const handlenameChange = (e) => setname(e.target.value);
+  const handlecontentChange = (e) => setcontent(e.target.value);
+  const handleimgChange = (e) => setimg(e.target.files[0]);
   const handleEmailListChange = (e) => setEmailList(e.target.value);
 
   const handleSubmit = async (e) => {
@@ -23,13 +23,13 @@ export default function CreateTeamModal({ onClose }) {
     }
 
     const formData = new FormData();
-    formData.append('teamName', teamName);
-    formData.append('message', message);
-    formData.append('photo', photo);
+    formData.append('name', name);
+    formData.append('content', content);
+    formData.append('img', img);
     formData.append('emailList', emailList);
 
     try {
-      const response = await axios.post('https://likelion.info:443/team-user/add', formData, {
+      const response = await axios.post('https://likelion.info:443/team/add', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -57,8 +57,8 @@ export default function CreateTeamModal({ onClose }) {
             <label>팀명</label>
             <input
               type="text"
-              value={teamName}
-              onChange={handleTeamNameChange}
+              value={name}
+              onChange={handlenameChange}
               placeholder="팀명을 입력해주세요."
               required
             />
@@ -66,8 +66,8 @@ export default function CreateTeamModal({ onClose }) {
           <div className="form-group">
             <label>대표인사말</label>
             <textarea
-              value={message}
-              onChange={handleMessageChange}
+              value={content}
+              onChange={handlecontentChange}
               placeholder="내용을 입력해주세요."
               required
             />
@@ -76,7 +76,7 @@ export default function CreateTeamModal({ onClose }) {
             <label>대표사진</label>
             <input
               type="file"
-              onChange={handlePhotoChange}
+              onChange={handleimgChange}
               accept="image/*"
             />
           </div>
