@@ -6,6 +6,7 @@ import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DialogTag from '../dialog/DialogTag';
+import { NavLink } from 'react-router-dom';
 import "../css/AppBar.css"
 
 export default function Appbar({ toggleDrawer }) {
@@ -57,15 +58,14 @@ export default function Appbar({ toggleDrawer }) {
                         <NotificationsIcon />
                     </IconButton>
                 </Box>
-                <Box className="user-profile">
-                    <Avatar src="/path/to/avatar.jpg" alt="User Avatar" />
-                    <Typography variant="body1" noWrap className="user-name">
-                        {name}
-                    </Typography>
-                    <IconButton color="inherit" className="arrow-button">
-                        <ArrowDropDownIcon />
-                    </IconButton>
-                </Box>
+                <NavLink to="/dashboard/profile" className="mypage-link" activeClassName="active">
+                    <Box className="user-profile">
+                        <Avatar src="/path/to/avatar.jpg" alt="User Avatar" />
+                        <Typography variant="body1" noWrap className="user-name">
+                            {name}
+                        </Typography>
+                    </Box>
+                </NavLink>
             </Toolbar>
         </AppBar>
     );
