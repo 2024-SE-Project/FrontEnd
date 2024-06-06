@@ -1,0 +1,44 @@
+/* EditPost.css */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    color: #1e88e5;
+    margin-bottom: 20px;
+  }
+  
+  .textfield {
+    margin-bottom: 20px;
+  }
+  
+  .file-upload-label {
+    display: inline-block;
+    margin-top: 10px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .save-button {
+    background-color: #4a90e2;
+    color: white;
+  }
+  
+  .cancel-button {
+    color: #4a90e2;
+    border-color: #4a90e2;
+  }
+  
+  .alert {
+    margin-bottom: 20px;
+  }
+  
