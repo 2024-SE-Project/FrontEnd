@@ -22,22 +22,24 @@ const Profile = () => {
 
     const data = axios.get('https://likelion.info:443/mypage', {
       headers: {
-          Authorization: `Bearer ${storedToken}`
+        Authorization: `Bearer ${storedToken}`
       },
       withCredentials: true
-      })
+    })
       .then(response => {
-          setTemp(response.data);
-          
+        setTemp(response.data);
+
       })
       .catch(error => {
-          console.error('Error fetching user data:', error);
-          // 오류가 발생하면 메인 화면으로 리디렉션
-          navigate('/', { replace: true });
+        console.error('Error fetching user data:', error);
+        // 오류가 발생하면 메인 화면으로 리디렉션
+        localStorage.removeItem("token"); // 로컬 스토리지에서 토큰 제거
+        alert("로그아웃 되었습니다."); // 사용자에게 로그아웃 알림
+        navigate('/', { replace: true });
       });
 
 
-      
+
 
     const filteredMyPosts = samplePosts.filter(post => post.author === userInfo.name);
     setMyPosts(filteredMyPosts);
@@ -47,6 +49,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     // 로그아웃 로직
+    localStorage.getItem("token");
     navigate('/');
   };
 
@@ -114,7 +117,7 @@ const Profile = () => {
           ))}
         </div>
       </div>
-      
+
     </div>
   );
 };
