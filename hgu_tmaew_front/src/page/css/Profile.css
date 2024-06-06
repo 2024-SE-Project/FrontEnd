@@ -39,10 +39,21 @@
   width: 200px;
 }
 
+.profile-photo {
+  position: relative;
+}
+
 .profile-photo img {
   border-radius: 50%;
   width: 100px;
   height: 100px;
+}
+
+.profile-photo .MuiIconButton-root {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%);
 }
 
 .profile-info {
@@ -58,6 +69,33 @@
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.details-header {
+  font-size: 0.875rem; /* 작은 글씨 크기 */
+  color: #888; /* 회색 글씨 */
+  margin-bottom: 10px;
+}
+
+.editable-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.editable-field input {
+  flex: 1;
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #ccc; /* 회색 선 경계 */
+  margin: 10px 0; /* 위아래 간격 */
 }
 
 .posts-section {

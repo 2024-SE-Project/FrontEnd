@@ -139,25 +139,26 @@ export default function Main() {
       console.error('Error toggling scrape:', error);
     }
   };
-
   useEffect(() => {
     const token = query.get('token');
-
+  
     if (token) {
       localStorage.setItem('token', token);
       navigate('/dashboard/main', { replace: true });
     }
     const storedToken = localStorage.getItem('token');
+  
+    if (storedToken == null) {
 
-    if (!storedToken) {
       navigate('/', { replace: true });
       return;
     }
-
+  
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       setIsScrolled(scrollTop > 0);
     };
+
 
     const fetchUserData = () => {
       axios.get('https://likelion.info:443/mypage', {
@@ -190,8 +191,30 @@ export default function Main() {
     fetchUserData();
     fetchPosts();
 
-    window.addEventListener('scroll', handleScroll);
 
+  
+    const name = localStorage.getItem('name');
+  
+    if (name == null) {
+      axios
+        .get('https://likelion.info:443/mypage', {
+          headers: {
+            Authorization: `Bearer ${storedToken}`
+          },
+          withCredentials: true
+        })
+        .then((response) => {
+          setUserInfo(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+          navigate('/', { replace: true });
+        });
+    }
+  
+
+    window.addEventListener('scroll', handleScroll);
+  
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };

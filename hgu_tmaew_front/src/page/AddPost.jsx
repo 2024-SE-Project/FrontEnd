@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import PublishIcon from '@mui/icons-material/Publish';
 import '../page/css/AddPost.css';
 
 export default function AddPost() {
@@ -9,6 +10,7 @@ export default function AddPost() {
   const [content, setContent] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [otherFile, setOtherFile] = useState(null);
   const [fileList, setFileList] = useState([]);
 
@@ -23,15 +25,21 @@ export default function AddPost() {
   };
 
   const handleImageFileChange = (event) => {
-    setImageFile(event.target.files[0]);
+    const file = event.target.files[0];
+    setImageFile(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleOtherFileChange = (event) => {
-    setOtherFile(event.target.files[0]);
-  };
-
-  const handleFileChange = (event) => {
-    setFileList(Array.from(event.target.files));
+    const file = event.target.files[0];
+    setOtherFile(file);
+    setFileList((prevList) => [...prevList, file]);
   };
 
   const handleSaveDraft = () => {
@@ -83,6 +91,7 @@ export default function AddPost() {
 
       if (response.status === 200) {
         console.log('Post uploaded successfully');
+        alert("게시물 업로드 성공");
         navigate('/dashboard/library'); // Navigate back to the library page after successful post
       } else {
         console.error('Error uploading post');
@@ -101,7 +110,6 @@ export default function AddPost() {
     <div className="add-post">
       <div className="header">
         <h2>아카이빙 자료 업로드</h2>
-        <button className="back-button" onClick={handleBack}>뒤로가기</button>
       </div>
       <div className="post-content">
         <input
@@ -117,12 +125,6 @@ export default function AddPost() {
           value={content}
           onChange={handleContentChange}
         ></textarea>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          multiple
-          style={{ marginTop: '1em' }}
-        />
         <div className="attachments">
           <button className="attachment-button" onClick={togglePrivacy}>
             <i className="fas fa-globe"></i> {isPublic ? '전체 공개' : '비공개'}
@@ -136,11 +138,28 @@ export default function AddPost() {
           </button>
           <input id="other-file" type="file" hidden onChange={handleOtherFileChange} />
         </div>
+        <div className="previews">
+          {imagePreview && (
+            <div className="image-preview-container">
+              <img src={imagePreview} alt="미리보기" className="image-preview" />
+            </div>
+          )}
+          {fileList.length > 0 && (
+            <div className="file-list-container">
+              <h4>첨부된 파일</h4>
+              <ul>
+                {fileList.map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
       <div className="footer">
         <button className="cancel-button" onClick={handleBack}>취소</button>
-        <button className="save-draft-button" onClick={handleSaveDraft}>임시저장하기</button>
-        <button className="post-button" onClick={handlePost}>게시하기</button>
+        <button className="save-draft-button" onClick={handleSaveDraft}>임시 저장하기</button>
+        <button className="post-button" onClick={handlePost} startIcon={<PublishIcon />}>게시하기</button>
       </div>
     </div>
   );
