@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconButton, TextField, Avatar, Paper } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import '../page/css/TeamMatching.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function TeamMatching() {
     const sampleTeams = [
@@ -31,13 +33,85 @@ export default function TeamMatching() {
         { text: '000 교수님 팀이 팀모임을 거부하였습니다.', date: '28 members', status: '확정' }
     ];
 
-    const [teams, setTeams] = useState(sampleTeams);
+    const [teamInfo, setTeamInfo] = useState(null);
+    const [teams, setTeams] = useState([]);
     const [matches, setMatches] = useState(sampleMatches);
     const [selectedFilter, setSelectedFilter] = useState('정확도순');
+    const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     const handleFilterChange = (filter) => {
         setSelectedFilter(filter);
     };
+
+    useEffect(() => {
+        const fetchTeamInfo = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+              console.error('Token not found');
+              navigate('/login', { replace: true });
+              return;
+            }
+      
+            try {
+              const response = await axios.get('https://likelion.info:443/my/team/get', {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              const data = response.data;
+              if (data) {
+                setTeamInfo(data[0]); // Assuming the user is part of at least one team and we're taking the first one
+              } else {
+                setTeamInfo(null);
+              }
+            } catch (error) {
+              console.error('Error fetching data:', error);
+              setTeamInfo(null);
+            } finally {
+              setLoading(false);
+            }
+          };
+          fetchTeamInfo();
+
+        const fetchTeams = async () => {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            console.error('Token not found');
+            navigate('/login', { replace: true });
+            return;
+          }
+    
+          try {
+            const response = await axios.get('https://likelion.info:443/post/get/all/1', {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            const data = response.data;
+            if (data && Array.isArray(data)) {
+              setTeams(data); // Assuming data is an array of ranking data
+            } else {
+              setTeams([]);
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            setTeams([]);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchTeams();
+      }, [navigate]);
+
+      if (loading) {
+        return <div>Loading...</div>;
+      }
+
+
+      const teamImageUrl = teamInfo.imgURL || "https://storage.googleapis.com/raonz_post_image/cat9.jpg";
 
     return (
         <Container className="team-matching-container">
@@ -75,15 +149,15 @@ export default function TeamMatching() {
                     <Box className="my-team-section">
                         <Card className="my-team-card">
                             <CardContent>
-                                <Typography variant="h6" component="div">My Team</Typography>
+                                <Typography variant="h6" component="div">{teamInfo.name}</Typography>
                                 <CardMedia
                                     component="img"
-                                    image="https://storage.googleapis.com/raonz_post_image/cat5.jpg"
+                                    image={teamImageUrl}
                                     className="my-team-photo"
                                 />
                                 <Typography variant="h6" component="div">최희열 교수님 팀</Typography>
                                 <Typography variant="body1" component="p">
-                                    24-1 학기 최희열 교수님 팀 입니다. 우리팀은 외부활동을 좋아하며 수많은 인재들이 있습니다.
+                                    {teamInfo.content || "팀 소개말이 없습니다."}
                                 </Typography>
                                 <Button variant="contained" color="primary" className="detail-button">자세히보기</Button>
                             </CardContent>
@@ -113,8 +187,8 @@ export default function TeamMatching() {
                                         image={team.image}
                                         className="team-photo"
                                     />
-                                    <Typography variant="h6" component="div">{team.name}</Typography>
-                                    <Typography variant="body1" component="p">{team.description}</Typography>
+                                    <Typography variant="h6" component="div">{team.title}</Typography>
+                                    <Typography variant="body1" component="p">{team.content}</Typography>
                                     <Box className="team-info">
                                         <Typography variant="body2" component="p">{team.members} members</Typography>
                                         <Typography variant="body2" component="p">Date: {team.date}</Typography>
