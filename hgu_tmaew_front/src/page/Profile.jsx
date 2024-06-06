@@ -223,10 +223,10 @@ const Profile = () => {
       <div className="posts-section">
         <h3>내가 스크랩한 글</h3>
         <div className="posts-list">
-          {Array.isArray(temp.scrapDtoList) && temp.scrapDtoList.map(post => (
+        {Array.isArray(temp.scrapDtoList) && temp.scrapDtoList.map(post => (
             <div key={post.id} className="post-card">
-              <h4>{post.title}</h4>
-              <p>{post.content}</p>
+              <h4>{post.post.title}</h4>
+              <p>{post.post.content}</p>
             </div>
           ))}
         </div>
