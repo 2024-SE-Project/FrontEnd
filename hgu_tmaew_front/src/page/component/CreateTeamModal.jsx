@@ -29,7 +29,7 @@ export default function CreateTeamModal({ onClose }) {
     formData.append('emailList', emailList);
 
     try {
-      const response = await axios.post('https://likelion.info:443/team-user/add', formData, {
+      const response = await axios.post('https://likelion.info:443/team/add', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

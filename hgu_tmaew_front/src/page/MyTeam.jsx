@@ -1,6 +1,7 @@
+// src/page/MyTeam.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../page/css/MyTeam.css';
 import CreateTeamModal from './component/CreateTeamModal';
 
@@ -20,14 +21,14 @@ export default function MyTeam() {
       }
 
       try {
-        const response = await axios.get('https://likelion.info:443/my/team/get', {
+        const response = await axios.get('/mypage', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         const data = response.data;
         if (data && data.length > 0) {
-          setTeamInfo(data[0]); // Assuming the user is part of at least one team and we're taking the first one
+          setTeamInfo(data[0]); // 사용자가 한 팀에 소속되어 있다고 가정하고 첫 번째 팀 정보를 가져옵니다.
         } else {
           setTeamInfo(null);
         }
