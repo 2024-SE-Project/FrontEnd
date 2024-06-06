@@ -9,12 +9,10 @@ import Ranking from './page/Ranking';
 import DetailView from './page/DetailView'; // 추가된 DetailView 컴포넌트
 import Reference from './page/Reference';
 import RefDialog from './page/dialog/RefDialogTag';
-import Temp from './page/temp';
 import TeamMatching from './page/TeamMatching';
 import PhotoStudio from './page/PhotoStudio';
 import MyTeam from './page/MyTeam';
 import AddPost from './page/AddPost';
-import ReferDetail from './page/ReferDetail'; // 새로 추가된 컴포넌트
 import EditPost from './page/EditPost';
 
 export default function Router() {
@@ -33,10 +31,6 @@ export default function Router() {
       element: <LoginPage />,
     },
     {
-      path: '/temp',
-      element: <Temp />,
-    },
-    {
       path: '/dashboard',
       element: <Dashboard />,
       children: [
@@ -50,7 +44,6 @@ export default function Router() {
         { path: 'library', element: <Reference /> },
         { path: 'library/create', element: <RefDialog /> },
         { path: 'addpost', element: <AddPost /> },
-        { path: 'post/:postId', element: <ReferDetail /> }, // 이 경로를 확인해주세요
         { path: 'edit-post/:id', element: <EditPost />},
       ],
     },

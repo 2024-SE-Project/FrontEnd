@@ -6,7 +6,7 @@ import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import DialogTag from '../dialog/DialogTag';
 import { NavLink } from 'react-router-dom';
-import "../css/AppBar.css"
+import '../css/AppBar.css';
 
 export default function Appbar({ toggleDrawer }) {
     const name = localStorage.getItem("name");

@@ -291,7 +291,6 @@ const Reference = () => {
                 <BookmarkIcon color="primary" />
                 <span>스크랩 수: {selectedPost.scrapeCount}</span>
               </div>
-            <Button onClick={handleCloseDetails}>닫기</Button>
           </DialogActions>
         </Dialog>
       )}
