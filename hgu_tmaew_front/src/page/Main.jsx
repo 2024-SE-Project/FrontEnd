@@ -91,28 +91,44 @@ export default function Main() {
     console.log(`댓글 추가: ${comment} for postId: ${postId}`);
     setComment('');
   };
-
   useEffect(() => {
     const token = query.get('token');
-
+  
     if (token) {
       localStorage.setItem('token', token);
       navigate('/dashboard/main', { replace: true });
     }
     const storedToken = localStorage.getItem('token');
-
+  
     if (storedToken == null) {
       navigate('/', { replace: true });
       return;
     }
-
+  
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       setIsScrolled(scrollTop > 0);
     };
-
+  
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://likelion.info:443/post/get/all/1', {
+          headers: {
+            Authorization: `Bearer ${storedToken}`
+          },
+          withCredentials: true
+        });
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching post data:', error);
+        navigate('/', { replace: true });
+      }
+    };
+  
+    fetchData(); // 컴포넌트가 마운트될 때 한 번만 실행되도록 데이터를 가져오는 함수를 호출합니다.
+  
     const name = localStorage.getItem('name');
-
+  
     if (name == null) {
       axios
         .get('https://likelion.info:443/mypage', {
@@ -129,29 +145,13 @@ export default function Main() {
           navigate('/', { replace: true });
         });
     }
-
-    const data = axios.get('https://likelion.info:443/post/get/all/1', {
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      },
-      withCredentials: true
-    })
-      .then(response => {
-        setData(response.data);
-
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-        // 오류가 발생하면 메인 화면으로 리디렉션
-        navigate('/', { replace: true });
-      });
-
+  
     window.addEventListener('scroll', handleScroll);
-
+  
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [navigate, query]);
+  }, []); // 빈 배열을 의존성 배열로 전달하여 초기 마운트 시에만 실행됩니다.
 
   return (
     <Container className="main-container">
