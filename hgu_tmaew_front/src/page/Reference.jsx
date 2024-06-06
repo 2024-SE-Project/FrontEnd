@@ -6,9 +6,12 @@ import FilterIcon from '../assets/filter_icon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart, faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart, faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
-
 import DialogTag from './dialog/RefDialogTag.js';
-import FilterDialog from './dialog/FilterDialog.jsx'; // 필터링 모달창 컴포넌트 추가
+import FilterDialog from './dialog/FilterDialog.jsx';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 const DEFAULT_IMAGE_URL = "https://storage.googleapis.com/raonz_post_image/cat8.jpg";
 
@@ -18,8 +21,10 @@ const Reference = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [openCreate, setOpenCreate] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [openFilter, setOpenFilter] = useState(false); // 필터링 모달창 열기 상태
-  const [searchCriteria, setSearchCriteria] = useState('title'); // 검색 기준 상태
+  const [openFilter, setOpenFilter] = useState(false);
+  const [searchCriteria, setSearchCriteria] = useState('title');
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [openDetails, setOpenDetails] = useState(false);
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -147,7 +152,7 @@ const Reference = () => {
 
   const handleSearch = () => {
     const filteredData = postData.filter(post =>
-      searchCriteria === 'title' 
+      searchCriteria === 'title'
         ? post.title.toLowerCase().includes(searchQuery.toLowerCase())
         : post.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -158,6 +163,16 @@ const Reference = () => {
     if (event.key === 'Enter') {
       handleSearch();
     }
+  };
+
+  const handleOpenDetails = (post) => {
+    setSelectedPost(post);
+    setOpenDetails(true);
+  };
+
+  const handleCloseDetails = () => {
+    setOpenDetails(false);
+    setSelectedPost(null);
   };
 
   return (
@@ -172,7 +187,7 @@ const Reference = () => {
             placeholder="찾고 싶은 자료를 입력해주세요."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={handleKeyPress} // 엔터키 이벤트 추가
+            onKeyPress={handleKeyPress}
           />
           <button className="search-button" onClick={handleSearch}>🔍</button>
         </div>
@@ -200,7 +215,7 @@ const Reference = () => {
                 scrapeCount={data.scrapeCount}
                 toggleLike={toggleLike}
                 toggleScrape={toggleScrape}
-                onViewDetails={() => navigate(`/post/${data.postId}`, { state: data })}
+                onViewDetails={() => handleOpenDetails(data)}
               />
             );
           })}
@@ -214,7 +229,7 @@ const Reference = () => {
           <span className="menu-icon">게시물 작성하기</span>
         </div>
       </NavLink>
-      
+
       {openCreate && (
         <DialogTag
           open={openCreate}
@@ -230,6 +245,42 @@ const Reference = () => {
           searchCriteria={searchCriteria}
           setSearchCriteria={setSearchCriteria}
         />
+      )}
+
+      {selectedPost && (
+        <Dialog open={openDetails} onClose={handleCloseDetails} maxWidth="md" fullWidth>
+          <DialogTitle>
+            Contents:
+            <IconButton
+              aria-label="close"
+              onClick={handleCloseDetails}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent dividers>
+            <h3>{selectedPost.title}</h3>
+            <img src={selectedPost.imageUrl} alt="Post" className="dialog-image" />
+            <p>{selectedPost.content}</p>
+            <p>작성날짜: {selectedPost.date}</p>
+            <p>작성자: {selectedPost.author}</p>
+          </DialogContent>
+          <DialogActions>
+            <div className="dialog-icons">
+              <FavoriteIcon color="error" />
+              <span>좋아요 수: {selectedPost.likeCount}</span>
+              <BookmarkIcon color="primary" />
+              <span>스크랩 수: {selectedPost.scrapeCount}</span>
+            </div>
+            <Button onClick={handleCloseDetails}>닫기</Button>
+          </DialogActions>
+        </Dialog>
       )}
     </div>
   );
