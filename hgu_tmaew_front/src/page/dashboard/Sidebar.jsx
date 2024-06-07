@@ -137,7 +137,7 @@ export default function Sidebar({ toggleDrawer }) {
                     ))}
                 </div>
             )}
-            <div className="sidebar-communities">
+            {/* <div className="sidebar-communities">
                 <h2>My Communities <span className="community-count">19</span></h2>
                 <div className="community-message">
                     <span className="community-icon"><FontAwesomeIcon icon={faUser} /></span>
@@ -150,7 +150,7 @@ export default function Sidebar({ toggleDrawer }) {
                     <span className="message-badge">15</span>
                 </div>
                 <button className="see-all">See All</button>
-            </div>
+            </div> */}
         </div>
     );
 }
