@@ -37,15 +37,29 @@
   min-height: 3px;
 }
 
+.dorm-card .dorm-word {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start (left) */
+  justify-content: center;
+  padding-left: 2vw;
+}
+
 .dorm-card .dorm-name {
-  position: absolute;
-  top: 10vh;
-  right: 10vw;
   font-size: 7vw;
   color: black;
   font-weight: bold;
 }
 
+.dorm-card .dorm-description {
+  font-size: 1.2vw;
+  color: gray;
+  text-align: left; /* Ensure text is left-aligned */
+  margin-top: 2vw;
+  margin-bottom: 25vw;
+}
+
+/* Specific styles for each dorm card */
 .kuyper-card {
   background: linear-gradient(15deg, white 50%, #E1F4FF 50%);
 }
@@ -92,9 +106,16 @@
     max-width: none; /* 최대 크기 제한 해제 */
   }
 
+  .dorm-word {
+    align-items: flex-start; /* Align text to the start (left) on smaller screens */
+    padding-left: 1vw;
+  }
+
   .dorm-name {
     font-size: 5vw;
-    top: 5vh;
-    right: 5vw;
+  }
+
+  .dorm-description {
+    font-size: 3vw;
   }
 }
