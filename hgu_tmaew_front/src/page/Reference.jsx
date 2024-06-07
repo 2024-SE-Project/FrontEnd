@@ -247,6 +247,14 @@ const Reference = () => {
           ))}
         </div>
       </main>
+      <NavLink
+        to="/dashboard/addpost"
+        className={`ref-floating-button ${isScrolled ? 'h_event2' : ''}`}
+      >
+        <div>
+          <span className="ref-menu-icon">게시물 작성하기</span>
+        </div>
+      </NavLink>
       {selectedPost && (
         <Dialog open={openDetails} onClose={handleCloseDetails} maxWidth="md" fullWidth>
           <DialogTitle className="ref-dialog-title">
