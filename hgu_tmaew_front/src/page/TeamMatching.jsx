@@ -1,32 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconButton, TextField, Paper } from '@mui/material';
+import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconButton, TextField, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import '../page/css/TeamMatching.css';
 import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
 
 export default function TeamMatching() {
-    const sampleTeams = [
-        {
-            id: 1,
-            name: '피구하실래요?',
-            description: '24-1 학기 남재창 교수님 팀 입니다. 우리팀은 외부활동을 좋아하며 수많은 인재들이 있습니다.',
-            image: 'https://storage.googleapis.com/raonz_post_image/cat.jpg',
-            members: 28,
-            date: '14주차 수요일 (6월5일)',
-            status: '미정'
-        },
-        {
-            id: 2,
-            name: '피구하실래요?',
-            description: '24-1 학기 남재창 교수님 팀 입니다. 우리팀은 외부활동을 좋아하며 수많은 인재들이 있습니다.',
-            image: 'https://storage.googleapis.com/raonz_post_image/cat2.jpg',
-            members: 28,
-            date: '14주차 수요일 (6월5일)',
-            status: '확정'
-        }
-    ];
-
     const sampleMatches = [
         { text: '000 교수님 팀이 팀모임을 신청하였습니다.', date: '28 members', status: '미확정' },
         { text: '000 교수님 팀이 팀모임을 거부하였습니다.', date: '28 members', status: '확정' },
@@ -40,21 +19,30 @@ export default function TeamMatching() {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(null);
+    const [openDetails, setOpenDetails] = useState(false);
     const navigate = useNavigate();
 
     const handleFilterChange = (filter) => {
         setSelectedFilter(filter);
     };
 
+    const handleOpenDetails = (post) => {
+        setSelectedPost(post);
+        setOpenDetails(true);
+    };
+
+    const handleCloseDetails = () => {
+        setOpenDetails(false);
+    };
+
     useEffect(() => {
-        
         const handleScroll = () => {
-            if (window.scrollY > 50) {
-              setIsScrolled(true);
-            } else {
-              setIsScrolled(false);
-            }
-          };
+            setIsScrolled(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
         const fetchTeamInfo = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
@@ -62,7 +50,7 @@ export default function TeamMatching() {
               navigate('/login', { replace: true });
               return;
             }
-      
+
             try {
               const response = await axios.get('https://likelion.info:443/my/team/get', {
                 headers: {
@@ -91,7 +79,7 @@ export default function TeamMatching() {
             navigate('/login', { replace: true });
             return;
           }
-    
+
           try {
             const response = await axios.get('https://likelion.info:443/match/get/all/1', {
               headers: {
@@ -111,8 +99,12 @@ export default function TeamMatching() {
             setLoading(false);
           }
         };
-    
+
         fetchTeams();
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
       }, [navigate]);
 
       if (loading) {
@@ -169,7 +161,7 @@ export default function TeamMatching() {
                                     <Typography variant="body1" component="p">
                                         {teamInfo.content || "팀 소개말이 없습니다."}
                                     </Typography>
-                                    <Button variant="contained" color="primary" className="detail-button">자세히보기</Button>
+                                    <Button variant="contained" color="primary" className="detail-button" onClick={() => handleOpenDetails(teamInfo)}>자세히보기</Button>
                                   </>
                                 ) : (
                                   <Typography variant="h6" component="div">팀 정보가 없습니다.</Typography>
@@ -209,7 +201,7 @@ export default function TeamMatching() {
                                         <Typography variant="body2" component="p">Status: {team.status}</Typography>
                                     </Box>
                                     <Box className="team-actions">
-                                        <Button variant="contained" color="primary" className="detail-button">자세히보기</Button>
+                                        <Button variant="contained" color="primary" className="detail-button" onClick={() => handleOpenDetails(team)}>자세히보기</Button>
                                         <Button variant="contained" color="secondary" className="apply-button">팀모임 신청하기</Button>
                                     </Box>
                                 </CardContent>
@@ -226,10 +218,29 @@ export default function TeamMatching() {
                     </NavLink>
                 </Box>
             </div>
-{/* 
-            <IconButton className="tm-floating-button">
-                팀모임 매칭 작성하기
-            </IconButton> */}
+
+            <Dialog open={openDetails} onClose={handleCloseDetails} maxWidth="md" fullWidth>
+                <DialogTitle>팀 상세 정보</DialogTitle>
+                <DialogContent>
+                    {selectedPost && (
+                        <>
+                            <Typography variant="h6">{selectedPost.name}</Typography>
+                            <CardMedia
+                                component="img"
+                                image={selectedPost.imgURL || "https://storage.googleapis.com/raonz_post_image/cat9.jpg"}
+                                className="my-team-photo"
+                            />
+                            <Typography variant="body1">{selectedPost.content || "팀 소개말이 없습니다."}</Typography>
+                            <Typography variant="body2">{selectedPost.members} members</Typography>
+                            <Typography variant="body2">Date: {selectedPost.date}</Typography>
+                            <Typography variant="body2">Status: {selectedPost.status}</Typography>
+                        </>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDetails} color="primary">닫기</Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 }
