@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconButton, TextField, Avatar, Paper } from '@mui/material';
+import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconButton, TextField, Paper } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import '../page/css/TeamMatching.css';
 import axios from 'axios';
@@ -61,7 +61,7 @@ export default function TeamMatching() {
                 },
               });
               const data = response.data;
-              if (data) {
+              if (data && data.length > 0) {
                 setTeamInfo(data[0]); // Assuming the user is part of at least one team and we're taking the first one
               } else {
                 setTeamInfo(null);
@@ -110,8 +110,7 @@ export default function TeamMatching() {
         return <div>Loading...</div>;
       }
 
-
-      const teamImageUrl = teamInfo.imgURL || "https://storage.googleapis.com/raonz_post_image/cat9.jpg";
+      const teamImageUrl = teamInfo && teamInfo.imgURL ? teamInfo.imgURL : "https://storage.googleapis.com/raonz_post_image/cat9.jpg";
 
     return (
         <Container className="team-matching-container">
@@ -149,17 +148,23 @@ export default function TeamMatching() {
                     <Box className="my-team-section">
                         <Card className="my-team-card">
                             <CardContent>
-                                <Typography variant="h6" component="div">{teamInfo.name}</Typography>
-                                <CardMedia
-                                    component="img"
-                                    image={teamImageUrl}
-                                    className="my-team-photo"
-                                />
-                                <Typography variant="h6" component="div">최희열 교수님 팀</Typography>
-                                <Typography variant="body1" component="p">
-                                    {teamInfo.content || "팀 소개말이 없습니다."}
-                                </Typography>
-                                <Button variant="contained" color="primary" className="detail-button">자세히보기</Button>
+                                {teamInfo ? (
+                                  <>
+                                    <Typography variant="h6" component="div">{teamInfo.name}</Typography>
+                                    <CardMedia
+                                        component="img"
+                                        image={teamImageUrl}
+                                        className="my-team-photo"
+                                    />
+                                    <Typography variant="h6" component="div">최희열 교수님 팀</Typography>
+                                    <Typography variant="body1" component="p">
+                                        {teamInfo.content || "팀 소개말이 없습니다."}
+                                    </Typography>
+                                    <Button variant="contained" color="primary" className="detail-button">자세히보기</Button>
+                                  </>
+                                ) : (
+                                  <Typography variant="h6" component="div">팀 정보가 없습니다.</Typography>
+                                )}
                             </CardContent>
                         </Card>
                     </Box>
