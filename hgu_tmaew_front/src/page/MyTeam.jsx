@@ -64,12 +64,14 @@ export default function MyTeam() {
     setShowModal(false);
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = (team) => {
+    setSelectedTeam(team);
     setShowEditModal(true);
   };
 
   const handleEditModalClose = () => {
     setShowEditModal(false);
+    setSelectedTeam(null);
   };
 
   const handleExit = (team) => {
@@ -122,11 +124,11 @@ export default function MyTeam() {
                 <p>{team.content || "팀 소개말이 없습니다."}</p>
                 <span className="no-edits">수정권한 없음</span>
               </div>
-            </div>    
+            </div>
             <div className="team-details">
-              <h3>{teamInfo.name}</h3>
+              <h3>{team.name}</h3>
               <div className="team-out">
-                <span className="leave-team" onClick={handleExit}>탈퇴하기</span>
+                <span className="leave-team" onClick={() => handleExit(team)}>탈퇴하기</span>
                 <Dialog
                   open={openDeleteDialog}
                   onClose={() => setOpenDeleteDialog(false)}
@@ -140,13 +142,14 @@ export default function MyTeam() {
                     <Button onClick={handleDelete} color="secondary">나가기</Button>
                   </DialogActions>
                 </Dialog>
-                <span className="edit-team" onClick={handleEditClick}>수정</span>
-                <EditTeamModal
-                  open={showEditModal}
-                  onClose={handleEditModalClose}
-                  teamInfo={teamInfo}
-                />
-
+                <span className="edit-team" onClick={() => handleEditClick(team)}>수정</span>
+                {selectedTeam && (
+                  <EditTeamModal
+                    open={showEditModal}
+                    onClose={handleEditModalClose}
+                    team={selectedTeam}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -161,19 +164,6 @@ export default function MyTeam() {
           <span className="ref-menu-icon">+</span>
         </div>
       </NavLink>
-      <Dialog
-        open={openDeleteDialog}
-        onClose={() => setOpenDeleteDialog(false)}
-      >
-        <DialogTitle>팀 탈퇴</DialogTitle>
-        <DialogContent>
-          <DialogContentText>정말로 팀을 나가시겠습니까?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDeleteDialog(false)} color="primary">취소</Button>
-          <Button onClick={handleDelete} color="secondary">나가기</Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }
