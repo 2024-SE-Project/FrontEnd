@@ -92,6 +92,8 @@ export default function AddPost() {
       formData.append('fileList', new Blob([])); // 빈 파일 리스트 추가
     }
 
+    
+
     try {
       const response = await axios.post(
         'https://likelion.info:443/material/add', // Replace with your API endpoint

@@ -12,8 +12,9 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton }
 import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import Logo from '../assets/logo_white.svg'; // 로고 이미지
 
-const DEFAULT_IMAGE_URL = "https://www.handong.edu/site/handong-kor/res/img/symbol_logo01.png";
+const DEFAULT_IMAGE_URL = Logo;
 
 const Reference = () => {
   const [postData, setPostData] = useState([]);
@@ -173,6 +174,7 @@ const Reference = () => {
         : post.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredPostData(filteredData);
+    setCurrentPage(1); // 검색 시 페이지를 첫 페이지로 리셋
   };
 
   const handleKeyPress = (event) => {
@@ -190,10 +192,6 @@ const Reference = () => {
     setOpenDetails(false);
     setSelectedPost(null);
   };
-
-  for (let i = 1; i <= Math.ceil(filteredPostData.length / cardsPerPage); i++) {
-    pageNumbers.push(i);
-  }
 
   return (
     <div className="ref-reference-container">
@@ -221,10 +219,11 @@ const Reference = () => {
             const imageUrl = data.postFileDtoList && data.postFileDtoList.length > 0 && data.postFileDtoList[0].imageUrl
               ? data.postFileDtoList[0].imageUrl
               : DEFAULT_IMAGE_URL;
+              console.log("Image URL for post", data.postId, ":", imageUrl); // 이미지 URL 로그 출력
             return (
               <Card
                 key={data.postId}
-                index={index}
+                index={index + indexOfFirstCard} // 전체 인덱스를 넘겨줍니다.
                 postId={data.postId}
                 title={data.title}
                 content={data.content}
@@ -240,33 +239,14 @@ const Reference = () => {
             );
           })}
         </section>
-      </main>
-      <NavLink
-        to="/dashboard/addpost"
-        className={`ref-floating-button ${isScrolled ? 'h_event2' : ''}`}
-      >
-        <div>
-          <span className="ref-menu-icon">게시물 작성하기</span>
+        <div className="pagination">
+          {pageNumbers.map(number => (
+            <button key={number} onClick={() => paginate(number)} className="page-number">
+              {number}
+            </button>
+          ))}
         </div>
-      </NavLink>
-
-      {openCreate && (
-        <DialogTag
-          open={openCreate}
-          title="추가하기"
-          onClose={handleCloseCreate}
-        />
-      )}
-
-      {openFilter && (
-        <FilterDialog
-          open={openFilter}
-          onClose={() => setOpenFilter(false)}
-          searchCriteria={searchCriteria}
-          setSearchCriteria={setSearchCriteria}
-        />
-      )}
-
+      </main>
       {selectedPost && (
         <Dialog open={openDetails} onClose={handleCloseDetails} maxWidth="md" fullWidth>
           <DialogTitle className="ref-dialog-title">
@@ -286,15 +266,18 @@ const Reference = () => {
           <DialogContent dividers className="ref-dialog-content">
             <h3 className="ref-dialog-title-text">{selectedPost.title}</h3>
             <div className="ref-dialog-image-container">
-              <img
-                src={
-                  selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0
-                    ? selectedPost.postFileDtoList[0].imageUrl
-                    : DEFAULT_IMAGE_URL
-                }
-                alt={selectedPost.title}
-                className="ref-dialog-image"
-              />
+              {selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0 ? (
+                selectedPost.postFileDtoList.map((file, index) => (
+                  <img
+                    key={index}
+                    src={file.imageUrl}
+                    alt={`Post file ${index}`}
+                    className="dialog-image"
+                  />
+                ))
+              ) : (
+                <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" />
+              )}
             </div>
             <p className="ref-dialog-content-text">{selectedPost.content}</p>
             <div className="ref-dialog-like-scrape">
@@ -311,6 +294,7 @@ const Reference = () => {
           </DialogActions>
         </Dialog>
       )}
+      <FilterDialog open={openFilter} onClose={() => setOpenFilter(false)} />
     </div>
   );
 };

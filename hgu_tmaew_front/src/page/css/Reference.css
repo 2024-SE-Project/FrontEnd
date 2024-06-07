@@ -230,3 +230,29 @@
   align-items: center;
   justify-content: center;
 }
+
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-number {
+  padding: 10px 15px;
+  margin: 0 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.page-number:hover {
+  background-color: #0056
+}
+
+.page-number.active {
+  background-color: #0056b3;
+}
