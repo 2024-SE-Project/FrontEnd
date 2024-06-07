@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import '../css/Sidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUsers, faUser, faCamera, faFolder, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons';
@@ -10,9 +10,10 @@ import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 export default function Sidebar({ toggleDrawer }) {
     const [teams, setTeams] = useState([]);
+    const location = useLocation();
 
     useEffect(() => {
-        const fetchTeams = async () => {
+        const fetchTeams = async () => {    
             const token = localStorage.getItem('token');
             if (!token) {
                 console.error('Token not found');
@@ -91,6 +92,20 @@ export default function Sidebar({ toggleDrawer }) {
                         Team Meeting Match
                     </div>
                 </NavLink>
+                {(location.pathname === '/dashboard/teammatch' || location.pathname === '/dashboard/addMatching') && (
+                    <div className="menu-group">
+                        <MdOutlineSubdirectoryArrowRight />
+                        <NavLink 
+                            to="/dashboard/addMatching" 
+                            className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                        >
+                            <div className="menu-item">
+                                <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
+                                Upload Post
+                            </div>
+                        </NavLink>
+                    </div>
+                )}
                 <NavLink 
                     to="/dashboard/photo" 
                     className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
@@ -109,18 +124,20 @@ export default function Sidebar({ toggleDrawer }) {
                         Reference Library
                     </div>
                 </NavLink>
-                <div className="menu-group">
-                    <MdOutlineSubdirectoryArrowRight />
-                    <NavLink 
-                        to="/dashboard/addpost" 
-                        className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
-                    >
-                        <div className="menu-item">
-                            <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
-                            Upload Post
-                        </div>
-                    </NavLink>
-                </div>
+                {(location.pathname === '/dashboard/library' || location.pathname === '/dashboard/addpost') && (
+                    <div className="menu-group">
+                        <MdOutlineSubdirectoryArrowRight />
+                        <NavLink 
+                            to="/dashboard/addpost" 
+                            className={({ isActive }) => isActive ? 'menu-link active' : 'menu-link'}
+                        >
+                            <div className="menu-item">
+                                <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
+                                Upload Post
+                            </div>
+                        </NavLink>
+                    </div>
+                )}
             </div>
             {teams.length > 0 && (
                 <div className="sidebar-teams">
