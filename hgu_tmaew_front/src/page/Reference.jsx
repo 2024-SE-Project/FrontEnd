@@ -196,10 +196,10 @@ const Reference = () => {
   }
 
   return (
-    <div className="reference-container">
-      <main className="reference-main">
-        <div className="search-bar">
-          <button className="filter-button" onClick={() => setOpenFilter(true)}>
+    <div className="ref-reference-container">
+      <main className="ref-reference-main">
+        <div className="ref-search-bar">
+          <button className="ref-filter-button" onClick={() => setOpenFilter(true)}>
             <img src={FilterIcon} alt="Filter" />
           </button>
           <input
@@ -209,15 +209,15 @@ const Reference = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <button className="search-button" onClick={handleSearch}>🔍</button>
+          <button className="ref-search-button" onClick={handleSearch}>🔍</button>
         </div>
-        <nav className="reference-nav">
-          <button>전체 자료</button>
-          <button>올해 자료</button>
-          <button>내 팀 자료</button>
+        <nav className="ref-reference-nav">
+          <button className="ref-nav-button">전체 자료</button>
+          <button className="ref-nav-button">올해 자료</button>
+          <button className="ref-nav-button">내 팀 자료</button>
         </nav>
-        <section className="reference-content">
-          {filteredPostData.map((data, index) => {
+        <section className="ref-reference-content">
+          {currentCards.map((data, index) => {
             const imageUrl = data.postFileDtoList && data.postFileDtoList.length > 0 && data.postFileDtoList[0].imageUrl
               ? data.postFileDtoList[0].imageUrl
               : DEFAULT_IMAGE_URL;
@@ -240,14 +240,13 @@ const Reference = () => {
             );
           })}
         </section>
-
       </main>
       <NavLink
         to="/dashboard/addpost"
-        className={`floating-button ${isScrolled ? 'h_event2' : ''}`}
+        className={`ref-floating-button ${isScrolled ? 'h_event2' : ''}`}
       >
         <div>
-          <span className="menu-icon">게시물 작성하기</span>
+          <span className="ref-menu-icon">게시물 작성하기</span>
         </div>
       </NavLink>
 
@@ -270,7 +269,7 @@ const Reference = () => {
 
       {selectedPost && (
         <Dialog open={openDetails} onClose={handleCloseDetails} maxWidth="md" fullWidth>
-          <DialogTitle className="dialog-title">
+          <DialogTitle className="ref-dialog-title">
             <IconButton
               aria-label="close"
               onClick={handleCloseDetails}
@@ -284,9 +283,9 @@ const Reference = () => {
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent dividers className="dialog-content">
-            <h3 className="dialog-title-text">{selectedPost.title}</h3>
-            <div className="dialog-image-container">
+          <DialogContent dividers className="ref-dialog-content">
+            <h3 className="ref-dialog-title-text">{selectedPost.title}</h3>
+            <div className="ref-dialog-image-container">
               <img
                 src={
                   selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0
@@ -294,14 +293,14 @@ const Reference = () => {
                     : DEFAULT_IMAGE_URL
                 }
                 alt={selectedPost.title}
-                className="dialog-image"
+                className="ref-dialog-image"
               />
             </div>
-            <p className="dialog-content-text">{selectedPost.content}</p>
-            <div className="dialog-like-scrape">
-              <FavoriteIcon className="dialog-icon" color={selectedPost.like ? 'error' : 'inherit'} />
+            <p className="ref-dialog-content-text">{selectedPost.content}</p>
+            <div className="ref-dialog-like-scrape">
+              <FavoriteIcon className="ref-dialog-icon" color={selectedPost.like ? 'error' : 'inherit'} />
               <span>{selectedPost.likeCount}</span>
-              <BookmarkIcon className="dialog-icon" color={selectedPost.scraped ? 'primary' : 'inherit'} />
+              <BookmarkIcon className="ref-dialog-icon" color={selectedPost.scraped ? 'primary' : 'inherit'} />
               <span>{selectedPost.scrapeCount}</span>
             </div>
           </DialogContent>
@@ -331,36 +330,39 @@ const Card = ({
   onViewDetails,
 }) => {
   return (
-    <div className="reference-card">
-      <div className="image-wrapper" onClick={onViewDetails}>
-        <img src={imageUrl} alt={title} className="reference-card-image" />
+    <div className="ref-reference-card">
+      <div className="ref-image-wrapper" onClick={onViewDetails}>
+        <img src={imageUrl} alt={title} className="ref-reference-card-image" />
       </div>
-      <div className="reference-card-content">
-        <h3 className="reference-card-title" onClick={onViewDetails}>{title}</h3>
-        <p className="reference-card-description" onClick={onViewDetails}>{content}</p>
-        <div className="reference-card-actions">
-          <div className="like-scrape-buttons">
+      <div className="ref-reference-card-content">
+        <h3 className="ref-reference-card-title" onClick={onViewDetails}>{title}</h3>
+        <p className="ref-reference-card-description" onClick={onViewDetails}>{content}</p>
+        <div className="ref-reference-card-actions">
+          <div className="ref-like-scrape-buttons">
             <button
-              className="like-button"
+              className="ref-like-button"
               onClick={() => toggleLike(index, postId)}
             >
               <FontAwesomeIcon
                 icon={like ? solidHeart : regularHeart}
-                className={`icon ${like ? 'liked' : ''}`}
+                className={`ref-icon ${like ? 'liked' : ''}`}
               />
               <span>{likeCount}</span>
             </button>
             <button
-              className="scrape-button"
+              className="ref-scrape-button"
               onClick={() => toggleScrape(index, postId)}
             >
               <FontAwesomeIcon
                 icon={scraped ? solidBookmark : regularBookmark}
-                className={`icon ${scraped ? 'scraped' : ''}`}
+                className={`ref-icon ${scraped ? 'scraped' : ''}`}
               />
               <span>{scrapeCount}</span>
             </button>
           </div>
+          <Button className="ref-details-button" onClick={onViewDetails}>
+            자세히보기
+          </Button>
         </div>
       </div>
     </div>
