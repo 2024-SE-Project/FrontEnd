@@ -25,7 +25,8 @@ function DialogTag(props) {
   const [giveDate, setGiveDate] = useState(
     props.row?.giveDate ? format(new Date(props.row.giveDate), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
   );
-  const [file, setFile] = useState(null);
+  const [fileList, setfileList] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [isPublic, setIsPublic] = useState(true);
 
   const togglePrivacy = () => {
@@ -41,28 +42,48 @@ function DialogTag(props) {
     setGiveDate(
       props.row?.giveDate ? format(new Date(props.row.giveDate), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
     );
-    setFile(null);
+    setfileList([]);
+    setImagePreviews([]);
   }, [props.row]);
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+  const handleImageFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    setfileList((prevFiles) => [...prevFiles, ...files]);
+
+    const newPreviews = files.map((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      return new Promise((resolve) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
+    });
+
+    Promise.all(newPreviews).then((results) => {
+      setImagePreviews((prevPreviews) => [...prevPreviews, ...results]);
+    });
   };
 
-  // 백엔드에 실질적으로 데이터를 전송하는 파트!
+  const handleRemoveImage = (index) => {
+    setfileList((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+  };
+
   const handleSave = async () => {
-    // 폼 데이터 객체 생성
     const formData = new FormData();
     const storedToken = localStorage.getItem("token");
     
     formData.append('title', title);
     formData.append('content', contents);
+    formData.append('isPublic', isPublic);
+
+    fileList.forEach((file, index) => {
+      formData.append(`fileList[${index}]`, file);
+    });
     
-    if (file) {
-      formData.append('fileList', file);
-    }
 
     try {
-      // POST 요청을 통해 백엔드로 데이터 전송
       const response = await axios.post('https://likelion.info:443/post/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -70,11 +91,9 @@ function DialogTag(props) {
         },
       });
 
-      // 성공적으로 데이터가 전송된 경우
       console.log('Data saved successfully:', response.data);
-      props.onClose(response.data); // 저장된 데이터를 부모 컴포넌트에 전달
+      props.onClose(response.data);
     } catch (error) {
-      // 데이터 전송 중 에러 발생 시
       console.error('Error saving data:', error);
     }
   };
@@ -113,12 +132,18 @@ function DialogTag(props) {
             </IconButton>
             <IconButton aria-label="image-upload" component="label">
               <AddPhotoAlternateIcon /> 이미지 첨부
-              <input type="file" hidden onChange={handleFileChange} />
+              <input type="file" hidden multiple onChange={handleImageFileChange} />
             </IconButton>
-            <IconButton aria-label="file-upload" component="label">
-              <i className="fas fa-folder-open"></i> 파일 첨부
-              <input type="file" hidden />
-            </IconButton>
+          </Box>
+          <Box className="previews">
+            {imagePreviews.map((preview, index) => (
+              <div className="image-preview-container" key={index}>
+                <img src={preview} alt="미리보기" className="image-preview" />
+                <IconButton className="remove-image-button" onClick={() => handleRemoveImage(index)}>
+                  <CloseIcon />
+                </IconButton>
+              </div>
+            ))}
           </Box>
         </Box>
       </DialogContent>

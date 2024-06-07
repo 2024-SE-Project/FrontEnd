@@ -161,26 +161,26 @@ export default function Main() {
       console.error('Error toggling scrape:', error);
     }
   };
+
   useEffect(() => {
     const token = query.get('token');
-  
+
     if (token) {
       localStorage.setItem('token', token);
       navigate('/dashboard/main', { replace: true });
     }
     const storedToken = localStorage.getItem('token');
-  
+
     if (storedToken == null) {
 
       navigate('/', { replace: true });
       return;
     }
-  
+
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       setIsScrolled(scrollTop > 0);
     };
-
 
     const fetchUserData = () => {
       axios.get('https://likelion.info:443/mypage', {
@@ -213,30 +213,8 @@ export default function Main() {
     fetchUserData();
     fetchPosts();
 
-
-  
-    const name = localStorage.getItem('name');
-  
-    if (name == null) {
-      axios
-        .get('https://likelion.info:443/mypage', {
-          headers: {
-            Authorization: `Bearer ${storedToken}`
-          },
-          withCredentials: true
-        })
-        .then((response) => {
-          setUserInfo(response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching user data:', error);
-          navigate('/', { replace: true });
-        });
-    }
-  
-
     window.addEventListener('scroll', handleScroll);
-  
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -269,9 +247,9 @@ export default function Main() {
 
                 <Typography variant="body1" component="p">{post.content}</Typography>
 
-                <Box className="post-images">
+                <Box className="post-images" style={{ display: 'flex', overflowX: 'auto' }}>
                   {Array.isArray(post.postFileDtoList) && post.postFileDtoList.map((image, index) => (
-                    <CardMedia key={index} component="img" image={image.imageUrl} className="post-image" />
+                    <CardMedia key={index} component="img" image={image.imageUrl} className="post-image" style={{ marginRight: '8px', width: '200px' }} />
                   ))}
                 </Box>
 
@@ -356,8 +334,8 @@ export default function Main() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-            <MenuItem onClick={() => navigate(`/dashboard/edit-post/${selectedPost?.postId}`)}>수정하기</MenuItem>
-            <MenuItem onClick={() => setOpenDeleteDialog(true)}>삭제하기</MenuItem>
+          <MenuItem onClick={() => navigate(`/dashboard/edit-post/${selectedPost?.postId}`)}>수정하기</MenuItem>
+          <MenuItem onClick={() => setOpenDeleteDialog(true)}>삭제하기</MenuItem>
         </Menu>
 
         <Dialog
