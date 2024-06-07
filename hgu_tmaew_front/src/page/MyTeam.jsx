@@ -10,6 +10,10 @@ export default function MyTeam() {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
+  const handleExit = () => {
+    
+  };
+
   useEffect(() => {
     const fetchTeamInfo = async () => {
       const token = localStorage.getItem('token');
@@ -91,7 +95,7 @@ export default function MyTeam() {
         <div className="team-details">
           <h3>{teamInfo.name}</h3>
           <div className="team-out">
-            <span className="leave-team">탈퇴하기</span>
+            <button className="leave-team" onClick={handleExit}>탈퇴하기</button>
           </div>
         </div>
       </div>
