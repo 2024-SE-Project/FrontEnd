@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
 import '../page/css/MyTeam.css';
 import CreateTeamModal from './component/CreateTeamModal';
+import EditTeamModal from './component/EditTeamModal';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 export default function MyTeam() {
@@ -10,8 +11,12 @@ export default function MyTeam() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
+
+  const [showEditModal, setShowEditModal] = useState(false); // 추가된 부분
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,8 +64,12 @@ export default function MyTeam() {
     setShowModal(false);
   };
 
-  const handleEditClick = (team) => {
-    // Edit team logic goes here
+  const handleEditClick = () => {
+    setShowEditModal(true);
+  };
+
+  const handleEditModalClose = () => {
+    setShowEditModal(false);
   };
 
   const handleExit = (team) => {
@@ -99,6 +108,7 @@ export default function MyTeam() {
           <button className="create-team-button" onClick={handleCreateTeamClick}>팀 생성하기</button>
           {showModal && <CreateTeamModal onClose={handleModalClose} />}
         </div>
+
       ) : (
         teams.map((team) => (
           <div key={team.id} className="team-content">
@@ -112,14 +122,32 @@ export default function MyTeam() {
                 <p>{team.content || "팀 소개말이 없습니다."}</p>
                 <span className="no-edits">수정권한 없음</span>
               </div>
-            </div>
+            </div>    
             <div className="team-details">
-              <h3>{team.name}</h3>
-              
+              <h3>{teamInfo.name}</h3>
               <div className="team-out">
-                  <span className="leave-team" onClick={() => handleExit(team)}>탈퇴하기</span>
-                  <span className="edit-team" onClick={() => handleEditClick(team)}>수정</span>
-                </div>
+                <span className="leave-team" onClick={handleExit}>탈퇴하기</span>
+                <Dialog
+                  open={openDeleteDialog}
+                  onClose={() => setOpenDeleteDialog(false)}
+                >
+                  <DialogTitle>팀 탈퇴</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>정말로 팀을 나가시겠습니까?</DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => setOpenDeleteDialog(false)} color="primary">취소</Button>
+                    <Button onClick={handleDelete} color="secondary">나가기</Button>
+                  </DialogActions>
+                </Dialog>
+                <span className="edit-team" onClick={handleEditClick}>수정</span>
+                <EditTeamModal
+                  open={showEditModal}
+                  onClose={handleEditModalClose}
+                  teamInfo={teamInfo}
+                />
+
+              </div>
             </div>
           </div>
         ))
