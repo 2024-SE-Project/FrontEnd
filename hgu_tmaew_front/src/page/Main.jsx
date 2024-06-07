@@ -44,18 +44,13 @@ const sampleTeams = [
   { id: 3, name: '000 교수님 팀', members: 28, image: 'https://storage.googleapis.com/raonz_post_image/cat.jpg' }
 ];
 
-const sampleHotPosts = [
-  { id: 1, title: '오늘 폼 미친 팀모임 ㅊㅋㅊㅋ', likes: 120 },
-  { id: 2, title: '오늘 폼 미친 팀모임 ㅊㅋㅊㅋ', likes: 120 },
-  { id: 3, title: '오늘 폼 미친 팀모임 ㅊㅋㅊㅋ', likes: 120 }
-];
-
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 export default function Main() {
   const [posts, setPosts] = useState([]);
+  const [hotPosts, setHotPosts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [comments, setComments] = useState({});
@@ -239,8 +234,22 @@ export default function Main() {
       });
     };
 
+    const fetchHotPosts = () => {
+      axios.get('https://likelion.info:443/rank/like', {
+        headers: { Authorization: `Bearer ${storedToken}` },
+        withCredentials: true
+      })
+      .then(response => {
+        setHotPosts(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching hot posts:', error);
+      });
+    };
+
     fetchUserData();
     fetchPosts();
+    fetchHotPosts();
 
     window.addEventListener('scroll', handleScroll);
 
@@ -388,18 +397,18 @@ export default function Main() {
           <Paper className="sidebar-section">
             <Typography variant="h6">Hot Posting</Typography>
             <List>
-              {sampleHotPosts.map((post) => (
-                <ListItem key={post.id}>
+              {hotPosts.slice(0, 3).map((post) => (
+                <ListItem key={post.postId}>
                   <ListItemAvatar>
                     <Avatar>
                       <FavoriteIcon />
                     </Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={post.title} secondary={`${post.likes} likes`} />
+                  <ListItemText primary={post.title} secondary={`${post.likeCount} likes`} />
                 </ListItem>
               ))}
             </List>
-            <Button variant="text">See more...</Button>
+            <Button variant="text" onClick={() => navigate('/dashboard/ranking')}>See more...</Button>
           </Paper>
         </Box>
 
