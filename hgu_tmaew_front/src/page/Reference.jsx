@@ -13,7 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 
-const DEFAULT_IMAGE_URL = "https://storage.googleapis.com/raonz_post_image/cat8.jpg";
+const DEFAULT_IMAGE_URL = "https://www.handong.edu/site/handong-kor/res/img/symbol_logo01.png";
 
 const Reference = () => {
   const [postData, setPostData] = useState([]);
@@ -25,6 +25,22 @@ const Reference = () => {
   const [searchCriteria, setSearchCriteria] = useState('title');
   const [selectedPost, setSelectedPost] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 9; // 한 페이지에 보여줄 카드의 수
+
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = filteredPostData.slice(indexOfFirstCard, indexOfLastCard);
+
+  // 페이지를 변경하는 함수
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // 페이지네이션을 위한 버튼을 생성
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(filteredPostData.length / cardsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -175,13 +191,15 @@ const Reference = () => {
     setSelectedPost(null);
   };
 
-  console.log("check 중!! -> " + JSON.stringify(selectedPost));
+  for (let i = 1; i <= Math.ceil(filteredPostData.length / cardsPerPage); i++) {
+    pageNumbers.push(i);
+  }
 
   return (
-    <div className="reference-container">
-      <main className="reference-main">
-        <div className="search-bar">
-          <button className="filter-button" onClick={() => setOpenFilter(true)}>
+    <div className="ref-reference-container">
+      <main className="ref-reference-main">
+        <div className="ref-search-bar">
+          <button className="ref-filter-button" onClick={() => setOpenFilter(true)}>
             <img src={FilterIcon} alt="Filter" />
           </button>
           <input
@@ -191,15 +209,15 @@ const Reference = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <button className="search-button" onClick={handleSearch}>🔍</button>
+          <button className="ref-search-button" onClick={handleSearch}>🔍</button>
         </div>
-        <nav className="reference-nav">
-          <button>전체 자료</button>
-          <button>올해 자료</button>
-          <button>내 팀 자료</button>
+        <nav className="ref-reference-nav">
+          <button className="ref-nav-button">전체 자료</button>
+          <button className="ref-nav-button">올해 자료</button>
+          <button className="ref-nav-button">내 팀 자료</button>
         </nav>
-        <section className="reference-content">
-          {filteredPostData.map((data, index) => {
+        <section className="ref-reference-content">
+          {currentCards.map((data, index) => {
             const imageUrl = data.postFileDtoList && data.postFileDtoList.length > 0 && data.postFileDtoList[0].imageUrl
               ? data.postFileDtoList[0].imageUrl
               : DEFAULT_IMAGE_URL;
@@ -225,10 +243,10 @@ const Reference = () => {
       </main>
       <NavLink
         to="/dashboard/addpost"
-        className={({ isActive }) => `floating-button ${isScrolled ? 'h_event2' : ''} ${isActive ? 'active' : ''}`}
+        className={`ref-floating-button ${isScrolled ? 'h_event2' : ''}`}
       >
         <div>
-          <span className="menu-icon">게시물 작성하기</span>
+          <span className="ref-menu-icon">게시물 작성하기</span>
         </div>
       </NavLink>
 
@@ -251,8 +269,7 @@ const Reference = () => {
 
       {selectedPost && (
         <Dialog open={openDetails} onClose={handleCloseDetails} maxWidth="md" fullWidth>
-          <DialogTitle>
-            Contents:
+          <DialogTitle className="ref-dialog-title">
             <IconButton
               aria-label="close"
               onClick={handleCloseDetails}
@@ -266,31 +283,31 @@ const Reference = () => {
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent dividers>
-            <h3>{selectedPost.title}</h3>
-            {selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0 ? (
-              selectedPost.postFileDtoList.map((file, index) => (
-                <img
-                  key={index}
-                  src={file.imageUrl}
-                  alt={`Post file ${index}`}
-                  className="dialog-image"
-                />
-              ))
-            ) : (
-              <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" />
-            )}
-            <p>{selectedPost.content}</p>
-            <p>작성날짜: {selectedPost.date}</p>
-            <p>작성자: {selectedPost.userDto.name}</p>
+          <DialogContent dividers className="ref-dialog-content">
+            <h3 className="ref-dialog-title-text">{selectedPost.title}</h3>
+            <div className="ref-dialog-image-container">
+              <img
+                src={
+                  selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0
+                    ? selectedPost.postFileDtoList[0].imageUrl
+                    : DEFAULT_IMAGE_URL
+                }
+                alt={selectedPost.title}
+                className="ref-dialog-image"
+              />
+            </div>
+            <p className="ref-dialog-content-text">{selectedPost.content}</p>
+            <div className="ref-dialog-like-scrape">
+              <FavoriteIcon className="ref-dialog-icon" color={selectedPost.like ? 'error' : 'inherit'} />
+              <span>{selectedPost.likeCount}</span>
+              <BookmarkIcon className="ref-dialog-icon" color={selectedPost.scraped ? 'primary' : 'inherit'} />
+              <span>{selectedPost.scrapeCount}</span>
+            </div>
           </DialogContent>
           <DialogActions>
-              <div className="dialog-icons">
-                <FavoriteIcon color="error" />
-                <span>좋아요 수: {selectedPost.likeCount}</span>
-                <BookmarkIcon color="primary" />
-                <span>스크랩 수: {selectedPost.scrapeCount}</span>
-              </div>
+            <Button onClick={handleCloseDetails} color="primary">
+              닫기
+            </Button>
           </DialogActions>
         </Dialog>
       )}
@@ -298,29 +315,54 @@ const Reference = () => {
   );
 };
 
-const Card = ({ postId, title, content, imageUrl, like, scraped, likeCount, scrapeCount, index, toggleLike, toggleScrape, onViewDetails }) => {
+const Card = ({
+  index,
+  postId,
+  title,
+  content,
+  imageUrl,
+  like,
+  scraped,
+  likeCount,
+  scrapeCount,
+  toggleLike,
+  toggleScrape,
+  onViewDetails,
+}) => {
   return (
-    <div className="card">
-      <div className="card-image-container">
-        <img src={imageUrl} alt="Post" />
+    <div className="ref-reference-card">
+      <div className="ref-image-wrapper" onClick={onViewDetails}>
+        <img src={imageUrl} alt={title} className="ref-reference-card-image" />
       </div>
-      <div className="card-content">
-        <div className="card-header">
-          <div className="card-icons">
-            <button onClick={() => toggleLike(index, postId)} className="icon-button">
-              <FontAwesomeIcon icon={like ? solidHeart : regularHeart} className="fa-heart" />
-              <span className="like-count">{likeCount}</span>
+      <div className="ref-reference-card-content">
+        <h3 className="ref-reference-card-title" onClick={onViewDetails}>{title}</h3>
+        <p className="ref-reference-card-description" onClick={onViewDetails}>{content}</p>
+        <div className="ref-reference-card-actions">
+          <div className="ref-like-scrape-buttons">
+            <button
+              className="ref-like-button"
+              onClick={() => toggleLike(index, postId)}
+            >
+              <FontAwesomeIcon
+                icon={like ? solidHeart : regularHeart}
+                className={`ref-icon ${like ? 'liked' : ''}`}
+              />
+              <span>{likeCount}</span>
             </button>
-            <button onClick={() => toggleScrape(index, postId)} className="icon-button">
-              <FontAwesomeIcon icon={scraped ? solidBookmark : regularBookmark} className="fa-bookmark" />
-              <span className="scrape-count">{scrapeCount}</span>
+            <button
+              className="ref-scrape-button"
+              onClick={() => toggleScrape(index, postId)}
+            >
+              <FontAwesomeIcon
+                icon={scraped ? solidBookmark : regularBookmark}
+                className={`ref-icon ${scraped ? 'scraped' : ''}`}
+              />
+              <span>{scrapeCount}</span>
             </button>
           </div>
-        </div>
-        <h3>{title}</h3>
-        <p>{content}</p>
-        <div className="card-footer">
-          <button className="details-button" onClick={onViewDetails}>자세히 보기</button>
+          <Button className="ref-details-button" onClick={onViewDetails}>
+            자세히보기
+          </Button>
         </div>
       </div>
     </div>
