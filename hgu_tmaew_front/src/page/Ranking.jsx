@@ -95,7 +95,7 @@ export default function Ranking() {
           {rankingData.slice(0, 3).map((post, index) => (
             <div key={post.id} className={`ranking-card rank-${index + 1}`}>
               <div className="ranking-position">{index + 1}등</div>
-              <img src={post.postFileDtoList.imageUrl} alt={post.postFileDtoList.imageUrl} className="ranking-image" />
+              <img src={post.postFileDtoList[0].imageUrl} alt={post.postFileDtoList.imageUrl} className="ranking-image" />
               <div className="ranking-post">{post.content}</div>
               <div className="ranking-score">❤️ {post.likeCount}</div>
             </div>
