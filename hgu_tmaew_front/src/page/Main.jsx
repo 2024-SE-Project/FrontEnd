@@ -222,6 +222,28 @@ export default function Main() {
     };
   }, []);
 
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: 'block', background: 'gray', borderRadius: '50%' }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: 'block', background: 'gray', borderRadius: '50%' }}
+        onClick={onClick}
+      />
+    );
+  }
+
   const sliderSettings = {
     dots: true,
     infinite: false,
@@ -229,7 +251,9 @@ export default function Main() {
     slidesToShow: 1,
     slidesToScroll: 1,
     variableWidth: false,
-    adaptiveHeight: false
+    adaptiveHeight: false,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
   };
 
   return (
