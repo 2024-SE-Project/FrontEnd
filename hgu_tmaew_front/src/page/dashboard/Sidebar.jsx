@@ -143,12 +143,12 @@ export default function Sidebar({ toggleDrawer }) {
                 <div className="sidebar-teams">
                     <h2>My Teams</h2>
                     {teams.map((team) => (
-                        <div key={team.id} className="team-message">
-                            <span className="team-icon">
+                        <div key={team.id} className="sidebar-team-message">
+                            <span className="sidebar-team-icon">
                                 <img src={team.imgURL} alt={team.name} />
                             </span>
-                            <div className="team-text">
-                                {team.name} <span className="team-time">{team.content}</span>
+                            <div className="sidebar-team-text">
+                                {team.name} <span className="sidebar-team-time">{team.content}</span>
                             </div>
                         </div>
                     ))}
