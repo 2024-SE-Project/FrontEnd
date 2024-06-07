@@ -281,18 +281,25 @@ const Reference = () => {
                     src={file.imageUrl}
                     alt={`Post file ${index}`}
                     className="dialog-image"
+                    style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }} // 이미지 크기 조절
                   />
                 ))
               ) : (
-                <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" />
+                <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }} />
               )}
             </div>
             <p className="ref-dialog-content-text">{selectedPost.content}</p>
-            <div className="ref-dialog-like-scrape">
-              <FavoriteIcon className="ref-dialog-icon" color={selectedPost.like ? 'error' : 'inherit'} />
-              <span>{selectedPost.likeCount}</span>
-              <BookmarkIcon className="ref-dialog-icon" color={selectedPost.scraped ? 'primary' : 'inherit'} />
-              <span>{selectedPost.scrapeCount}</span>
+            <hr />
+            <div className="ref-dialog-footer">
+              <div className="ref-dialog-author">
+                작성자: {selectedPost.author}
+              </div>
+              <div className="ref-dialog-like-scrape">
+                <FavoriteIcon className="ref-dialog-icon" color={selectedPost.like ? 'error' : 'inherit'} />
+                <span>{selectedPost.likeCount}</span>
+                <BookmarkIcon className="ref-dialog-icon" color={selectedPost.scraped ? 'primary' : 'inherit'} />
+                <span>{selectedPost.scrapeCount}</span>
+              </div>
             </div>
           </DialogContent>
           <DialogActions>
