@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import '../css/Sidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +9,31 @@ import { FaRankingStar } from 'react-icons/fa6';
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 export default function Sidebar({ toggleDrawer }) {
+    const [teams, setTeams] = useState([]);
+
+    useEffect(() => {
+        const fetchTeams = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('Token not found');
+                return;
+            }
+
+            try {
+                const response = await axios.get('https://likelion.info:443/my/team/get', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setTeams(response.data || []);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchTeams();
+    }, []);
+
     return (
         <div className="sidebar">
             <div className="sidebar-header">
@@ -32,7 +58,9 @@ export default function Sidebar({ toggleDrawer }) {
                         <span className="menu-icon"><FontAwesomeIcon icon={faUsers} /></span>
                         <div className="menu-item-content">
                             My Team
-                            <span className="menu-subtext">최희열 교수님팀</span>
+                            {teams.length > 0 && (
+                                <span className="menu-subtext">{teams[0].name}</span>
+                            )}
                         </div>
                     </div>
                 </NavLink>
@@ -60,7 +88,7 @@ export default function Sidebar({ toggleDrawer }) {
                 >
                     <div className="menu-item">
                         <span className="menu-icon"><IoHeartCircle /></span>
-                        Teem Meeting Match
+                        Team Meeting Match
                     </div>
                 </NavLink>
                 <NavLink 
@@ -69,7 +97,7 @@ export default function Sidebar({ toggleDrawer }) {
                 >
                     <div className="menu-item">
                         <span className="menu-icon"><FontAwesomeIcon icon={faCamera} /></span>
-                        Photo studio
+                        Photo Studio
                     </div>
                 </NavLink>
                 <NavLink 
@@ -78,7 +106,7 @@ export default function Sidebar({ toggleDrawer }) {
                 >
                     <div className="menu-item">
                         <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
-                        Reference library
+                        Reference Library
                     </div>
                 </NavLink>
                 <div className="menu-group">
@@ -89,11 +117,26 @@ export default function Sidebar({ toggleDrawer }) {
                     >
                         <div className="menu-item">
                             <span className="menu-icon"><FontAwesomeIcon icon={faFolder} /></span>
-                            Upload Poat
+                            Upload Post
                         </div>
                     </NavLink>
                 </div>
             </div>
+            {teams.length > 0 && (
+                <div className="sidebar-teams">
+                    <h2>My Teams</h2>
+                    {teams.map((team) => (
+                        <div key={team.id} className="team-message">
+                            <span className="team-icon">
+                                <img src={team.imgURL} alt={team.name} />
+                            </span>
+                            <div className="team-text">
+                                {team.name} <span className="team-time">{team.content}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
             <div className="sidebar-communities">
                 <h2>My Communities <span className="community-count">19</span></h2>
                 <div className="community-message">
