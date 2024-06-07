@@ -40,6 +40,7 @@ export default function CreateTeamModal({ onClose }) {
         console.log('Team created successfully:', response.data);
         onClose();
         // Optionally, refresh the team list or navigate to another page
+        window.location.href = window.location.href;
       } else {
         console.error('Failed to create team');
       }
