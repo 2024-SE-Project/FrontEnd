@@ -302,9 +302,11 @@ export default function Main() {
                       <Typography variant="body2" color="textSecondary" ml={2}>{post.team}</Typography>
                     </>
                   )}
-                  <IconButton style={{ marginLeft: 'auto' }} onClick={(e) => handleClick(e, post)}>
-                    <MoreVertIcon />
-                  </IconButton>
+                  {userInfo && userInfo.userId === post.userDto.userId && (
+                    <IconButton style={{ marginLeft: 'auto' }} onClick={(e) => handleClick(e, post)}>
+                      <MoreVertIcon />
+                    </IconButton>
+                  )}
                 </Box>
                 <Typography variant="h6" component="p" style={{ fontWeight: 'bold' }}>{post.title}</Typography>
 
@@ -401,15 +403,17 @@ export default function Main() {
           </Paper>
         </Box>
 
-        <Menu
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={() => navigate(`/dashboard/edit-post/${selectedPost?.postId}`)}>수정하기</MenuItem>
-          <MenuItem onClick={() => setOpenDeleteDialog(true)}>삭제하기</MenuItem>
-        </Menu>
+        {selectedPost && userInfo && userInfo.userId === selectedPost.userDto.userId && (
+          <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => navigate(`/dashboard/edit-post/${selectedPost?.postId}`)}>수정하기</MenuItem>
+            <MenuItem onClick={() => setOpenDeleteDialog(true)}>삭제하기</MenuItem>
+          </Menu>
+        )}
 
         <Dialog
           open={openDeleteDialog}
