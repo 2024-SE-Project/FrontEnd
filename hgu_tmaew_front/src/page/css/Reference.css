@@ -1,87 +1,95 @@
-.reference-container {
+.ref-reference-container {
   padding: 20px;
 }
 
-.reference-main {
+.ref-reference-main {
   margin-top: 20px;
 }
 
-.search-bar {
+.ref-search-bar {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 50px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.search-bar input {
+.ref-search-bar input {
   flex: 1;
   padding: 10px;
-  margin-left: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: none;
+  border-radius: 50px;
+  outline: none;
 }
 
-.search-bar button {
+.ref-search-bar button {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 20px;
+  margin-left: 10px;
 }
 
-.search-bar button img {
+.ref-search-bar button img {
   width: 20px;
   height: 20px;
 }
 
-.reference-nav {
+.ref-reference-nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
-.reference-nav button {
+.ref-nav-button {
   padding: 10px 20px;
   background-color: #f8f9fa;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 50px;
   cursor: pointer;
+  margin: 0 10px;
 }
 
-.reference-content {
+.ref-reference-content {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
-.reference-card {
-  flex: 1 1 calc(33.333% - 20px);
+.ref-reference-card {
+  flex: 1 1 calc(30% - 20px);
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
   background-color: white;
   transition: transform 0.3s;
-  height: 400px; /* 카드의 높이를 일정하게 설정 */
+  height: 450px; /* 카드의 높이를 일정하게 설정 */
   display: flex;
   flex-direction: column; /* Flex column layout for card content */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.reference-card:hover {
+.ref-reference-card:hover {
   transform: scale(1.05);
 }
 
-.image-wrapper {
+.ref-image-wrapper {
   width: 100%;
-  height: 200px;
+  height: 50%;
   overflow: hidden;
   cursor: pointer;
 }
 
-.reference-card-image {
+.ref-reference-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.reference-card-content {
+.ref-reference-card-content {
   padding: 20px;
   flex: 1; /* Ensure content area expands to fill card */
   display: flex;
@@ -89,29 +97,29 @@
   justify-content: space-between; /* Space out title, description, and actions */
 }
 
-.reference-card-title {
+.ref-reference-card-title {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   cursor: pointer;
 }
 
-.reference-card-description {
+.ref-reference-card-description {
   margin: 0 0 20px 0;
   color: #555;
   cursor: pointer;
 }
 
-.reference-card-actions {
+.ref-reference-card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.like-scrape-buttons {
+.ref-like-scrape-buttons {
   display: flex;
 }
 
-.like-button, .scrape-button {
+.ref-like-button, .ref-scrape-button {
   display: flex;
   align-items: center;
   background: none;
@@ -121,7 +129,7 @@
   margin-right: 10px;
 }
 
-.like-button .icon, .scrape-button .icon {
+.ref-like-button .ref-icon, .ref-scrape-button .ref-icon {
   margin-right: 5px;
 }
 
@@ -133,22 +141,26 @@
   color: blue;
 }
 
-.view-details-button {
+.ref-details-button {
   padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
+  background-color: #007bff !important;
+  color: white !important;
   border: none;
-  border-radius: 4px;
+  border-radius: 50px;
   cursor: pointer;
 }
 
+.ref-details-button:hover {
+  background-color: #0056b3;
+}
+
 /* Dialog Styles */
-.dialog-title {
+.ref-dialog-title {
   display: flex;
   justify-content: flex-end;
 }
 
-.dialog-title-text {
+.ref-dialog-title-text {
   margin: 0;
   padding: 0 0 10px 0;
   font-size: 1.5em;
@@ -156,42 +168,42 @@
   text-align: center;
 }
 
-.dialog-content {
+.ref-dialog-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.dialog-image-container {
+.ref-dialog-image-container {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-.dialog-image {
+.ref-dialog-image {
   max-width: 100%;
   height: auto;
 }
 
-.dialog-content-text {
+.ref-dialog-content-text {
   margin: 0;
   padding: 0 0 20px 0;
   font-size: 1.2em;
 }
 
-.dialog-like-scrape {
+.ref-dialog-like-scrape {
   display: flex;
   align-items: center;
   margin-top: 10px;
 }
 
-.dialog-like-scrape .dialog-icon {
+.ref-dialog-like-scrape .ref-dialog-icon {
   margin-right: 5px;
 }
 
-.floating-button {
+.ref-floating-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -199,20 +211,21 @@
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 50px;
   cursor: pointer;
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
 }
 
-.floating-button:hover {
+.ref-floating-button:hover {
   background-color: #0056b3;
 }
 
-.floating-button .menu-icon {
+.ref-floating-button .ref-menu-icon {
   display: flex;
   align-items: center;
   justify-content: center;
