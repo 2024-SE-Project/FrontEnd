@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Slider from 'react-slick';
 import {
   Box,
   Container,
@@ -31,6 +32,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import '../page/css/Main.css';
 
 const sampleTeams = [
@@ -172,7 +175,6 @@ export default function Main() {
     const storedToken = localStorage.getItem('token');
 
     if (storedToken == null) {
-
       navigate('/', { replace: true });
       return;
     }
@@ -220,6 +222,16 @@ export default function Main() {
     };
   }, []);
 
+  const sliderSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    variableWidth: false,
+    adaptiveHeight: false
+  };
+
   return (
     <Container className="main-container">
       <Helmet>
@@ -247,11 +259,21 @@ export default function Main() {
 
                 <Typography variant="body1" component="p">{post.content}</Typography>
 
-                <Box className="post-images" style={{ display: 'flex', overflowX: 'auto' }}>
-                  {Array.isArray(post.postFileDtoList) && post.postFileDtoList.map((image, index) => (
-                    <CardMedia key={index} component="img" image={image.imageUrl} className="post-image" style={{ marginRight: '8px', width: '200px' }} />
-                  ))}
-                </Box>
+                {Array.isArray(post.postFileDtoList) && post.postFileDtoList.length > 0 && (
+                  <Box className="post-images">
+                    <Slider {...sliderSettings}>
+                      {post.postFileDtoList.map((file, idx) => (
+                        <div className="post-image-container" key={idx}>
+                          <CardMedia
+                            component="img"
+                            image={file.imageUrl}
+                            className="post-image"
+                          />
+                        </div>
+                      ))}
+                    </Slider>
+                  </Box>
+                )}
 
                 <Box display="flex" alignItems="center" mt={2}>
                   <IconButton onClick={() => toggleLike(index, post.postId)}>
