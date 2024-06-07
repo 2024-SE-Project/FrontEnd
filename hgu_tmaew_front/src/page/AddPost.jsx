@@ -5,6 +5,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import PublishIcon from '@mui/icons-material/Publish';
 import '../page/css/AddPost.css';
 import { IconButton } from '@mui/material';
+import Logo from '../assets/logo_white.svg'; // 로고 이미지
 import { Close } from '@mui/icons-material';
 
 export default function AddPost() {
@@ -15,7 +16,6 @@ export default function AddPost() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [otherFile, setOtherFile] = useState(null);
   const [fileList, setFileList] = useState([]);
-
   const navigate = useNavigate();
 
   const handleTitleChange = (e) => {
@@ -50,6 +50,16 @@ export default function AddPost() {
     setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
   };
 
+const handleDummyImage = () => {
+  fetch(Logo)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const dummyImageFile = new File([blob], 'dummyImage.png', { type: 'image/png' });
+      setOtherFile(dummyImageFile);
+    })
+    .catch((error) => console.error('Error fetching dummy image:', error));
+};
+
   const handleOtherFileChange = (event) => {
     const file = event.target.files[0];
     setOtherFile(file);
@@ -80,7 +90,11 @@ export default function AddPost() {
       formData.append(`images[${index}]`, file);
     });
 
-    if (otherFile) {
+    if (!otherFile) {
+      console.log("첨부 파일이 입력되지 않았습니다. 더미 이미지를 사용합니다.");
+      handleDummyImage();
+    } else {
+      console.log("첨부 파일이 입력되었습니다.");
       formData.append('file', otherFile);
     }
 
@@ -91,8 +105,6 @@ export default function AddPost() {
     } else {
       formData.append('fileList', new Blob([])); // 빈 파일 리스트 추가
     }
-
-    
 
     try {
       const response = await axios.post(
