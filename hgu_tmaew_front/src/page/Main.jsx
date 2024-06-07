@@ -58,7 +58,7 @@ export default function Main() {
   const [posts, setPosts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
-  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState({});
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const query = useQuery();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -93,6 +93,7 @@ export default function Main() {
 
   const handleAddComment = async (postId) => {
     const token = localStorage.getItem("token");
+    const comment = comments[postId] || '';
 
     if (comment.trim()) {
       console.log(comment);
@@ -103,7 +104,6 @@ export default function Main() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // 필요한 경우 JWT 토큰을 포함할 수 있습니다.
             'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({ contents: comment })
@@ -116,9 +116,8 @@ export default function Main() {
         const commentId = await response.json();
         console.log(`Comment added with ID: ${commentId}`);
         
-        // 댓글 추가 성공 후 댓글 입력 필드를 초기화합니다.
-        setComment('');
-        window.location.href = window.location.href;
+        // Clear the comment for the specific post
+        setComments(prevComments => ({ ...prevComments, [postId]: '' }));
       } catch (error) {
         console.error('Failed to add comment:', error);
       }
@@ -359,8 +358,8 @@ export default function Main() {
                     label="댓글 작성"
                     variant="outlined"
                     size="small"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
+                    value={comments[post.postId] || ''}
+                    onChange={(e) => setComments({ ...comments, [post.postId]: e.target.value })}
                     fullWidth
                   />
                   <Button variant="contained" color="primary" onClick={() => handleAddComment(post.postId)}>등록</Button>
