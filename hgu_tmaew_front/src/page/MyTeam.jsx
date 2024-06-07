@@ -50,6 +50,10 @@ export default function MyTeam() {
     setShowModal(false);
   };
 
+  const handleEditClick = () => {
+    // Edit team logic goes here
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -92,6 +96,7 @@ export default function MyTeam() {
           <h3>{teamInfo.name}</h3>
           <div className="team-out">
             <span className="leave-team">탈퇴하기</span>
+            <span className="edit-team" onClick={handleEditClick}>수정</span>
           </div>
         </div>
       </div>
