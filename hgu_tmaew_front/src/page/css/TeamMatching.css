@@ -7,43 +7,56 @@
 .search-bar {
   display: flex;
   align-items: center;
+  background-color: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 .search-icon {
-  margin-right: 10px;
+  margin: 10px 10px;
 }
 
 .search-input {
   flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 10px; /* 패딩을 추가하여 높이를 맞춥니다 */
+  border-radius: 50px; /* border-radius를 추가하여 모양을 둥글게 만듭니다 */
 }
 
+
 .tm-filters {
-  display: flex!important;
-  gap: 10px!important;
-  margin-bottom: 20px!important;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  align-items: flex-start; /* 위쪽 정렬 */
 }
 
 .tm-filter-button {
-  flex-grow: 1 !important;
-  background-color: #f0f0f0 !important;
-  color: #000 !important;
-  border-radius: 20px !important;
-  text-transform: none !important;
-  padding: 5px 10px !important;
+  background-color: #f0f0f0!important;
+  color: #000!important;
+  border-radius: 50px!important;
+  text-transform: none!important;
+  padding: 10px 20px!important; /* 버튼 크기 조정 */
+  font-size: 1rem!important; /* 버튼 글씨 크기 조정 */
 }
 
 .tm-filter-button.selected {
-  background-color: #6FA4FF !important;
-  color: #fff !important;
+  background-color: #1e88e5!important;
+  color: #fff!important;
 }
+
 
 .TM-team-content {
   display: flex;
   gap: 20px;
-  background: none !important;
-  padding: 0 !important;
-  box-shadow: none !important;
+  background: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 .left {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconButton, TextField, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconButton, InputBase,TextField, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Search as SearchIcon, Tune as TuneIcon } from '@mui/icons-material';
 import '../page/css/TeamMatching.css';
 import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
@@ -117,14 +117,15 @@ export default function TeamMatching() {
         <Container className="team-matching-container">
             <Box className="search-bar">
                 <IconButton className="search-icon">
+                    <TuneIcon />
+                </IconButton>
+                <InputBase
+                    className="search-input"
+                    placeholder="찾고 싶은 자료를 입력해주세요."
+                />
+                <IconButton className="search-icon">
                     <SearchIcon />
                 </IconButton>
-                <TextField
-                    className="search-input"
-                    placeholder="원하는 팀 혹은 활동을 입력해주세요."
-                    variant="outlined"
-                    fullWidth
-                />
             </Box>
 
             <Box className="tm-filters">
