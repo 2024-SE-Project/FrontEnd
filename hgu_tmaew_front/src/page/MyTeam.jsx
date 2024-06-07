@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../page/css/MyTeam.css';
 import CreateTeamModal from './component/CreateTeamModal';
+import EditTeamModal from './component/EditTeamModal';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 export default function MyTeam() {
@@ -10,6 +11,7 @@ export default function MyTeam() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false); // 추가된 부분
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,7 +55,11 @@ export default function MyTeam() {
   };
 
   const handleEditClick = () => {
-    // Edit team logic goes here
+    setShowEditModal(true);
+  };
+
+  const handleEditModalClose = () => {
+    setShowEditModal(false);
   };
 
   const handleExit = () => {
@@ -131,6 +137,11 @@ export default function MyTeam() {
               </DialogActions>
             </Dialog>
             <span className="edit-team" onClick={handleEditClick}>수정</span>
+            <EditTeamModal
+              open={showEditModal}
+              onClose={handleEditModalClose}
+              teamInfo={teamInfo}
+            />
           </div>
         </div>
       </div>
