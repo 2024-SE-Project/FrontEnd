@@ -32,6 +32,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../page/css/Main.css';
@@ -225,9 +227,9 @@ export default function Main() {
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
-      <div
+      <ArrowForwardIosIcon
         className={className}
-        style={{ ...style, display: 'block', background: 'gray', borderRadius: '50%' }}
+        style={{ ...style, display: 'block', color: 'blue', fontSize: '30px' }}
         onClick={onClick}
       />
     );
@@ -236,9 +238,9 @@ export default function Main() {
   function SamplePrevArrow(props) {
     const { className, style, onClick } = props;
     return (
-      <div
+      <ArrowBackIosIcon
         className={className}
-        style={{ ...style, display: 'block', background: 'gray', borderRadius: '50%' }}
+        style={{ ...style, display: 'block', color: 'blue', fontSize: '30px' }}
         onClick={onClick}
       />
     );
