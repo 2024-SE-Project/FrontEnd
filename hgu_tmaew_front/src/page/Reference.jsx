@@ -352,9 +352,6 @@ const Card = ({
               <span>{scrapeCount}</span>
             </button>
           </div>
-          <Button className="ref-details-button" onClick={onViewDetails}>
-            자세히보기
-          </Button>
         </div>
       </div>
     </div>
