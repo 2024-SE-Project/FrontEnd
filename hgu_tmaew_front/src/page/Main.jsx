@@ -118,6 +118,7 @@ export default function Main() {
         
         // 댓글 추가 성공 후 댓글 입력 필드를 초기화합니다.
         setComment('');
+        window.location.href = window.location.href;
       } catch (error) {
         console.error('Failed to add comment:', error);
       }
