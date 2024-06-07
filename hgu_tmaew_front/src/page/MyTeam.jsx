@@ -13,7 +13,8 @@ export default function MyTeam() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [selectedTeamForDelete, setSelectedTeamForDelete] = useState(null);
+  const [selectedTeamForEdit, setSelectedTeamForEdit] = useState(null);
 
   const [showEditModal, setShowEditModal] = useState(false); // 추가된 부분
 
@@ -65,31 +66,31 @@ export default function MyTeam() {
   };
 
   const handleEditClick = (team) => {
-    setSelectedTeam(team);
+    setSelectedTeamForEdit(team);
     setShowEditModal(true);
   };
 
   const handleEditModalClose = () => {
     setShowEditModal(false);
-    setSelectedTeam(null);
+    setSelectedTeamForEdit(null);
   };
 
   const handleExit = (team) => {
-    setSelectedTeam(team);
+    setSelectedTeamForDelete(team);
     setOpenDeleteDialog(true);
   };
 
   const handleDelete = async () => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`https://likelion.info:443/team/delete/${selectedTeam.id}`, {
+      await axios.delete(`https://likelion.info:443/team/delete/${selectedTeamForDelete.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      setTeams((prevTeams) => prevTeams.filter(team => team.id !== selectedTeam.id));
+      setTeams((prevTeams) => prevTeams.filter(team => team.id !== selectedTeamForDelete.id));
       setOpenDeleteDialog(false);
-      setSelectedTeam(null);
+      setSelectedTeamForDelete(null);
     } catch (error) {
       console.error('Error exiting team:', error);
     }
@@ -143,11 +144,11 @@ export default function MyTeam() {
                   </DialogActions>
                 </Dialog>
                 <span className="edit-team" onClick={() => handleEditClick(team)}>수정</span>
-                {selectedTeam && (
+                {selectedTeamForEdit && (
                   <EditTeamModal
                     open={showEditModal}
                     onClose={handleEditModalClose}
-                    team={selectedTeam}
+                    team={selectedTeamForEdit}
                   />
                 )}
               </div>
