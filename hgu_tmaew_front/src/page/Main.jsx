@@ -91,11 +91,36 @@ export default function Main() {
     }
   };
 
-  const handleAddComment = (postId) => {
+  const handleAddComment = async (postId) => {
+    const token = localStorage.getItem("token");
+
     if (comment.trim()) {
+      console.log(comment);
       console.log(`Adding comment: ${comment} for postId: ${postId}`);
-      setComment('');
-      // Add logic to send comment to server
+  
+      try {
+        const response = await fetch(`https://likelion.info:443/comment/add/${postId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // 필요한 경우 JWT 토큰을 포함할 수 있습니다.
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ contents: comment })
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+  
+        const commentId = await response.json();
+        console.log(`Comment added with ID: ${commentId}`);
+        
+        // 댓글 추가 성공 후 댓글 입력 필드를 초기화합니다.
+        setComment('');
+      } catch (error) {
+        console.error('Failed to add comment:', error);
+      }
     }
   };
 
