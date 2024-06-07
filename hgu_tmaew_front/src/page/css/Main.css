@@ -87,3 +87,15 @@
 .sidebar-section .MuiTypography-h6 {
   color: #1e88e5; /* Light blue text color for Best Team */
 }
+
+/* Add these styles for the custom arrow buttons */
+.slick-prev:before,
+.slick-next:before {
+  display: none; /* Hide default arrows */
+}
+
+.slick-prev,
+.slick-next {
+  color: #1e88e5 !important;
+  font-size: 30px;
+}

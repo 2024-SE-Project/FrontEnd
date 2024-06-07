@@ -108,7 +108,7 @@
 
 .cancel-button {
   background: #f25247;
-  color: white;
+  color: white !important;
 }
 
 .save-draft-button {

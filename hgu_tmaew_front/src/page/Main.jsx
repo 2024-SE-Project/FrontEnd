@@ -32,6 +32,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../page/css/Main.css';
@@ -89,11 +91,36 @@ export default function Main() {
     }
   };
 
-  const handleAddComment = (postId) => {
+  const handleAddComment = async (postId) => {
+    const token = localStorage.getItem("token");
+
     if (comment.trim()) {
+      console.log(comment);
       console.log(`Adding comment: ${comment} for postId: ${postId}`);
-      setComment('');
-      // Add logic to send comment to server
+  
+      try {
+        const response = await fetch(`https://likelion.info:443/comment/add/${postId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // 필요한 경우 JWT 토큰을 포함할 수 있습니다.
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ contents: comment })
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+  
+        const commentId = await response.json();
+        console.log(`Comment added with ID: ${commentId}`);
+        
+        // 댓글 추가 성공 후 댓글 입력 필드를 초기화합니다.
+        setComment('');
+      } catch (error) {
+        console.error('Failed to add comment:', error);
+      }
     }
   };
 
@@ -225,9 +252,9 @@ export default function Main() {
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
-      <div
+      <ArrowForwardIosIcon
         className={className}
-        style={{ ...style, display: 'block', background: 'gray', borderRadius: '50%' }}
+        style={{ ...style, display: 'block', color: 'blue', fontSize: '30px' }}
         onClick={onClick}
       />
     );
@@ -236,9 +263,9 @@ export default function Main() {
   function SamplePrevArrow(props) {
     const { className, style, onClick } = props;
     return (
-      <div
+      <ArrowBackIosIcon
         className={className}
-        style={{ ...style, display: 'block', background: 'gray', borderRadius: '50%' }}
+        style={{ ...style, display: 'block', color: 'blue', fontSize: '30px' }}
         onClick={onClick}
       />
     );
