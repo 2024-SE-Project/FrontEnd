@@ -3,7 +3,7 @@ import { Container, Box, Typography, Card, CardContent, CardMedia, Button, IconB
 import { Search as SearchIcon } from '@mui/icons-material';
 import '../page/css/TeamMatching.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 export default function TeamMatching() {
     const sampleTeams = [
@@ -39,6 +39,7 @@ export default function TeamMatching() {
     const [selectedFilter, setSelectedFilter] = useState('정확도순');
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
     const navigate = useNavigate();
 
     const handleFilterChange = (filter) => {
@@ -46,6 +47,14 @@ export default function TeamMatching() {
     };
 
     useEffect(() => {
+        
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+              setIsScrolled(true);
+            } else {
+              setIsScrolled(false);
+            }
+          };
         const fetchTeamInfo = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
@@ -84,7 +93,7 @@ export default function TeamMatching() {
           }
     
           try {
-            const response = await axios.get('https://likelion.info:443/post/get/all/1', {
+            const response = await axios.get('https://likelion.info:443/match/get/all/1', {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -207,12 +216,20 @@ export default function TeamMatching() {
                             </Card>
                         ))}
                     </Box>
+                    <NavLink
+                        to="/dashboard/addMatching"
+                        className={`ref-floating-button ${isScrolled ? 'h_event2' : ''}`}
+                    >
+                        <div>
+                        <span className="ref-menu-icon">게시물 작성하기</span>
+                        </div>
+                    </NavLink>
                 </Box>
             </div>
-
+{/* 
             <IconButton className="tm-floating-button">
                 팀모임 매칭 작성하기
-            </IconButton>
+            </IconButton> */}
         </Container>
     );
 }

@@ -13,6 +13,7 @@ import TeamMatching from './page/TeamMatching';
 import PhotoStudio from './page/PhotoStudio';
 import MyTeam from './page/MyTeam';
 import AddPost from './page/AddPost';
+import AddMatching from './page/AddMatching';
 import EditPost from './page/EditPost';
 
 export default function Router() {
@@ -44,6 +45,7 @@ export default function Router() {
         { path: 'library', element: <Reference /> },
         { path: 'library/create', element: <RefDialog /> },
         { path: 'addpost', element: <AddPost /> },
+        { path: 'addMatching', element: <AddMatching /> },
         { path: 'edit-post/:id', element: <EditPost />},
       ],
     },
