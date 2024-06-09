@@ -276,14 +276,10 @@ const Reference = () => {
             <div className="ref-dialog-image-container">
               {selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0 ? (
                 selectedPost.postFileDtoList.map((file, index) => (
-                  // <img
-                  //   key={index}
-                  //   src={file.imageUrl}
-                  //   alt={`Post file ${index}`}
-                  //   className="dialog-image"
-                  //   style={{ maxWidth: '25%', maxHeight: '400px', objectFit: 'contain' }} // 이미지 크기 조절
-                  // />
-                  <p className="ref-dialog-content-text">{file.imageUrl}</p>      
+                  
+                  <p className="ref-dialog-link">
+                    <a href={file.imageUrl} target="_blank" rel="noopener noreferrer">{file.imageUrl}</a>
+                  </p>
                 ))
               ) : (
                 <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" style={{ maxWidth: '25%', maxHeight: '400px', objectFit: 'contain' }} />
