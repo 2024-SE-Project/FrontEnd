@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogTitle,
@@ -28,6 +29,7 @@ function DialogTag(props) {
   const [fileList, setfileList] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [isPublic, setIsPublic] = useState(true);
+  const navigate = useNavigate();
 
   const togglePrivacy = () => {
     setIsPublic(!isPublic);
@@ -90,9 +92,9 @@ function DialogTag(props) {
           Authorization: `Bearer ${storedToken}`
         },
       });
-
       console.log('Data saved successfully:', response.data);
       props.onClose(response.data);
+      window.location.reload();
     } catch (error) {
       console.error('Error saving data:', error);
     }

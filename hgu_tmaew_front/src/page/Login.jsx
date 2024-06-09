@@ -24,13 +24,13 @@ function LoginPage() {
                     <h1>Sign in</h1>
                     
                     <br />
-                    <Link to="/dashboard/main" className="adminLoginButton">Admin login</Link>
-                    <br />
-                    <br />
 
                     <button onClick={handleGoogleLogin} className="google-signin-btn">
                         Sign in with Google
                     </button>
+
+                    <br />
+                    
                     <button className="link-button" /* onClick={handleForgotPassword} */ >Forgot Password</button>
                     <div className="signup-link">
                         No Account? <button className="link-button" /* onClick={handleSignUp } */ >Sign up</button>
