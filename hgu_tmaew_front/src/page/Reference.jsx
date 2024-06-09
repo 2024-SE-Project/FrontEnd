@@ -293,7 +293,7 @@ const Reference = () => {
             <hr />
             <div className="ref-dialog-footer">
               <div className="ref-dialog-author">
-                작성자: {selectedPost.author}
+                작성자: {selectedPost.userDto.name}
               </div>
               <div className="ref-dialog-like-scrape">
                 <FavoriteIcon className="ref-dialog-icon" color={selectedPost.like ? 'error' : 'inherit'} />
