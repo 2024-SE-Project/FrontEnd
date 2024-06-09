@@ -124,7 +124,7 @@ export default function AddMatching() {
   return (
     <div className="add-post">
       <div className="header">
-        <h2>아카이빙 자료 업로드</h2>
+        <h2>팀 매칭 게시물 업로드</h2>
       </div>
       <div className="post-content">
         <input

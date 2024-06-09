@@ -87,7 +87,7 @@ const handleDummyImage = () => {
     formData.append('isPublic', isPublic);
 
     imageFiles.forEach((file, index) => {
-      formData.append(`images[${index}]`, file);
+      formData.append(`fileList[${index}]`, file);
     });
 
     if (!otherFile) {
@@ -100,7 +100,7 @@ const handleDummyImage = () => {
 
     if (fileList.length > 0) {
       fileList.forEach((file, index) => {
-        formData.append(`fileList[${index}]`, file);
+        formData.append(`fileList[${imageFiles.length + index}]`, file);
       });
     } else {
       formData.append('fileList', new Blob([])); // 빈 파일 리스트 추가
