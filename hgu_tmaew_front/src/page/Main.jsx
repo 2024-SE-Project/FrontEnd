@@ -26,7 +26,10 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  Select,
+  FormControl,
+  InputLabel
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -59,6 +62,7 @@ export default function Main() {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState('');
 
   const handleClick = (event, post) => {
     setAnchorEl(event.currentTarget);
@@ -299,8 +303,24 @@ export default function Main() {
       </Helmet>
 
       <Box className="content-container">
+        <FormControl variant="outlined" style={{ minWidth: 120, marginBottom: 16 }}>
+          <InputLabel>Team</InputLabel>
+          <Select
+            value={selectedTeam}
+            onChange={(e) => setSelectedTeam(e.target.value)}
+            label="Team"
+          >
+            <MenuItem value="">
+              <em>All Teams</em>
+            </MenuItem>
+            {sampleTeams.map((team) => (
+              <MenuItem key={team.id} value={team.name}>{team.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <Box className="posts-container">
-          {Array.isArray(posts) && posts.map((post, index) => (
+          {Array.isArray(posts) && posts.filter(post => selectedTeam === '' || post.team === selectedTeam).map((post, index) => (
             <Card key={post.postId} className="post-card">
               <CardContent>
                 <Box display="flex" alignItems="center" mb={2}>
