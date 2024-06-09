@@ -274,16 +274,18 @@ const Reference = () => {
           <DialogContent dividers className="ref-dialog-content">
             <h3 className="ref-dialog-title-text">{selectedPost.title}</h3>
             <div className="ref-dialog-image-container">
-              {selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0 ? (
-                selectedPost.postFileDtoList.map((file, index) => (
-                  
-                  <p className="ref-dialog-link">
-                    <a href={file.imageUrl} target="_blank" rel="noopener noreferrer">{file.imageUrl}</a>
-                  </p>
-                ))
-              ) : (
-                <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" style={{ maxWidth: '25%', maxHeight: '400px', objectFit: 'contain' }} />
-              )}
+            {selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0 ? (
+              selectedPost.postFileDtoList.map((file, index) => (
+                <p className="ref-dialog-url-link" key={index} style={{ marginBottom: '10px' }}>
+                  <a href={file.imageUrl} target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'gray', color: 'blue', padding: '5px', display: 'inline-block' }}>
+                    {file.imageUrl}
+                  </a>
+                </p>
+              ))
+            ) : (
+              <img src={DEFAULT_IMAGE_URL} alt="Post" className="dialog-image" style={{ maxWidth: '25%', maxHeight: '400px', objectFit: 'contain' }} />
+            )}
+
             </div>
             <p className="ref-dialog-content-text">{selectedPost.content}</p>
             <hr />
