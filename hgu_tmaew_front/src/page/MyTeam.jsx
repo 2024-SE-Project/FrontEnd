@@ -91,6 +91,7 @@ export default function MyTeam() {
       setTeams((prevTeams) => prevTeams.filter(team => team.id !== selectedTeamForDelete.id));
       setOpenDeleteDialog(false);
       setSelectedTeamForDelete(null);
+      window.location.reload();
     } catch (error) {
       console.error('Error exiting team:', error);
     }
