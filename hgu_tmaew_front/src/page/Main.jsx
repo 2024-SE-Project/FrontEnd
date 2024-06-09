@@ -110,7 +110,6 @@ export default function Main() {
   
         const commentId = await response.json();
         console.log(`Comment added with ID: ${commentId}`);
-        window.location.reload();
         
         // Clear the comment for the specific post
         setComments(prevComments => ({ ...prevComments, [postId]: '' }));
