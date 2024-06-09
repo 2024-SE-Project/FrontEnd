@@ -92,10 +92,9 @@ function DialogTag(props) {
           Authorization: `Bearer ${storedToken}`
         },
       });
-
       console.log('Data saved successfully:', response.data);
       props.onClose(response.data);
-      navigate(0);
+      window.location.reload();
     } catch (error) {
       console.error('Error saving data:', error);
     }
