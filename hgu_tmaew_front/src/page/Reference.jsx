@@ -276,7 +276,7 @@ const Reference = () => {
             <div className="ref-dialog-image-container">
             {selectedPost.postFileDtoList && selectedPost.postFileDtoList.length > 0 ? (
               selectedPost.postFileDtoList.map((file, index) => (
-                <p className="ref-dialog-content-text" key={index} style={{ marginBottom: '10px' }}>
+                <p className="ref-dialog-url-link" key={index} style={{ marginBottom: '10px' }}>
                   <a href={file.imageUrl} target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'gray', color: 'blue', padding: '5px', display: 'inline-block' }}>
                     {file.imageUrl}
                   </a>
