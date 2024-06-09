@@ -27,6 +27,7 @@ const Profile = () => {
   const [editedInfo, setEditedInfo] = useState({ ...userInfo });
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
 
@@ -159,6 +160,7 @@ const Profile = () => {
           // navigate('/', { replace: true });
         });
       }
+      navigate('/dashboard/profile')
   };
 
   const handleChange = (e) => {
